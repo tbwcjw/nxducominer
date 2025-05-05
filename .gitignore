@@ -1,0 +1,7 @@
+build/
+config.txt
+releases/
+application.*
+*.psd
+.vscode
+.vs
