@@ -10,11 +10,13 @@
 <h4>Setup</h4>
 <ul>
     <li>Unzip <code>[release].zip</code>, copy <code>switch/</code> to the root of your SD card.</li>
-    <li id="cfg">Modify <code>config.txt</code> with the node and port to connect to<sup><a href='#node'>*1</a></sup>, your wallet address, your mining key (if applicable), the starting difficulty<sup><a href='#diff'>*2</a></sup>, and a rig_id.</li>
+    <li id="cfg">Set <code>config.txt</code> with the node and port to connect to<sup><a href='#node'>*1</a></sup>, your wallet address, your mining key (if applicable), the starting difficulty<sup><a href='#diff'>*2</a></sup>, a rig_id,
+    and cpu_boost<sup><a href='#boost'>*3</a></sup>.</li>
     <li>Launch the miner from HB menu</li>
 </ul>
 <sup id='node'>*1. <a href='https://server.duinocoin.com/getPool'>https://server.duinocoin.com/getPool</a></sup><br>
-<sup id='diff'>*2. <a href='https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining'>https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining</a></sup>
+<sup id='diff'>*2. <a href='https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining'>https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining</a></sup><br>
+<sup id='diff'>*3. </a><code>true</code> or <code>false</code>. Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> in mode <code>ApmCpuBoostMode_FastLoad</code>. Nearly doubles hashrate performance, but the switch does get quite hot over time.</sup>
 <hr>
 <h4>Building</h4>
 <ul>
@@ -47,7 +49,7 @@
             <td>
                 <li>Automatically select best node.</li>
                 <li>Handle <code>consoleExit()</code> without error.</li>
-                <li>Prevent switch from auto-sleeping in app.</li>
+                <li><s>Prevent switch from auto-sleeping in app.</s></li>
             </td>
             <td>
                 <li>Multithreading.</li>

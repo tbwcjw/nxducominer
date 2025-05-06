@@ -4,3 +4,4 @@ wallet_address:
 miner_key:
 difficulty:
 rig_id:Nintendo Switch Miner
+cpu_boost:

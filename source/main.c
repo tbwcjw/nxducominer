@@ -13,8 +13,10 @@
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
 
+//                              bg m red gre blu 
 #define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)
 #define ERROR_RED CONSOLE_ESC(31m)
+#define WARNING_ORANGE CONSOLE_ESC(38;2;255;165;0m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define RESET CONSOLE_ESC(0m)
 
@@ -56,6 +58,7 @@ typedef struct {
     char* miner_key;
     char* difficulty;
     char* rig_id;
+    bool cpu_boost;
 } MiningConfig;
 
 
@@ -139,6 +142,9 @@ void parseConfigFile(MiningConfig* config) {
         else if (strcmp(key, "rig_id") == 0) {
             SET_DYNAMIC_STRING(rig_id);
         }
+        else if (strcmp(key, "cpu_boost") == 0) {
+            config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
+        }
     }
     fclose(f);
     printf("File parsing completed\n");
@@ -162,6 +168,11 @@ int main() {
     .timebuf = 0
         };
     consoleInit(NULL);
+
+    //prevent sleeping in handheld/console mode
+    appletSetAutoSleepDisabled(true);
+
+    consoleDebugInit(debugDevice_CONSOLE);
     res.console_initialized = true;
     socketInitializeDefault();
     res.socket_initialized = true;
@@ -176,12 +187,18 @@ int main() {
     .miner_key = NULL,
     .difficulty = NULL,
     .rig_id = NULL,
-    .port = 0
+    .port = 0,
+    .cpu_boost = false
     };
     parseConfigFile(&mc);
     consoleUpdate(NULL);
     sleep(1);
 
+    //toggle cpu boost
+    if (mc.cpu_boost) {
+        appletSetCpuBoostMode(ApmCpuBoostMode_FastLoad);
+    }
+   
     //set up joycons
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
     PadState pad;
@@ -297,14 +314,16 @@ int main() {
 
                     read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
                     get_time_string(timebuf, sizeof(timebuf));
+
+                    //snprintf(recv_buf, BUFFER_SIZE, "BAD"); // testing
                     if (strncmp(recv_buf, "GOOD", 4) == 0) {
                         res.good_shares++;
                     }
-                    else if (strncmp(recv_buf, "BAD", 3) == 0) {
-                        res.bad_shares++;
-                    }
                     else if (strncmp(recv_buf, "BLOCK", 5) == 0) {
                         res.blocks++;
+                    }
+                    else {
+                        res.bad_shares++;
                     }
 
                     u32 charge;
@@ -324,7 +343,7 @@ int main() {
                     printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
                     // row 5 lb
                     printf(CONSOLE_ESC(6;1H) "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(7;1H) "Hashrate: %.2f kH/s", res.hashrate);
+                    printf(CONSOLE_ESC(7;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
                     printf(CONSOLE_ESC(8;1H) "Difficulty: %i", res.difficulty);
                     // row 9 lb
                     printf(CONSOLE_ESC(10;1H) "Shares");
@@ -337,7 +356,6 @@ int main() {
 
                     //logo
 
-                    //                 bg m red gre blu 
                     printf(DUCO_ORANGE);
                     printf(CONSOLE_ESC(1;52H)  "         ##########          ");
                     printf(CONSOLE_ESC(2;52H)  "      #################      ");
