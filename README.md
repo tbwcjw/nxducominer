@@ -1,6 +1,7 @@
 <p align="center">
 <!-- remove token before push -->
-<img width="15%" src="https://raw.githubusercontent.com/tbwcjw/nxducominer/refs/heads/main/assets/Switch_Miner.png?token=GHSAT0AAAAAAC3HFE6DTP6ZUZHIQMC5CLHO2AZKQPQ">
+    
+<img width="15%" src="https://github.com/tbwcjw/nxducominer/blob/main/assets/Switch_Miner.png?raw=true">
 </p>
     <h2 align="center">nxducominer</h2>
 <p align="center">
