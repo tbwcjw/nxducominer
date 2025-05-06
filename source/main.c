@@ -39,8 +39,6 @@ void get_time_string(char* buffer, int size) {
 
 typedef struct {
     int socket_fd;
-    bool console_initialized;
-    bool socket_initialized;
     int last_share;
     int difficulty;
     double hashrate;
@@ -48,8 +46,18 @@ typedef struct {
     int bad_shares;
     int blocks;
     int total_shares;
-    char* timebuf;
 } ResourceManager;
+
+ResourceManager res = {
+   .socket_fd = -1,
+   .last_share = 0,
+   .difficulty = 0,
+   .hashrate = 0,
+   .good_shares = 0,
+   .bad_shares = 0,
+   .blocks = 0,
+   .total_shares = 0
+};
 
 typedef struct {
     char* node;
@@ -61,9 +69,18 @@ typedef struct {
     bool cpu_boost;
 } MiningConfig;
 
+MiningConfig mc = {
+   .node = NULL,
+   .wallet_address = NULL,
+   .miner_key = NULL,
+   .difficulty = NULL,
+   .rig_id = NULL,
+   .port = 0,
+   .cpu_boost = false
+};
 
 
-void cleanup(ResourceManager* res, char* msg) {
+void cleanup(char* msg) {
     if (msg == NULL) {
         printf("\nExiting...");
         consoleUpdate(NULL);
@@ -74,30 +91,24 @@ void cleanup(ResourceManager* res, char* msg) {
         printf(RESET);
         consoleUpdate(NULL);
     }
-    
-    sleep(5);
-    if (res->socket_fd >= 0) {
-        close(res->socket_fd);
-        res->socket_fd = -1;
+    sleep(1);
+
+    if (res.socket_fd >= 0) {
+        close(res.socket_fd);
     }
 
-    if (res->socket_initialized) {
-        socketExit();
-        res->socket_initialized = false;
-    }
-
-    if (res->console_initialized) {
-        consoleUpdate(NULL); 
-        consoleExit(NULL);
-        res->console_initialized = false;
-    }
+    psmExit();
+    tcExit();
+    socketExit();
+    consoleExit(NULL);
+    exit(0);
 }
 
 void parseConfigFile(MiningConfig* config) {
     printf("Reading %s\n", CONFIG_FILE);
     FILE* f = fopen(CONFIG_FILE, "r");
     if (f == NULL) {
-        cleanup(NULL, "Failed to open config file");
+        cleanup("Failed to open config file");
     }
 
     char line[100];
@@ -150,46 +161,25 @@ void parseConfigFile(MiningConfig* config) {
     printf("File parsing completed\n");
 }
 
+
 int main() {
     char timebuf[16];
 
     //initialize console
-    ResourceManager res = {
-    .socket_fd = -1,
-    .console_initialized = false,
-    .socket_initialized = false,
-    .last_share = 0,
-    .difficulty = 0,
-    .hashrate = 0,
-    .good_shares = 0,
-    .bad_shares = 0,
-    .blocks = 0,
-    .total_shares = 0,
-    .timebuf = 0
-        };
+   
     consoleInit(NULL);
 
     //prevent sleeping in handheld/console mode
     appletSetAutoSleepDisabled(true);
 
     consoleDebugInit(debugDevice_CONSOLE);
-    res.console_initialized = true;
     socketInitializeDefault();
-    res.socket_initialized = true;
 
     //redirect stdio to nxlink server
     //nxlinkStdio();
 
     //parse config
-    MiningConfig mc = {
-    .node = NULL,
-    .wallet_address = NULL,
-    .miner_key = NULL,
-    .difficulty = NULL,
-    .rig_id = NULL,
-    .port = 0,
-    .cpu_boost = false
-    };
+   
 
     parseConfigFile(&mc);
     consoleUpdate(NULL);
@@ -221,8 +211,7 @@ int main() {
     if (R_FAILED(tcrc)) {
         consoleUpdate(NULL);
         sleep(5);
-        cleanup(&res, "ERROR: failed to initalize tc");
-        return 0;
+        cleanup("ERROR: failed to initalize tc");
     }
     
     //init battery management
@@ -230,8 +219,7 @@ int main() {
     if (R_FAILED(psmrc)) {
         consoleUpdate(NULL);
         sleep(5);
-        cleanup(&res, "ERROR: failed to initalize psm");
-        return 0;
+        cleanup("ERROR: failed to initalize psm");
     }
 
     while (appletMainLoop()) {
@@ -239,8 +227,7 @@ int main() {
         u64 kDown = padGetButtonsDown(&pad);
 
         if (kDown & HidNpadButton_Plus) {
-            cleanup(&res, NULL);
-            return 0;
+            cleanup(NULL);
         }
 
         printf("Connecting to %s:%d\n", mc.node, mc.port);
@@ -252,8 +239,7 @@ int main() {
         if (!server) {
             consoleUpdate(NULL);
             sleep(5);
-            cleanup(&res, "ERROR: No such host");
-            continue;
+            cleanup("ERROR: No such host");
         }
 
         struct sockaddr_in serv_addr;
@@ -266,8 +252,7 @@ int main() {
         if (connect(res.socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
             consoleUpdate(NULL);
             sleep(5);
-            cleanup(&res, "ERROR connecting");
-            continue;
+            cleanup("ERROR connecting");
         }
 
         char recv_buf[BUFFER_SIZE];
@@ -309,7 +294,7 @@ int main() {
                 u64 kDown = padGetButtonsDown(&pad);
 
                 if (kDown & HidNpadButton_Plus) {
-                    cleanup(&res, NULL);
+                    cleanup(NULL);
                     break;
                 }
 
@@ -357,7 +342,6 @@ int main() {
 
                     res.last_share = result;
                     res.difficulty = difficulty;
-                    res.timebuf = timebuf;
                     res.hashrate = hashrate / 1000.0;
                     res.total_shares++;
 
@@ -365,7 +349,7 @@ int main() {
                     //summary view
                     printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
                     printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
-                    printf(CONSOLE_ESC(3;1H) "Current Time: %s", res.timebuf);
+                    printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
                     printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
                     printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC/1000.0f);
                     // row 5 lb
