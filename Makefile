@@ -39,7 +39,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 APP_TITLE    := NX-DUCO-Miner
 APP_AUTHOR   := github/tbwcjw
-APP_VERSION  := $(shell date "+%Y.%m.%d")
+APP_VERSION  := $(shell date "+%y.%m.%d_%H.%M")
 ICON		:=  assets/icon.jpg
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
@@ -164,10 +164,10 @@ endif
 .PHONY: $(BUILD) clean all
 
 #---------------------------------------------------------------------------------
-all: $(BUILD)
+all: build release
 
-$(BUILD):
-	@[ -d $@ ] || mkdir -p $@
+build:
+	@mkdir -p $(BUILD)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 
@@ -231,11 +231,11 @@ endif
 #---------------------------------------------------------------------------------
 release:
 	@echo "Creating release..."
+	$(MAKE) build
 	@mkdir -p releases
-	@$(MAKE) all
 	@mkdir -p releases/switch/nxducominer
 	@cp $(TARGET).nro releases/switch/nxducominer/
 	@cp $(CURDIR)/config.sample.txt releases/switch/nxducominer/config.txt
-	@cd releases && zip -9r $(shell date +%Y-%m-%d).zip switch/nxducominer/$(notdir $(TARGET).nro) switch/nxducominer/config.txt
+	@cd releases && zip -9r $(APP_VERSION).zip switch/nxducominer/$(notdir $(TARGET).nro) switch/nxducominer/config.txt
 	@rm -Rf releases/switch
-	@echo "Release created: releases/$(shell date +%Y-%m-%d).zip"
+	@echo "Release created: releases/$(APP_VERSION).zip"

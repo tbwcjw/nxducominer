@@ -18,8 +18,6 @@
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define RESET CONSOLE_ESC(0m)
 
-volatile bool viewMode = false;
-
 void sha1_string(const char* input, char* output) {
     SHA1_CTX ctx;
     unsigned char hash[20];
@@ -46,6 +44,7 @@ typedef struct {
     double hashrate;
     int good_shares;
     int bad_shares;
+    int blocks;
     int total_shares;
     char* timebuf;
 } ResourceManager;
@@ -158,6 +157,7 @@ int main() {
     .hashrate = 0,
     .good_shares = 0,
     .bad_shares = 0,
+    .blocks = 0,
     .total_shares = 0,
     .timebuf = 0
         };
@@ -165,6 +165,9 @@ int main() {
     res.console_initialized = true;
     socketInitializeDefault();
     res.socket_initialized = true;
+
+    //redirect stdio to nxlink server
+    //nxlinkStdio();
 
     //parse config
     MiningConfig mc = {
@@ -297,8 +300,11 @@ int main() {
                     if (strncmp(recv_buf, "GOOD", 4) == 0) {
                         res.good_shares++;
                     }
-                    else {
+                    else if (strncmp(recv_buf, "BAD", 3) == 0) {
                         res.bad_shares++;
+                    }
+                    else if (strncmp(recv_buf, "BLOCK", 5) == 0) {
+                        res.blocks++;
                     }
 
                     u32 charge;
@@ -326,8 +332,8 @@ int main() {
                     printf(CONSOLE_ESC(12;1H) "|_ Total: %i", res.total_shares);
                     printf(CONSOLE_ESC(13;1H) "|_ Accepted: %i", res.good_shares);
                     printf(CONSOLE_ESC(14;1H) "|_ Rejected: %i", res.bad_shares);
-                    printf(CONSOLE_ESC(15;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, res.good_shares/res.total_shares*100);
-                    
+                    printf(CONSOLE_ESC(15;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
+                    printf(CONSOLE_ESC(16;1H) "|_ Blocks Found: %i", res.blocks);
 
                     //logo
 
