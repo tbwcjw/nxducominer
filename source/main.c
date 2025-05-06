@@ -190,6 +190,7 @@ int main() {
     .port = 0,
     .cpu_boost = false
     };
+
     parseConfigFile(&mc);
     consoleUpdate(NULL);
     sleep(1);
@@ -204,9 +205,29 @@ int main() {
     PadState pad;
     padInitializeDefault(&pad);
 
-    //battery management
-    Result rc = psmInitialize();
-    if (R_FAILED(rc)) {
+    ////init fan speed - the device code may still be wrong here
+    //FanController controller; 
+    //Result fanRC = fanInitialize();
+    //fanRC = fanOpenController(&controller, 0x3D000001);
+    //if (R_FAILED(fanRC)) {
+    //    printf("Failed to initialize fan service.\n");
+    //    consoleUpdate(NULL);
+    //    sleep(1);
+    //    return 1;
+    //}
+
+    //init temperature
+    Result tcrc = tcInitialize();
+    if (R_FAILED(tcrc)) {
+        consoleUpdate(NULL);
+        sleep(5);
+        cleanup(&res, "ERROR: failed to initalize tc");
+        return 0;
+    }
+    
+    //init battery management
+    Result psmrc = psmInitialize();
+    if (R_FAILED(psmrc)) {
         consoleUpdate(NULL);
         sleep(5);
         cleanup(&res, "ERROR: failed to initalize psm");
@@ -326,8 +347,13 @@ int main() {
                         res.bad_shares++;
                     }
 
-                    u32 charge;
-                    rc = psmGetBatteryChargePercentage(&charge);
+                    u32 charge = 0;
+                    s32 skinTempMilliC = 0;
+
+                    psmrc = psmGetBatteryChargePercentage(&charge);
+
+                    tcrc = tcGetSkinTemperatureMilliC(&skinTempMilliC);
+                    
 
                     res.last_share = result;
                     res.difficulty = difficulty;
@@ -341,18 +367,19 @@ int main() {
                     printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
                     printf(CONSOLE_ESC(3;1H) "Current Time: %s", res.timebuf);
                     printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
+                    printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC/1000.0f);
                     // row 5 lb
-                    printf(CONSOLE_ESC(6;1H) "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(7;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
-                    printf(CONSOLE_ESC(8;1H) "Difficulty: %i", res.difficulty);
+                    printf(CONSOLE_ESC(7;1H) "Rig ID: %s", mc.rig_id);
+                    printf(CONSOLE_ESC(8;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
+                    printf(CONSOLE_ESC(9;1H) "Difficulty: %i", res.difficulty);
                     // row 9 lb
-                    printf(CONSOLE_ESC(10;1H) "Shares");
-                    printf(CONSOLE_ESC(11;1H) "|_ Last share: %i", res.last_share);
-                    printf(CONSOLE_ESC(12;1H) "|_ Total: %i", res.total_shares);
-                    printf(CONSOLE_ESC(13;1H) "|_ Accepted: %i", res.good_shares);
-                    printf(CONSOLE_ESC(14;1H) "|_ Rejected: %i", res.bad_shares);
-                    printf(CONSOLE_ESC(15;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
-                    printf(CONSOLE_ESC(16;1H) "|_ Blocks Found: %i", res.blocks);
+                    printf(CONSOLE_ESC(11;1H) "Shares");
+                    printf(CONSOLE_ESC(12;1H) "|_ Last share: %i", res.last_share);
+                    printf(CONSOLE_ESC(13;1H) "|_ Total: %i", res.total_shares);
+                    printf(CONSOLE_ESC(14;1H) "|_ Accepted: %i", res.good_shares);
+                    printf(CONSOLE_ESC(15;1H) "|_ Rejected: %i", res.bad_shares);
+                    printf(CONSOLE_ESC(16;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
+                    printf(CONSOLE_ESC(17;1H) "|_ Blocks Found: %i", res.blocks);
 
                     //logo
 
