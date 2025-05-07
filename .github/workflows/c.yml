@@ -1,17 +1,38 @@
-name: C CI 
+name: Build for NX 
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: make build
-      run: make build
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential wget
+
+      - name: Install devkitPro
+        run: |
+          wget https://apt.devkitpro.org/install-devkitpro-pacman
+          chmod +x ./install-devkitpro-pacman
+          sudo ./install-devkitpro-pacman
+          sudo dkp-pacman -Syu --noconfirm
+          sudo dkp-pacman -S --noconfirm switch-dev
+
+      - name: Set environment variables
+        run: |
+          echo "DEVKITPRO=/opt/devkitpro" >> $GITHUB_ENV
+          echo "DEVKITARM=/opt/devkitpro/devkitARM" >> $GITHUB_ENV
+          echo "DEVKITPPC=/opt/devkitpro/devkitPPC" >> $GITHUB_ENV
+          echo "DEVKITA64=/opt/devkitpro/devkitA64" >> $GITHUB_ENV
+
+      - name: Build with make
+        run: make build
