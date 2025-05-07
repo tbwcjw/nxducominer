@@ -26,21 +26,10 @@
                 free(config->field); \
                 config->field = strdup(value); \
                 if (config->field == NULL) { \
-                    fprintf(stderr, "Memory allocation failed for %s\n", #field); \
                     cleanup("ERROR Memory allocation failed"); \
                 } \
             } while(0)
 
-void sha1_string(const char* input, char* output) {
-    SHA1_CTX ctx;
-    unsigned char hash[20];
-    SHA1Init(&ctx);
-    SHA1Update(&ctx, (const unsigned char*)input, strlen(input));
-    SHA1Final(hash, &ctx);
-    for (int i = 0; i < 20; i++) {
-        sprintf(output + (i * 2), "%02x", hash[i]);
-    }
-}
 
 void get_time_string(char* buffer, int size) {
     time_t rawtime = time(NULL);
@@ -90,7 +79,6 @@ MiningConfig mc = {
    .cpu_boost = false
 };
 
-
 void cleanup(char* msg) {
     if (msg == NULL) {
         printf(CONSOLE_ESC(80;1H) "Exiting...");
@@ -131,7 +119,6 @@ void parseConfigFile(MiningConfig* config) {
 
     char line[100];
     while (fgets(line, sizeof(line), f) != NULL) {
-
         line[strcspn(line, "\r\n")] = '\0';
         char* sep = strchr(line, ':');
         if (!sep) continue; 
@@ -180,20 +167,24 @@ void parseConfigFile(MiningConfig* config) {
         }
     }
     fclose(f);
-    printf("File parsing completed\n");
+    printf("File parsing completed");
 }
 
 
 int main() {
     char timebuf[16];
 
-    //initialize console
-   
     consoleInit(NULL);
+
+    //set up joycons
+    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+    PadState pad;
+    padInitializeDefault(&pad);
 
     //prevent sleeping in handheld/console mode
     appletSetAutoSleepDisabled(true);
-
+    //prevent sleeping console in dock when tv power is off
+    appletSetTvPowerStateMatchingMode(AppletTvPowerStateMatchingMode_Unknown1);
    
     socketInitializeDefault();
 
@@ -209,11 +200,6 @@ int main() {
     if (mc.cpu_boost) {
         appletSetCpuBoostMode(ApmCpuBoostMode_FastLoad);
     }
-   
-    //set up joycons
-    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
-    PadState pad;
-    padInitializeDefault(&pad);
 
     //init temperature
     Result tcrc = tcInitialize();
@@ -239,6 +225,7 @@ int main() {
             cleanup(NULL);
         }
 
+        printf(CONSOLE_ESC(2J));
         printf("Connecting to %s:%d\n", mc.node, mc.port);
         consoleUpdate(NULL);
 
@@ -275,25 +262,25 @@ int main() {
             snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key);
             write(res.socket_fd, job_request, strlen(job_request));
 
+            //recieve job
             memset(recv_buf, 0, BUFFER_SIZE);
             int n = read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
-            if (n <= 0) {
-                cleanup("ERROR connection to server lost");
-            }
+            if (n <= 0) break; //connection to server lost, break loop and try to reconnect.
 
+            //split job parts
             char* job_parts[3];
             char* token = strtok(recv_buf, ",");
             for (int i = 0; i < 3 && token; i++) {
                 job_parts[i] = token;
                 token = strtok(NULL, ",");
             }
-
             int difficulty = atoi(job_parts[2]);
             char base_str[128];
             char expected_hash[41];
             strcpy(base_str, job_parts[0]);
             strcpy(expected_hash, job_parts[1]);
 
+            //initialize the sha1 context
             SHA1_CTX base_ctx;
             SHA1Init(&base_ctx);
             SHA1Update(&base_ctx, (unsigned char*)base_str, strlen(base_str));
@@ -302,6 +289,7 @@ int main() {
             char result_hash[41];
             int result;
             for (result = 0; result <= 100 * difficulty; result++) {
+                //listen for + to exit while computing
                 padUpdate(&pad);
                 u64 kDown = padGetButtonsDown(&pad);
 
@@ -310,6 +298,7 @@ int main() {
                     break;
                 }
 
+                //compute result
                 SHA1_CTX temp_ctx = base_ctx;
                 char result_str[16];
                 sprintf(result_str, "%d", result);
@@ -331,6 +320,7 @@ int main() {
                     snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", result, hashrate, SOFTWARE, mc.rig_id);
                     write(res.socket_fd, submit_buf, strlen(submit_buf));
 
+                    //read response
                     read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
                     get_time_string(timebuf, sizeof(timebuf));
 
@@ -356,8 +346,8 @@ int main() {
                     res.hashrate = hashrate / 1000.0f;
                     res.total_shares++;
 
-                    printf(CONSOLE_ESC(2J)); //clear
-                    //summary view
+                    printf(CONSOLE_ESC(2J)); //clear screen
+
                     printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
                     printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
                     printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
@@ -392,20 +382,20 @@ int main() {
                     //logo
 
                     printf(DUCO_ORANGE);
-                    printf(CONSOLE_ESC(1;52H)  "         ##########          ");
-                    printf(CONSOLE_ESC(2;52H)  "      #################      ");
-                    printf(CONSOLE_ESC(3;52H)  "    #####################    ");
-                    printf(CONSOLE_ESC(4;52H)  "   ######         ########   ");
-                    printf(CONSOLE_ESC(5;52H)  "  ##############    #######  ");
-                    printf(CONSOLE_ESC(6;52H)  " ########       ###   ###### ");
-                    printf(CONSOLE_ESC(7;52H)  " #############   ##   ###### ");
-                    printf(CONSOLE_ESC(8;52H)  " #############   ##   ###### ");
-                    printf(CONSOLE_ESC(9;52H)  " ########       ###   ###### ");
-                    printf(CONSOLE_ESC(10;52H) "  ##############    #######  ");
-                    printf(CONSOLE_ESC(11;52H) "   ######         ########   ");
-                    printf(CONSOLE_ESC(12;52H) "    #####################    ");
-                    printf(CONSOLE_ESC(13;52H) "      #################      ");
-                    printf(CONSOLE_ESC(14;52H) "          #########          ");
+                    printf(CONSOLE_ESC(1;52H)  "         ########          ");
+                    printf(CONSOLE_ESC(2;52H)  "      ###############      ");
+                    printf(CONSOLE_ESC(3;52H)  "    ###################    ");
+                    printf(CONSOLE_ESC(4;52H)  "   #####         #######   ");
+                    printf(CONSOLE_ESC(5;52H)  "  #############    ######  ");
+                    printf(CONSOLE_ESC(6;52H)  " #######       ###   ##### ");
+                    printf(CONSOLE_ESC(7;52H)  " ############   ##   ##### ");
+                    printf(CONSOLE_ESC(8;52H)  " ############   ##   ##### ");
+                    printf(CONSOLE_ESC(9;52H)  " #######       ###   ##### ");
+                    printf(CONSOLE_ESC(10;52H) "  #############    ######  ");
+                    printf(CONSOLE_ESC(11;52H) "   #####         #######   ");
+                    printf(CONSOLE_ESC(12;52H) "    ###################    ");
+                    printf(CONSOLE_ESC(13;52H) "      ###############      ");
+                    printf(CONSOLE_ESC(14;52H) "          #######          ");
                     printf(RESET);
                     printf(CONSOLE_ESC(15;52H) "github.com/tbwcjw/nxducominer");
 

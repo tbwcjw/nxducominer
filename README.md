@@ -51,11 +51,12 @@
             <td>
                 <li>Automatically select best node.</li>
                 <li>Better error handling.</li>
-                <li>Reconnect to node if connection lost.</li>
+                <li><s>Reconnect to node if connection lost.</s></li>
                 <li><s>Handle <code>consoleExit()</code> without error.</s></li>
                 <li><s>Prevent switch from auto-sleeping in app.</s></li>
             </td>
             <td>
+                <li>Web dashboard, like the ESP32 miner</li>
                 <li>Multithreading.</li>
             </td>
             <td>
@@ -64,6 +65,11 @@
         </tr>
     </tbody>
 </table>
+<hr>
+<h4>Screenshots</h4>
+<p align="center">
+<img src="assets/nxducominer_screenshot.png">
+</p>
 <hr>
 <h4>Licenses</h4>
 <a href='https://www.gnu.org/licenses/gpl-3.0.en.html'><img src='https://camo.githubusercontent.com/7710eaa5373ee99658cc5c6e389bb88119903cbf92422f24c1e92cd957793e8c/68747470733a2f2f7777772e676e752e6f72672f67726170686963732f67706c76332d3132377835312e706e67'></a><br>
