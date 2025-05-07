@@ -3,8 +3,16 @@ name: Build for NX
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'config.sample.txt'
+      - 'assets/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'config.sample.txt'
+      - 'assets/**'
 
 jobs:
   build:
