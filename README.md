@@ -1,6 +1,4 @@
 <p align="center">
-<!-- remove token before push -->
-    
 <img width="15%" src="https://github.com/tbwcjw/nxducominer/blob/main/assets/Switch_Miner.png?raw=true">
 </p>
     <h2 align="center">nxducominer</h2>
@@ -49,7 +47,9 @@
         <tr>
             <td>
                 <li>Automatically select best node.</li>
-                <li>Handle <code>consoleExit()</code> without error.</li>
+                <li>Better error handling.</li>
+                <li>Reconnect to node if connection lost.</li>
+                <li><s>Handle <code>consoleExit()</code> without error.</s></li>
                 <li><s>Prevent switch from auto-sleeping in app.</s></li>
             </td>
             <td>

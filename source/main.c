@@ -12,6 +12,7 @@
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
+#define SOFTWARE "nxducominer"
 
 //                              bg m red gre blu 
 #define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)
@@ -19,6 +20,16 @@
 #define WARNING_ORANGE CONSOLE_ESC(38;2;255;165;0m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define RESET CONSOLE_ESC(0m)
+
+#define SET_DYNAMIC_STRING(field) \
+            do { \
+                free(config->field); \
+                config->field = strdup(value); \
+                if (config->field == NULL) { \
+                    fprintf(stderr, "Memory allocation failed for %s\n", #field); \
+                    cleanup("ERROR Memory allocation failed"); \
+                } \
+            } while(0)
 
 void sha1_string(const char* input, char* output) {
     SHA1_CTX ctx;
@@ -82,20 +93,27 @@ MiningConfig mc = {
 
 void cleanup(char* msg) {
     if (msg == NULL) {
-        printf("\nExiting...");
+        printf(CONSOLE_ESC(80;1H) "Exiting...");
         consoleUpdate(NULL);
     }
     else {
         printf(ERROR_RED);
-        printf(msg);
+        printf(CONSOLE_ESC(80;1H) "%s. Exiting...", msg);
         printf(RESET);
         consoleUpdate(NULL);
     }
-    sleep(1);
+    sleep(3);
 
     if (res.socket_fd >= 0) {
         close(res.socket_fd);
     }
+
+    //free mc 
+    free(mc.difficulty);
+    free(mc.miner_key);
+    free(mc.node);
+    free(mc.rig_id);
+    free(mc.wallet_address);
 
     psmExit();
     tcExit();
@@ -122,38 +140,42 @@ void parseConfigFile(MiningConfig* config) {
         char* key = line;
         char* value = sep + 1;
 
+        while (*value == ' ') value++;
+
         printf("%s:%s\n", key, value);
         consoleUpdate(NULL);
 
-        #define SET_DYNAMIC_STRING(field) \
-            do { \
-                free(config->field); \
-                config->field = strdup(value); \
-                if (config->field == NULL) { \
-                    fprintf(stderr, "Memory allocation failed for %s\n", #field); \
-                    exit(EXIT_FAILURE); \
-                } \
-            } while(0)
-
         if (strcmp(key, "node") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR node not set");
             SET_DYNAMIC_STRING(node);
         }
         else if (strcmp(key, "port") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR port not set");
             config->port = atoi(value);
         }
         else if (strcmp(key, "wallet_address") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR wallet_address not set");
             SET_DYNAMIC_STRING(wallet_address);
         }
         else if (strcmp(key, "miner_key") == 0) {
             SET_DYNAMIC_STRING(miner_key);
         }
         else if (strcmp(key, "difficulty") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR difficulty not set");
             SET_DYNAMIC_STRING(difficulty);
         }
         else if (strcmp(key, "rig_id") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR rig_id not set");
             SET_DYNAMIC_STRING(rig_id);
         }
         else if (strcmp(key, "cpu_boost") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
         }
     }
@@ -172,15 +194,13 @@ int main() {
     //prevent sleeping in handheld/console mode
     appletSetAutoSleepDisabled(true);
 
-    consoleDebugInit(debugDevice_CONSOLE);
+   
     socketInitializeDefault();
 
     //redirect stdio to nxlink server
     //nxlinkStdio();
 
     //parse config
-   
-
     parseConfigFile(&mc);
     consoleUpdate(NULL);
     sleep(1);
@@ -194,17 +214,6 @@ int main() {
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
     PadState pad;
     padInitializeDefault(&pad);
-
-    ////init fan speed - the device code may still be wrong here
-    //FanController controller; 
-    //Result fanRC = fanInitialize();
-    //fanRC = fanOpenController(&controller, 0x3D000001);
-    //if (R_FAILED(fanRC)) {
-    //    printf("Failed to initialize fan service.\n");
-    //    consoleUpdate(NULL);
-    //    sleep(1);
-    //    return 1;
-    //}
 
     //init temperature
     Result tcrc = tcInitialize();
@@ -261,13 +270,16 @@ int main() {
         consoleUpdate(NULL);
 
         while (1) {
+            //request job
             char job_request[128];
             snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key);
             write(res.socket_fd, job_request, strlen(job_request));
 
             memset(recv_buf, 0, BUFFER_SIZE);
             int n = read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
-            if (n <= 0) break;
+            if (n <= 0) {
+                cleanup("ERROR connection to server lost");
+            }
 
             char* job_parts[3];
             char* token = strtok(recv_buf, ",");
@@ -305,17 +317,18 @@ int main() {
                 unsigned char hash[20];
                 SHA1Final(hash, &temp_ctx);
 
+                //compare hash
                 for (int i = 0; i < 20; i++) {
-                    sprintf(result_hash + (i * 2), "%02x", hash[i]);
+                    snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
                 }
-                result_hash[40] = '\0';
 
                 if (strcmp(result_hash, expected_hash) == 0) {
                     double elapsed = difftime(time(NULL), start_time);
                     double hashrate = result / (elapsed > 0 ? elapsed : 1);
 
-                    char submit_buf[128]; //send result
-                    snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s", result, hashrate, mc.rig_id);
+                    //send result
+                    char submit_buf[128]; 
+                    snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", result, hashrate, SOFTWARE, mc.rig_id);
                     write(res.socket_fd, submit_buf, strlen(submit_buf));
 
                     read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
@@ -336,13 +349,11 @@ int main() {
                     s32 skinTempMilliC = 0;
 
                     psmrc = psmGetBatteryChargePercentage(&charge);
-
                     tcrc = tcGetSkinTemperatureMilliC(&skinTempMilliC);
-                    
 
                     res.last_share = result;
                     res.difficulty = difficulty;
-                    res.hashrate = hashrate / 1000.0;
+                    res.hashrate = hashrate / 1000.0f;
                     res.total_shares++;
 
                     printf(CONSOLE_ESC(2J)); //clear
@@ -350,8 +361,21 @@ int main() {
                     printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
                     printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
                     printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
-                    printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
-                    printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC/1000.0f);
+                    
+                    if (charge > 25) {
+                        printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
+                    }
+                    else {
+                        printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery charge: %u%%" RESET, charge);
+                    }
+                    
+                    if (skinTempMilliC/1000.0f > 55.0f) {
+                        printf(CONSOLE_ESC(5;1H) ERROR_RED "Temperature: %.2f C" RESET, skinTempMilliC / 1000.0f);
+                    }
+                    else {
+                        printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC / 1000.0f);
+                    }
+                    
                     // row 5 lb
                     printf(CONSOLE_ESC(7;1H) "Rig ID: %s", mc.rig_id);
                     printf(CONSOLE_ESC(8;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");

@@ -149,6 +149,7 @@ endif
 
 ifeq ($(strip $(NO_NACP)),)
 	export NROFLAGS += --nacp=$(CURDIR)/$(TARGET).nacp
+	export NACPFLAGS += --name="$(APP_TITLE)" --author="$(APP_AUTHOR)" --version="$(APP_VERSION)"
 endif
 
 ifneq ($(APP_TITLEID),)
