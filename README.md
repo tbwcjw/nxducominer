@@ -6,6 +6,9 @@
     A <a href='https://duinocoin.com'>DUCO</a> Miner for the Nintendo Switch.
 </p>
 <hr>
+<p align="center">
+    <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
+</p>
 <h4>Setup</h4>
 <ul>
     <li>Unzip <code>[release].zip</code>, copy <code>switch/</code> to the root of your SD card.</li>
