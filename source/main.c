@@ -394,7 +394,7 @@ int main() {
                     
                     // row 6 lb
                     printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(8; 1H) "SHA1 Implementation: %s", mc.sha_name);
+                    printf(CONSOLE_ESC(8;1H) "SHA1 Implementation: %s", mc.sha_name);
                     printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
                     printf(CONSOLE_ESC(10;1H) "Difficulty: %i", res.difficulty);
                     
