@@ -35,7 +35,7 @@
         <br>
         <code>make clean</code> - removes build/build data. does not remove releases
     </li>
-    <li>Use NXLink to send <code>application.nro</code> to the switch, or follow the setup guide above for a release.</li>
+    <li>Use NXLink to send <code>application.nro</code> and fptd to send the <code>config.txt</code>, ensuring it is in the same directory as <code>application.nro</code>.</li>
 </ul>
 <hr>
 <h4>Roadmap</h4>
