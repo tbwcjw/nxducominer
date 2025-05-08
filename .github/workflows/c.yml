@@ -7,13 +7,14 @@ on:
       - 'README.md'
       - 'config.sample.txt'
       - 'assets/**'
+      - '.github/ISSUE_TEMPLATE/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - 'README.md'
       - 'config.sample.txt'
       - 'assets/**'
-
+      - '.github/ISSUE_TEMPLATE/**'
 jobs:
   build:
     runs-on: ubuntu-latest
