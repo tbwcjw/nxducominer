@@ -81,7 +81,7 @@ MiningConfig mc = {
    .port = 0,
    .cpu_boost = false,
    .sha_name = NULL,
-   .sha_type = -1
+   .sha_type = SHA1_BUILTIN
 };
 
 void cleanup(char* msg) {
