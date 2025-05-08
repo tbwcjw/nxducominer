@@ -19,7 +19,7 @@
 <sup id='node'>*1. <a href='https://server.duinocoin.com/getPool'>https://server.duinocoin.com/getPool</a></sup><br>
 <sup id='diff'>*2. <a href='https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining'>https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining</a></sup><br>
 <sup id='diff'>*3. <code>true</code> or <code>false</code>. Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> in mode <code>ApmCpuBoostMode_FastLoad</code>. Nearly doubles hashrate performance, but the switch does get quite hot over time.</sup><br>
-<sup id='sha'>*4. Multiple SHA1 implementations supported. Use <code>builtin</code> to use native sha from libnx. Use <code>reid</code> to use <a href='https://github.com/clibs/sha1/'>Steve Reid's</a> implementation. Defaults to <code>builtin</code>.
+<sup id='sha'>*4. Multiple SHA1 implementations supported. Use <code>builtin</code> to use native sha from libnx. Use <code>reid</code> to use <a href='https://github.com/clibs/sha1/'>Steve Reid's</a> implementation.</sup>
 <hr>
 <h4>Building</h4>
 <ul>

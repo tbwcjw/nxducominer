@@ -59,4 +59,5 @@ Sha1Adapter* getSha1Adapter(Sha1ImplementationType impl) {
 Sha1Mapping shaMappings[] = {
     {"builtin", SHA1_BUILTIN}, //default
     {"reid",    SHA1_REID},
+    { NULL, 0 }
 };

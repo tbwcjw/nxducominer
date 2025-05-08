@@ -81,7 +81,7 @@ MiningConfig mc = {
    .port = 0,
    .cpu_boost = false,
    .sha_name = NULL,
-   .sha_type = SHA1_BUILTIN
+   .sha_type = -1
 };
 
 void cleanup(char* msg) {
@@ -174,13 +174,17 @@ void parseConfigFile(MiningConfig* config) {
         else if (strcmp(key, "sha") == 0) {
             if (strlen(value) < 1)
                 cleanup("ERROR sha not set");
+            bool found = false;
             for (int i = 0; shaMappings[i].name != NULL; i++) {
                 if (strcmp(value, shaMappings[i].name) == 0) {
+                    found = true;
                     config->sha_type = shaMappings[i].type;
                     config->sha_name = strdup(value);
                     break; 
                 }
             }
+            if (!found)
+                cleanup("ERROR incorrect sha");
         }
     }
     fclose(f);
