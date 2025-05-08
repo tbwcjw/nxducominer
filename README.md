@@ -1,5 +1,5 @@
 <p align="center">
-<img width="15%" src="https://github.com/tbwcjw/nxducominer/blob/main/assets/Switch_Miner.png?raw=true">
+<img width="15%" src="assets/Switch_Miner.png">
 </p>
     <h2 align="center">nxducominer</h2>
 <p align="center">
