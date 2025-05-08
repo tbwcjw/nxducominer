@@ -19,6 +19,7 @@
 #define ERROR_RED CONSOLE_ESC(31m)
 #define WARNING_ORANGE CONSOLE_ESC(38;2;255;165;0m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
+#define DARK_GREY CONSOLE_ESC(38;2;90;90;90m)
 #define RESET CONSOLE_ESC(0m)
 
 #define SET_DYNAMIC_STRING(field) \
@@ -209,7 +210,7 @@ int main() {
     socketInitializeDefault();
 
     //redirect stdio to nxlink server
-    //nxlinkStdio();
+    nxlinkStdio();
 
     //parse config
     parseConfigFile(&mc);
@@ -392,10 +393,11 @@ int main() {
                     }
                     
                     // row 6 lb
-                    printf(CONSOLE_ESC(7;1H) "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(8;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
-                    printf(CONSOLE_ESC(9;1H) "Difficulty: %i", res.difficulty);
-                    printf(CONSOLE_ESC(10;1H) "SHA1 Implementation: %s", mc.sha_name);
+                    printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
+                    printf(CONSOLE_ESC(8; 1H) "SHA1 Implementation: %s", mc.sha_name);
+                    printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
+                    printf(CONSOLE_ESC(10;1H) "Difficulty: %i", res.difficulty);
+                    
                     // row 11 lb
                     printf(CONSOLE_ESC(12;1H) "Shares");
                     printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
@@ -424,6 +426,9 @@ int main() {
                     printf(CONSOLE_ESC(14;52H) "          #######          ");
                     printf(RESET);
                     printf(CONSOLE_ESC(15;52H) "github.com/tbwcjw/nxducominer");
+
+                    //version string
+                    printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
 
                     consoleUpdate(NULL);
                     break;

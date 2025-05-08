@@ -7,7 +7,7 @@ assignees: tbwcjw
 
 ---
 
-**Device and Version:** 
+**Device/Version:** 
 _example: Nintendo Switch HAC-001/18.0.1|AMS 1.8.0|E_
 
 **App version:**
@@ -18,6 +18,9 @@ _example: `-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE -g -Wall 
 
 **SHA Type:**
 _example: builtin_
+
+**CPU Boost:**
+_example: true_
 
 **Node (address:port):**
 _example: 152.53.38.31:7070_

@@ -76,6 +76,7 @@
             <th>App version</th>
             <th>CFLAGS</th>
             <th>SHA Type</th>
+            <th>CPU Boost</th>
             <th>Node (address:port)</th>
             <th>Shares /1hr</th>
             <th>Avg. Hashrate (estimated)</th>
@@ -83,6 +84,7 @@
     </thead>
     <tbody>
         <tr>
+            <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
