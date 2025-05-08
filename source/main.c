@@ -8,7 +8,7 @@
 #include <netdb.h>
 #include <sys/socket.h>
 #include <switch.h>
-#include "sha1.h"
+#include "sha1_adapter.h"
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
@@ -29,6 +29,7 @@
                     cleanup("ERROR Memory allocation failed"); \
                 } \
             } while(0)
+
 
 
 void get_time_string(char* buffer, int size) {
@@ -67,6 +68,8 @@ typedef struct {
     char* difficulty;
     char* rig_id;
     bool cpu_boost;
+    char* sha_name;
+    Sha1ImplementationType sha_type;
 } MiningConfig;
 
 MiningConfig mc = {
@@ -76,7 +79,9 @@ MiningConfig mc = {
    .difficulty = NULL,
    .rig_id = NULL,
    .port = 0,
-   .cpu_boost = false
+   .cpu_boost = false,
+   .sha_name = NULL,
+   .sha_type = -1
 };
 
 void cleanup(char* msg) {
@@ -102,6 +107,7 @@ void cleanup(char* msg) {
     free(mc.node);
     free(mc.rig_id);
     free(mc.wallet_address);
+    free(mc.sha_name);
 
     psmExit();
     tcExit();
@@ -165,11 +171,21 @@ void parseConfigFile(MiningConfig* config) {
                 cleanup("ERROR cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
         }
+        else if (strcmp(key, "sha") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR sha not set");
+            for (int i = 0; shaMappings[i].name != NULL; i++) {
+                if (strcmp(value, shaMappings[i].name) == 0) {
+                    config->sha_type = shaMappings[i].type;
+                    config->sha_name = strdup(value);
+                    break; 
+                }
+            }
+        }
     }
     fclose(f);
     printf("File parsing completed");
 }
-
 
 int main() {
     char timebuf[16];
@@ -216,6 +232,8 @@ int main() {
         sleep(5);
         cleanup("ERROR: failed to initalize psm");
     }
+
+    Sha1ImplementationType sha = mc.sha_type;
 
     while (appletMainLoop()) {
         padUpdate(&pad);
@@ -281,9 +299,12 @@ int main() {
             strcpy(expected_hash, job_parts[1]);
 
             //initialize the sha1 context
-            SHA1_CTX base_ctx;
-            SHA1Init(&base_ctx);
-            SHA1Update(&base_ctx, (unsigned char*)base_str, strlen(base_str));
+
+            
+            Sha1Adapter* sha1adapter = getSha1Adapter(sha);
+            Sha1ContextUnion base_ctx;
+            sha1adapter->init(&base_ctx);
+            sha1adapter->update(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
 
             time_t start_time = time(NULL);
             char result_hash[41];
@@ -298,13 +319,13 @@ int main() {
                     break;
                 }
 
-                //compute result
-                SHA1_CTX temp_ctx = base_ctx;
-                char result_str[16];
-                sprintf(result_str, "%d", result);
-                SHA1Update(&temp_ctx, (unsigned char*)result_str, strlen(result_str));
                 unsigned char hash[20];
-                SHA1Final(hash, &temp_ctx);
+                char result_str[16];
+
+                Sha1ContextUnion temp_ctx = base_ctx;
+                sprintf(result_str, "%d", result);
+                sha1adapter->update(&temp_ctx, (const unsigned char*)result_str, strlen(result_str));
+                sha1adapter->finalize(&temp_ctx, hash);
 
                 //compare hash
                 for (int i = 0; i < 20; i++) {
@@ -366,18 +387,19 @@ int main() {
                         printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC / 1000.0f);
                     }
                     
-                    // row 5 lb
+                    // row 6 lb
                     printf(CONSOLE_ESC(7;1H) "Rig ID: %s", mc.rig_id);
                     printf(CONSOLE_ESC(8;1H) "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
                     printf(CONSOLE_ESC(9;1H) "Difficulty: %i", res.difficulty);
-                    // row 9 lb
-                    printf(CONSOLE_ESC(11;1H) "Shares");
-                    printf(CONSOLE_ESC(12;1H) "|_ Last share: %i", res.last_share);
-                    printf(CONSOLE_ESC(13;1H) "|_ Total: %i", res.total_shares);
-                    printf(CONSOLE_ESC(14;1H) "|_ Accepted: %i", res.good_shares);
-                    printf(CONSOLE_ESC(15;1H) "|_ Rejected: %i", res.bad_shares);
-                    printf(CONSOLE_ESC(16;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
-                    printf(CONSOLE_ESC(17;1H) "|_ Blocks Found: %i", res.blocks);
+                    printf(CONSOLE_ESC(10;1H) "SHA1 Implementation: %s", mc.sha_name);
+                    // row 11 lb
+                    printf(CONSOLE_ESC(12;1H) "Shares");
+                    printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
+                    printf(CONSOLE_ESC(14;1H) "|_ Total: %i", res.total_shares);
+                    printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", res.good_shares);
+                    printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", res.bad_shares);
+                    printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
+                    printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", res.blocks);
 
                     //logo
 

@@ -13,12 +13,13 @@
 <ul>
     <li>Unzip <code>[release].zip</code>, copy <code>switch/</code> to the root of your SD card.</li>
     <li id="cfg">Set <code>config.txt</code> with the node and port to connect to<sup><a href='#node'>*1</a></sup>, your wallet address, your mining key (if applicable), the starting difficulty<sup><a href='#diff'>*2</a></sup>, a rig_id,
-    and cpu_boost<sup><a href='#boost'>*3</a></sup>.</li>
-    <li>Launch the miner from HB menu</li>
+    cpu_boost<sup><a href='#boost'>*3</a></sup>, and sha<sup><a href='#sha'>*4</a></sup>.</li>
+    <li>Launch the miner from HB menu.</li>
 </ul>
 <sup id='node'>*1. <a href='https://server.duinocoin.com/getPool'>https://server.duinocoin.com/getPool</a></sup><br>
 <sup id='diff'>*2. <a href='https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining'>https://github.com/revoxhere/duino-coin/tree/useful-tools#duco-s1-mining</a></sup><br>
-<sup id='diff'>*3. </a><code>true</code> or <code>false</code>. Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> in mode <code>ApmCpuBoostMode_FastLoad</code>. Nearly doubles hashrate performance, but the switch does get quite hot over time.</sup>
+<sup id='diff'>*3. <code>true</code> or <code>false</code>. Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> in mode <code>ApmCpuBoostMode_FastLoad</code>. Nearly doubles hashrate performance, but the switch does get quite hot over time.</sup><br>
+<sup id='sha'>*4. Multiple SHA1 implementations supported. Use <code>builtin</code> to use native sha from libnx. Use <code>reid</code> to use <a href='https://github.com/clibs/sha1/'>Steve Reid's</a> implementation. Defaults to <code>builtin</code>.
 <hr>
 <h4>Building</h4>
 <ul>
@@ -58,6 +59,7 @@
             <td>
                 <li>Web dashboard, like the ESP32 miner</li>
                 <li>Multithreading.</li>
+                <li>More SHA implementations.</li>
             </td>
             <td>
                 <li>Pretty GUI.</li>
@@ -65,6 +67,34 @@
         </tr>
     </tbody>
 </table>
+<hr>
+<h4>Benchmarking</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Device/Version</th>
+            <th>App version</th>
+            <th>CFLAGS</th>
+            <th>SHA Type</th>
+            <th>Node (address:port)</th>
+            <th>Shares /1hr</th>
+            <th>Avg. Hashrate (estimated)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>TODO</td>
+            <td>TODO</td>
+            <td>TODO</td>
+            <td>TODO</td>
+            <td>TODO</td>
+            <td>TODO</td>
+            <td>TODO</td>
+        </tr>
+    </tbody>
+</table>
+<p>Submit your benchmarking results by opening an issue.</p>
+</t>
 <hr>
 <h4>Screenshots</h4>
 <p align="center">
