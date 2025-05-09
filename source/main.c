@@ -9,10 +9,13 @@
 #include <sys/socket.h>
 #include <switch.h>
 #include "sha1_adapter.h"
+#include "jsmn.h"
+#include <curl/curl.h>
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
 #define SOFTWARE "nxducominer"
+#define GET_POOL "https://server.duinocoin.com/getPool"
 
 //                              bg m red gre blu 
 #define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)
@@ -139,14 +142,10 @@ void parseConfigFile(MiningConfig* config) {
         printf("%s:%s\n", key, value);
         consoleUpdate(NULL);
 
-        if (strcmp(key, "node") == 0) {
-            if (strlen(value) < 1)
-                cleanup("ERROR node not set");
+        if (strcmp(key, "node") == 0) { //dont validate with strlen, will getNode
             SET_DYNAMIC_STRING(node);
         }
-        else if (strcmp(key, "port") == 0) {
-            if (strlen(value) < 1)
-                cleanup("ERROR port not set");
+        else if (strcmp(key, "port") == 0) { //dont validate with strlen, will getNode
             config->port = atoi(value);
         }
         else if (strcmp(key, "wallet_address") == 0) {
@@ -192,6 +191,112 @@ void parseConfigFile(MiningConfig* config) {
     printf("File parsing completed");
 }
 
+struct MemoryStruct {
+    char* memory;
+    size_t size;
+};
+
+static size_t WriteMemoryCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    size_t realsize = size * nmemb;
+    struct MemoryStruct* mem = (struct MemoryStruct*)userp;
+
+    char* ptr = realloc(mem->memory, mem->size + realsize + 1);
+    if (!ptr) {
+        free(mem->memory);
+        mem->memory = NULL;
+        mem->size = 0;
+        return 0;
+    }
+
+    mem->memory = ptr;
+    memcpy(&(mem->memory[mem->size]), contents, realsize);
+    mem->size += realsize;
+    mem->memory[mem->size] = 0;
+
+    return realsize;
+}
+
+void getNode(char** ip, int* port) {
+
+    printf(CONSOLE_ESC(2J));
+    printf(CONSOLE_ESC(1;1H) "Finding a node from master server...");
+    consoleUpdate(NULL);
+    sleep(2);
+
+    CURL* curl;
+    CURLcode res;
+
+    struct MemoryStruct chunk;
+    chunk.memory = malloc(1);  // start with empty buffer
+    chunk.size = 0;
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+
+    if (!curl) {
+        cleanup("ERROR: curl init failed");
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, GET_POOL);
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "libnx curl nxducominer");
+
+    // Set up write callback and data
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*)&chunk);
+
+    res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        curl_easy_cleanup(curl);
+        cleanup("ERROR: curl failed");
+    }
+
+    curl_easy_cleanup(curl);
+    char* json_copy = strdup(chunk.memory);
+
+    jsmn_parser parser;
+    jsmntok_t tokens[13];
+    jsmn_init(&parser);
+
+    int ret = jsmn_parse(&parser, json_copy, strlen(json_copy), tokens, 13);
+    if (ret < 0) {
+        cleanup("ERROR: failed to parse JSON");
+    }
+
+    for (int i = 1; i < ret; i++) {
+        if (tokens[i].type == JSMN_STRING) {
+            if (strncmp(json_copy + tokens[i].start, "ip", tokens[i].end - tokens[i].start) == 0) {
+                if (i + 1 < ret) {
+                    char ip_str[16];
+                    int length = tokens[i + 1].end - tokens[i + 1].start;
+                    strncpy(ip_str, json_copy + tokens[i + 1].start, length);
+                    *ip = malloc(length + 1);
+                    strncpy(*ip, json_copy + tokens[i + 1].start, length);
+                    (*ip)[length] = '\0';
+                    i++;
+                }
+            }
+            else if (strncmp(json_copy + tokens[i].start, "port", tokens[i].end - tokens[i].start) == 0) {
+                if (i + 1 < ret) {
+                    char port_str[16];
+                    int length = tokens[i + 1].end - tokens[i + 1].start;
+                    strncpy(port_str, json_copy + tokens[i + 1].start, length);
+                    port_str[length] = '\0';
+                    *port = atoi(port_str);
+                    i++;
+                }
+            }
+        }
+    }
+    //line 2 lb
+    printf(CONSOLE_ESC(3;1H)"Using %s:%i...", mc.node, mc.port);
+    consoleUpdate(NULL);
+    sleep(2);
+
+    curl_global_cleanup();
+    free(chunk.memory);
+    free(json_copy);
+}
+
 int main() {
     char timebuf[16];
 
@@ -208,14 +313,19 @@ int main() {
     appletSetTvPowerStateMatchingMode(AppletTvPowerStateMatchingMode_Unknown1);
    
     socketInitializeDefault();
-
-    //redirect stdio to nxlink server
+    
+    //redirect stdio to nxlink server if -s
     nxlinkStdio();
 
     //parse config
     parseConfigFile(&mc);
     consoleUpdate(NULL);
     sleep(1);
+
+    //find a node if node not set
+    if (mc.node == NULL || mc.port == 0) {
+        getNode(&mc.node, &mc.port);
+    }
 
     //toggle cpu boost
     if (mc.cpu_boost) {

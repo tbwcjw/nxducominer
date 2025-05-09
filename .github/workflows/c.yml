@@ -35,6 +35,8 @@ jobs:
           sudo ./install-devkitpro-pacman
           sudo dkp-pacman -Syu --noconfirm
           sudo dkp-pacman -S --noconfirm switch-dev
+          sudo dkp-pacman -S --noconfirm switch-curl
+          sudo dkp-pacman -S --noconfirm switch-zlib
 
       - name: Set environment variables
         run: |
