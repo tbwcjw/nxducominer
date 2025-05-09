@@ -16,13 +16,21 @@ import io
 import threading
 import subprocess
 
-nxlink_path = "C:\\devkitPro\\tools\\bin\\nxlink.exe"
-switch_ip = "10.0.0.232"
-nro_path = "C:\\Users\\chris\\Desktop\\switch-duino-miner\\application\\application.nro"
+
 
 parser = argparse.ArgumentParser(description="parse nxducominer through nxlink server for benchmarking")
-parser.add_argument("--duration", type=str, default="1h", help="run duration (e.g., 10m, 1h, 30s)")
+parser.add_argument("-d", "--duration", type=str, default="1h", help="run duration (e.g., 10m, 1h, 30s)")
+parser.add_argument("--nx", required=True, type=str, help="Path to NXLink")
+parser.add_argument("--ip", required=True, type=str, help="Switch IP")
+parser.add_argument("--nro", required=True, type=str, help="Path to application.nro")
+parser.add_argument("-o", "--output", type=str, default="nxducominer_benchmark.txt", help="Path to save benchmark results")
 args = parser.parse_args()
+
+duration = args.duration
+nxlink_path = args.nx
+switch_ip = args.ip
+nro_path = args.nro
+file_path = args.output
 
 app_version_pattern = re.compile(r'(\d{2}\.\d{2}\.\d{2}_\d{2}\.\d{2})')
 hashrate_pattern = re.compile(r'Hashrate\s*[:]\s*([\d.]+)\s*kH/s', re.IGNORECASE)
@@ -40,7 +48,7 @@ def parse_duration(duration_str):
     except (ValueError, KeyError):
         raise ValueError("Duration must be like '10m', '1h', or '30s'.")
 
-duration_secs = parse_duration(args.duration)
+duration_secs = parse_duration(duration)
 hashrates = []
 difficulties = []
 total_sum = 0
@@ -131,7 +139,7 @@ try:
                       f"elapsed time: {elapsed:.2f}s\n"
                       f"app version: {app_version}\n"
                       f"avg hashrate: {avg_hashrate:.2f} kH/s\n"
-                      f"avg Difficulty: {avg_difficulty:.2f}\n"
+                      f"avg difficulty: {avg_difficulty:.2f}\n"
                       f"total shares: {total_sum}\n"
                       f"cpu boosted: {cpu_boosted}\n"
                       f"sha type: {sha_type}")
@@ -148,14 +156,13 @@ output = (
     f"duration: {duration_secs}s\n"
     f"elapsed time: {elapsed:.2f}s\n"
     f"app version: {app_version}\n"
-    f"average Hashrate: {avg_hashrate:.2f} kH/s\n"
-    f"average Difficulty: {avg_difficulty:.2f}\n"
+    f"average hashrate: {avg_hashrate:.2f} kH/s\n"
+    f"average difficulty: {avg_difficulty:.2f}\n"
     f"total shares: {total_sum}\n"
     f"cpu boosted: {cpu_boosted}\n"
     f"sha type: {sha_type}\n"
 )
 
-file_path = "nxducominer_benchmark.txt"
 with open(file_path, "w") as f:
     f.write(output)
 

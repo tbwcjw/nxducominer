@@ -5,17 +5,17 @@
 <p align="center">
     A <a href='https://duinocoin.com'>DUCO</a> Miner for the Nintendo Switch.
 </p>
-<hr>
 <p align="center">
     <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
 </p>
+<hr>
 <h4>Setup</h4>
 <ul>
     <li>Unzip <code>[release].zip</code>, copy <code>switch/</code> to the root of your SD card.</li>
-    <li id="cfg">Set <code>config.txt</code>, explained <a href='#config'>below</a>.
+    <li>Set <code>config.txt</code>, explained <a href='#config'>below</a>.
     <li>Launch the miner from HB menu.</li>
 </ul>
-<table>
+<table id="config">
     <thead>
         <tr>
             <th>Key</th>
@@ -92,7 +92,7 @@
 <ul>
     <li>Install <a href='https://devkitpro.org'>devkitpro</a> with <code>switch-dev</code>, <code>switch-curl</code> and <code>switch-zlib</code> using the <a href='https://devkitpro.org/wiki/Getting_Started'>Getting Started</a> guide. For building releases you will need <code>zip</code>.
     <li>Clone <a href='https://github.com/tbwcjw/nxducominer.git'>https://github.com/tbwcjw/nxducominer.git</a>.
-    <li>Copy <code>config.sample.txt</code> to <code>config.txt</code> and fill in the fields<sup><a href='#cfg'>*</a></sup>.
+    <li>Copy <code>config.sample.txt</code> to <code>config.txt</code> and fill in the fields<sup><a href='#config'>*</a></sup>.
     <li>
         <code>make (all)</code> - build the application and generate a release.
         <br>
@@ -135,7 +135,7 @@
     </tbody>
 </table>
 <hr>
-<h4>Benchmarking</h4>
+<h4>Benchmarking Results</h4>
 <table>
     <thead>
         <tr>
@@ -162,8 +162,43 @@
         </tr>
     </tbody>
 </table>
-<p>Submit your benchmarking results by opening an issue.</p>
-</t>
+<hr>
+<h4>Benchmarking</h4>
+Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dirty.py'>benchmark_dirty.py</a> for official benchmarking. Submit results by opening an issue. Benchmarks should at least be one hour long.
+<table>
+    <thead>
+        <tr>
+            <th>Argument</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>-d</code><br><code>--duration</code></td>
+            <td>Duration to run the benchmark. (e.g., 10m, 1h, 30s).
+            <br>
+            <i>Default: <code>1h</code></i></td>
+        </tr>
+        <tr>
+            <td><code>--nx</code></td>
+            <td>Path to nxlink/nxlink.exe.</td>
+        </tr>
+        <tr>
+            <td><code>-ip</code></td>
+            <td>Switch IP.</td>
+        </tr>
+        <tr>
+            <td><code>--nro</code></td>
+            <td>Path to application.nro.</td>
+        </tr>
+        <tr>
+            <td><code>-o</code><br><code>--output</code></td>
+            <td>Path to benchmark results.
+            <br>
+            <i>Default: <code>nxducominer_benchmark.txt</code></i></td>
+        </tr>
+    </tbody>
+</table>
 <hr>
 <h4>Screenshots</h4>
 <p align="center">
@@ -176,4 +211,3 @@ JSON Parser: <a href='https://github.com/zserge/jsmn'>zserge/jsmn</a>, MIT Licen
 <h4>Licenses</h4>
 <a href='https://www.gnu.org/licenses/gpl-3.0.en.html'><img src='https://camo.githubusercontent.com/7710eaa5373ee99658cc5c6e389bb88119903cbf92422f24c1e92cd957793e8c/68747470733a2f2f7777772e676e752e6f72672f67726170686963732f67706c76332d3132377835312e706e67'></a><br>
 nxducominer is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-<h4>
