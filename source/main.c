@@ -8,7 +8,7 @@
 #include <netdb.h>
 #include <sys/socket.h>
 #include <switch.h>
-#include "sha1_adapter.h"
+#include "switch/crypto/sha1.h"
 #include "jsmn.h"
 #include <curl/curl.h>
 
@@ -33,8 +33,6 @@
                     cleanup("ERROR Memory allocation failed"); \
                 } \
             } while(0)
-
-
 
 void get_time_string(char* buffer, int size) {
     time_t rawtime = time(NULL);
@@ -72,8 +70,6 @@ typedef struct {
     char* difficulty;
     char* rig_id;
     bool cpu_boost;
-    char* sha_name;
-    Sha1ImplementationType sha_type;
 } MiningConfig;
 
 MiningConfig mc = {
@@ -83,9 +79,7 @@ MiningConfig mc = {
    .difficulty = NULL,
    .rig_id = NULL,
    .port = 0,
-   .cpu_boost = false,
-   .sha_name = NULL,
-   .sha_type = -1
+   .cpu_boost = false
 };
 
 void cleanup(char* msg) {
@@ -111,7 +105,6 @@ void cleanup(char* msg) {
     free(mc.node);
     free(mc.rig_id);
     free(mc.wallet_address);
-    free(mc.sha_name);
 
     psmExit();
     tcExit();
@@ -170,21 +163,6 @@ void parseConfigFile(MiningConfig* config) {
             if (strlen(value) < 1)
                 cleanup("ERROR cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
-        }
-        else if (strcmp(key, "sha") == 0) {
-            if (strlen(value) < 1)
-                cleanup("ERROR sha not set");
-            bool found = false;
-            for (int i = 0; shaMappings[i].name != NULL; i++) {
-                if (strcmp(value, shaMappings[i].name) == 0) {
-                    found = true;
-                    config->sha_type = shaMappings[i].type;
-                    config->sha_name = strdup(value);
-                    break; 
-                }
-            }
-            if (!found)
-                cleanup("ERROR incorrect sha");
         }
     }
     fclose(f);
@@ -348,8 +326,6 @@ int main() {
         cleanup("ERROR: failed to initalize psm");
     }
 
-    Sha1ImplementationType sha = mc.sha_type;
-
     while (appletMainLoop()) {
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
@@ -414,12 +390,9 @@ int main() {
             strcpy(expected_hash, job_parts[1]);
 
             //initialize the sha1 context
-
-            
-            Sha1Adapter* sha1adapter = getSha1Adapter(sha);
-            Sha1ContextUnion base_ctx;
-            sha1adapter->init(&base_ctx);
-            sha1adapter->update(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
+            Sha1Context base_ctx;
+            sha1ContextCreate(&base_ctx);
+            sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
 
             time_t start_time = time(NULL);
             char result_hash[41];
@@ -437,10 +410,10 @@ int main() {
                 unsigned char hash[20];
                 char result_str[16];
 
-                Sha1ContextUnion temp_ctx = base_ctx;
-                sprintf(result_str, "%d", result);
-                sha1adapter->update(&temp_ctx, (const unsigned char*)result_str, strlen(result_str));
-                sha1adapter->finalize(&temp_ctx, hash);
+                Sha1Context temp_ctx = base_ctx;  // copy the initialized base context
+                int len = sprintf(result_str, "%d", result);
+                sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
+                sha1ContextGetHash(&temp_ctx, hash);
 
                 //compare hash
                 for (int i = 0; i < 20; i++) {
@@ -453,23 +426,17 @@ int main() {
 
                     //send result
                     char submit_buf[128]; 
-                    snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", result, hashrate, SOFTWARE, mc.rig_id);
-                    write(res.socket_fd, submit_buf, strlen(submit_buf));
+                    int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", result, hashrate, SOFTWARE, mc.rig_id);
+                    write(res.socket_fd, submit_buf, len);
 
                     //read response
                     read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
                     get_time_string(timebuf, sizeof(timebuf));
 
                     //snprintf(recv_buf, BUFFER_SIZE, "BAD"); // testing
-                    if (strncmp(recv_buf, "GOOD", 4) == 0) {
-                        res.good_shares++;
-                    }
-                    else if (strncmp(recv_buf, "BLOCK", 5) == 0) {
-                        res.blocks++;
-                    }
-                    else {
-                        res.bad_shares++;
-                    }
+                    if (strncmp(recv_buf, "GOOD", 4) == 0) res.good_shares++;
+                    else if (strncmp(recv_buf, "BLOCK", 5) == 0) res.blocks++;
+                    else res.bad_shares++;
 
                     u32 charge = 0;
                     s32 skinTempMilliC = 0;
@@ -504,36 +471,34 @@ int main() {
                     
                     // row 6 lb
                     printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(8;1H) "SHA1 Implementation: %s", mc.sha_name);
-                    printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
-                    printf(CONSOLE_ESC(10;1H) "Difficulty: %i", res.difficulty);
-                    
-                    // row 11 lb
-                    printf(CONSOLE_ESC(12;1H) "Shares");
-                    printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
-                    printf(CONSOLE_ESC(14;1H) "|_ Total: %i", res.total_shares);
-                    printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", res.good_shares);
-                    printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", res.bad_shares);
-                    printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
-                    printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", res.blocks);
+                    printf(CONSOLE_ESC(8;1H)  "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
+                    printf(CONSOLE_ESC(9;1H) "Difficulty: %i", res.difficulty);
+                    // row 10 lb
+                    printf(CONSOLE_ESC(11;1H) "Shares");
+                    printf(CONSOLE_ESC(12;1H) "|_ Last share: %i", res.last_share);
+                    printf(CONSOLE_ESC(13;1H) "|_ Total: %i", res.total_shares);
+                    printf(CONSOLE_ESC(14;1H) "|_ Accepted: %i", res.good_shares);
+                    printf(CONSOLE_ESC(15;1H) "|_ Rejected: %i", res.bad_shares);
+                    printf(CONSOLE_ESC(16;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
+                    printf(CONSOLE_ESC(17;1H) "|_ Blocks Found: %i", res.blocks);
 
                     //logo
 
                     printf(DUCO_ORANGE);
-                    printf(CONSOLE_ESC(1;52H)  "         ########          ");
-                    printf(CONSOLE_ESC(2;52H)  "      ###############      ");
-                    printf(CONSOLE_ESC(3;52H)  "    ###################    ");
-                    printf(CONSOLE_ESC(4;52H)  "   #####         #######   ");
-                    printf(CONSOLE_ESC(5;52H)  "  #############    ######  ");
-                    printf(CONSOLE_ESC(6;52H)  " #######       ###   ##### ");
-                    printf(CONSOLE_ESC(7;52H)  " ############   ##   ##### ");
-                    printf(CONSOLE_ESC(8;52H)  " ############   ##   ##### ");
-                    printf(CONSOLE_ESC(9;52H)  " #######       ###   ##### ");
-                    printf(CONSOLE_ESC(10;52H) "  #############    ######  ");
-                    printf(CONSOLE_ESC(11;52H) "   #####         #######   ");
-                    printf(CONSOLE_ESC(12;52H) "    ###################    ");
-                    printf(CONSOLE_ESC(13;52H) "      ###############      ");
-                    printf(CONSOLE_ESC(14;52H) "          #######          ");
+                    printf(CONSOLE_ESC(1;53H)  "         ########          ");
+                    printf(CONSOLE_ESC(2;53H)  "      ###############      ");
+                    printf(CONSOLE_ESC(3;53H)  "    ###################    ");
+                    printf(CONSOLE_ESC(4;53H)  "   #####         #######   ");
+                    printf(CONSOLE_ESC(5;53H)  "  #############    ######  ");
+                    printf(CONSOLE_ESC(6;53H)  " #######       ###   ##### ");
+                    printf(CONSOLE_ESC(7;53H)  " ############   ##   ##### ");
+                    printf(CONSOLE_ESC(8;53H)  " ############   ##   ##### ");
+                    printf(CONSOLE_ESC(9;53H)  " #######       ###   ##### ");
+                    printf(CONSOLE_ESC(10;53H) "  #############    ######  ");
+                    printf(CONSOLE_ESC(11;53H) "   #####         #######   ");
+                    printf(CONSOLE_ESC(12;53H) "    ###################    ");
+                    printf(CONSOLE_ESC(13;53H) "      ###############      ");
+                    printf(CONSOLE_ESC(14;53H) "          #######          ");
                     printf(RESET);
                     printf(CONSOLE_ESC(15;52H) "github.com/tbwcjw/nxducominer");
 

@@ -36,7 +36,6 @@ app_version_pattern = re.compile(r'(\d{2}\.\d{2}\.\d{2}_\d{2}\.\d{2})')
 hashrate_pattern = re.compile(r'Hashrate\s*[:]\s*([\d.]+)\s*kH/s', re.IGNORECASE)
 difficulty_pattern = re.compile(r'Difficulty\s*[:]\s*([\d.]+)', re.IGNORECASE)
 total_pattern = re.compile(r'Total\s*[:\|]?\s*(\d+)', re.IGNORECASE)
-sha_type_pattern = re.compile(r'SHA1 Implementation\s*[:\|]?\s*(\S+?)(?=Hashrate:|$)', re.IGNORECASE) #yikes
 cpu_boosted_pattern = re.compile(r'Hashrate\s*:\s*[\d.]+\s*\w+/s\s*\(CPU Boosted\)', re.IGNORECASE)
 
 def parse_duration(duration_str):
@@ -54,7 +53,6 @@ difficulties = []
 total_sum = 0
 start_time = None
 elapsed = 0
-sha_type = None
 cpu_boosted = False
 app_version = None
 
@@ -75,8 +73,6 @@ def clean_console_output(text):
     text = text.replace('\r', '')
     text = re.sub('.\x08', '', text)
     text = text.replace('|_', '')
-    text = re.sub(r'(\b\w+\b)\s*Shares\|_', r'\1', text) #errant last line
-    text = re.sub(r'(builtin)\s*Shares', r'\1', text)
     return text
 
 try:
@@ -95,11 +91,10 @@ try:
             hr_match = hashrate_pattern.search(line)
             diff_match = difficulty_pattern.search(line)
             total_match = total_pattern.search(line)
-            sha_type_match = sha_type_pattern.search(line)
             cpu_boosted_match = cpu_boosted_pattern.search(line)
             app_version_match = app_version_pattern.search(line)
 
-            if any([hr_match, diff_match, total_match, sha_type_match, cpu_boosted_match, app_version_match]):
+            if any([hr_match, diff_match, total_match, cpu_boosted_match, app_version_match]):
                 if start_time is None:
                     start_time = time.time()
                     print("benchmark started")
@@ -114,9 +109,6 @@ try:
 
                 if cpu_boosted_match:
                     cpu_boosted = True
-
-                if sha_type_match:
-                    sha_type = str(sha_type_match.group(1))
 
                 if hr_match:
                     hashrates.append(float(hr_match.group(1)))
@@ -141,8 +133,7 @@ try:
                       f"avg hashrate: {avg_hashrate:.2f} kH/s\n"
                       f"avg difficulty: {avg_difficulty:.2f}\n"
                       f"total shares: {total_sum}\n"
-                      f"cpu boosted: {cpu_boosted}\n"
-                      f"sha type: {sha_type}")
+                      f"cpu boosted: {cpu_boosted}")
                 sys.stdout.flush()
 
 except KeyboardInterrupt:
@@ -159,8 +150,7 @@ output = (
     f"average hashrate: {avg_hashrate:.2f} kH/s\n"
     f"average difficulty: {avg_difficulty:.2f}\n"
     f"total shares: {total_sum}\n"
-    f"cpu boosted: {cpu_boosted}\n"
-    f"sha type: {sha_type}\n"
+    f"cpu boosted: {cpu_boosted}"
 )
 
 with open(file_path, "w") as f:

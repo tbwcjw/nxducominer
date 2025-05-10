@@ -59,32 +59,6 @@
             <td><code>bool</bool></td>
             <td>Either <code>true</code> or <code>false</code>.<Br>Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> with mode <code>ApmCpuBoostMode_FastLoad</code>.</td>
         </tr>
-        <tr>
-            <td><code>sha</code></td>
-            <td><code>str</code></td>
-            <td>Use the table below to pick a SHA implementation to user. Defaults to <code>builtin</code>.
-            <table>
-                <thead>
-                    <tr>
-                        <th>Value</th>
-                        <th>Description</th>
-                        <th>Reference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>builtin</code></td>
-                        <td>Default libnx implementation.</td>
-                        <td><a href='https://switchbrew.github.io/libnx/sha1_8h.html'>https://switchbrew.github.io/libnx/sha1_8h.html</a></td>
-                    </tr>
-                    <tr>
-                        <td><code>reid</code></td>
-                        <td>FOSS implementation from clibs.</td>
-                        <td><a href='https://github.com/clibs/sha1/'>https://github.com/clibs/sha1/</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </tr>
     </tbody>
 </table>
 <hr>
@@ -126,7 +100,6 @@
             <td>
                 <li>Web dashboard, like the ESP32 miner</li>
                 <li>Multithreading.</li>
-                <li>More SHA implementations.</li>
             </td>
             <td>
                 <li>Pretty GUI.</li>
@@ -142,7 +115,6 @@
             <th>Device/Version</th>
             <th>App version</th>
             <th>CFLAGS</th>
-            <th>SHA Type</th>
             <th>CPU Boost</th>
             <th>Node (address:port)</th>
             <th>Shares /1hr</th>
@@ -151,7 +123,6 @@
     </thead>
     <tbody>
         <tr>
-            <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
