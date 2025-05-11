@@ -70,6 +70,7 @@ typedef struct {
     char* difficulty;
     char* rig_id;
     bool cpu_boost;
+    bool iot;
 } MiningConfig;
 
 MiningConfig mc = {
@@ -79,7 +80,8 @@ MiningConfig mc = {
    .difficulty = NULL,
    .rig_id = NULL,
    .port = 0,
-   .cpu_boost = false
+   .cpu_boost = false,
+   .iot = false
 };
 
 void cleanup(char* msg) {
@@ -163,6 +165,11 @@ void parseConfigFile(MiningConfig* config) {
             if (strlen(value) < 1)
                 cleanup("ERROR cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
+        }
+        else if (strcmp(key, "iot") == 0) { 
+            if (strlen(value) < 1)
+                cleanup("ERROR iot not set");
+            config->iot = (strcmp(value, "true") == 0) ? true : false;
         }
     }
     fclose(f);
@@ -366,9 +373,23 @@ int main() {
         consoleUpdate(NULL);
 
         while (1) {
+
+            u32 charge = 0;
+            s32 skinTempMilliC = 0;
+            char iot[100];
+
+            psmrc = psmGetBatteryChargePercentage(&charge);
+            tcrc = tcGetSkinTemperatureMilliC(&skinTempMilliC);
+            snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", charge, skinTempMilliC/1000.0f);
             //request job
             char job_request[128];
-            snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key);
+            if (mc.iot) {
+                snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key, iot);
+            }
+            else {
+                snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key);
+            }
+
             write(res.socket_fd, job_request, strlen(job_request));
 
             //recieve job
@@ -391,13 +412,16 @@ int main() {
 
             //initialize the sha1 context
             Sha1Context base_ctx;
+            Sha1Context temp_ctx;
+
             sha1ContextCreate(&base_ctx);
             sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
 
             time_t start_time = time(NULL);
             char result_hash[41];
-            int result;
-            for (result = 0; result <= 100 * difficulty; result++) {
+            int nonce;
+
+            for (nonce = 0; nonce <= (100 * difficulty +1); nonce++) {
                 //listen for + to exit while computing
                 padUpdate(&pad);
                 u64 kDown = padGetButtonsDown(&pad);
@@ -410,8 +434,8 @@ int main() {
                 unsigned char hash[20];
                 char result_str[16];
 
-                Sha1Context temp_ctx = base_ctx;  // copy the initialized base context
-                int len = sprintf(result_str, "%d", result);
+                temp_ctx = base_ctx;  // copy the initialized base context
+                int len = sprintf(result_str, "%d", nonce);
                 sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
                 sha1ContextGetHash(&temp_ctx, hash);
 
@@ -420,13 +444,13 @@ int main() {
                     snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
                 }
 
-                if (strcmp(result_hash, expected_hash) == 0) {
+                if (memcmp(result_hash, expected_hash, 20) == 0) {
                     double elapsed = difftime(time(NULL), start_time);
-                    double hashrate = result / (elapsed > 0 ? elapsed : 1);
+                    double hashrate = nonce / (elapsed > 0 ? elapsed : 1);
 
                     //send result
                     char submit_buf[128]; 
-                    int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", result, hashrate, SOFTWARE, mc.rig_id);
+                    int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", nonce, hashrate, SOFTWARE, mc.rig_id);
                     write(res.socket_fd, submit_buf, len);
 
                     //read response
@@ -438,13 +462,9 @@ int main() {
                     else if (strncmp(recv_buf, "BLOCK", 5) == 0) res.blocks++;
                     else res.bad_shares++;
 
-                    u32 charge = 0;
-                    s32 skinTempMilliC = 0;
+                    
 
-                    psmrc = psmGetBatteryChargePercentage(&charge);
-                    tcrc = tcGetSkinTemperatureMilliC(&skinTempMilliC);
-
-                    res.last_share = result;
+                    res.last_share = nonce;
                     res.difficulty = difficulty;
                     res.hashrate = hashrate / 1000.0f;
                     res.total_shares++;
@@ -506,6 +526,8 @@ int main() {
                     printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
 
                     consoleUpdate(NULL);
+
+
                     break;
                 }
             }

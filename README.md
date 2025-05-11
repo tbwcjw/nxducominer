@@ -42,7 +42,7 @@
         <tr>
             <td><code>miner_key</code></td>
             <td><code>str</code><br><code>none</code></td>
-            <td>As specified in <code>Wallet > Settings > Miner Key</code>. Leave blank if not applicable.
+            <td>As specified in <code>Wallet > Settings > Miner Key</code>. Leave blank if not applicable.</td>
         </tr>
         <tr>
             <td><code>difficulty</code></td>
@@ -58,6 +58,11 @@
             <td><code>cpu_boost</code></td>
             <td><code>bool</bool></td>
             <td>Either <code>true</code> or <code>false</code>.<Br>Using <a href='https://switchbrew.github.io/libnx/apm_8h.html#a5690c3a786c3bee6ef93f5db5354e080'>ApmCpuBoostMode</a> with mode <code>ApmCpuBoostMode_FastLoad</code>.</td>
+        </tr>
+        <tr>
+            <td><code>iot</code></td>
+            <td><code>bool</code><br></td>
+            <td>Either <code>true</code> or <code>false</code>. Upload IoT data to your wallet (Temperature, Battery charge).</td>
         </tr>
     </tbody>
 </table>
