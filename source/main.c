@@ -11,6 +11,7 @@
 #include "switch/crypto/sha1.h"
 #include "jsmn.h"
 #include <curl/curl.h>
+#include <pthread.h>
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
@@ -24,6 +25,9 @@
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define DARK_GREY CONSOLE_ESC(38;2;90;90;90m)
 #define RESET CONSOLE_ESC(0m)
+
+#define CONSOLE_ESC_NSTR(fmt) "\033[" fmt
+
 
 #define SET_DYNAMIC_STRING(field) \
             do { \
@@ -42,24 +46,33 @@ void get_time_string(char* buffer, int size) {
 
 typedef struct {
     int socket_fd;
-    int last_share;
+    int thread_id;
+    float hashrate;
     int difficulty;
-    double hashrate;
+    int total_shares;
     int good_shares;
     int bad_shares;
     int blocks;
-    int total_shares;
+} ThreadData;
+
+typedef struct {
+    int last_share;
+    u32 charge;
+    s32 skinTempMilliC;
+    pthread_mutex_t lock;
+    pthread_t* miningThreads;
+    ThreadData* threadData;
+    int single_miner_id;
 } ResourceManager;
 
 ResourceManager res = {
-   .socket_fd = -1,
    .last_share = 0,
-   .difficulty = 0,
-   .hashrate = 0,
-   .good_shares = 0,
-   .bad_shares = 0,
-   .blocks = 0,
-   .total_shares = 0
+   .charge = 0,
+   .skinTempMilliC = 0,
+   .lock = PTHREAD_MUTEX_INITIALIZER,
+   .miningThreads = NULL,
+   .threadData = NULL,
+   .single_miner_id = 0
 };
 
 typedef struct {
@@ -71,6 +84,7 @@ typedef struct {
     char* rig_id;
     bool cpu_boost;
     bool iot;
+    int threads;
 } MiningConfig;
 
 MiningConfig mc = {
@@ -81,12 +95,19 @@ MiningConfig mc = {
    .rig_id = NULL,
    .port = 0,
    .cpu_boost = false,
-   .iot = false
+   .iot = false,
+   .threads = 1
 };
+
 
 void cleanup(char* msg) {
     if (msg == NULL) {
-        printf(CONSOLE_ESC(80;1H) "Exiting...");
+        if (mc.threads > 1) {
+            printf(CONSOLE_ESC(80;1H) "Waiting for threads to exit...");
+        }
+        else {
+            printf(CONSOLE_ESC(80;1H) "Exiting...");
+        }
         consoleUpdate(NULL);
     }
     else {
@@ -97,17 +118,37 @@ void cleanup(char* msg) {
     }
     sleep(3);
 
-    if (res.socket_fd >= 0) {
-        close(res.socket_fd);
+    //cleanup threads
+    if (res.miningThreads != NULL) {
+        if (res.threadData != NULL) {
+            for (int i = 0; i < mc.threads; i++) {          //close sockets
+                if (res.threadData[i].socket_fd >= 0) {
+                    close(res.threadData[i].socket_fd);
+                    res.threadData[i].socket_fd = -1;
+                }
+            }
+        }
+        for (int i = 0; i < mc.threads; i++) {              //cancel threads
+            if (res.miningThreads[i]) {
+                pthread_cancel(res.miningThreads[i]);
+            }
+        }
+        for (int i = 0; i < mc.threads; i++) {              //join threads
+            if (res.miningThreads[i]) {
+                pthread_join(res.miningThreads[i], NULL);
+            }
+        }
     }
 
-    //free mc 
+    // free resources
+    free(res.miningThreads);
+    free(res.threadData);
     free(mc.difficulty);
     free(mc.miner_key);
     free(mc.node);
     free(mc.rig_id);
     free(mc.wallet_address);
-
+    
     psmExit();
     tcExit();
     socketExit();
@@ -126,7 +167,7 @@ void parseConfigFile(MiningConfig* config) {
     while (fgets(line, sizeof(line), f) != NULL) {
         line[strcspn(line, "\r\n")] = '\0';
         char* sep = strchr(line, ':');
-        if (!sep) continue; 
+        if (!sep) continue;
 
         *sep = '\0';
         char* key = line;
@@ -137,10 +178,10 @@ void parseConfigFile(MiningConfig* config) {
         printf("%s:%s\n", key, value);
         consoleUpdate(NULL);
 
-        if (strcmp(key, "node") == 0) { //dont validate with strlen, will getNode
+        if (strcmp(key, "node") == 0) {
             SET_DYNAMIC_STRING(node);
         }
-        else if (strcmp(key, "port") == 0) { //dont validate with strlen, will getNode
+        else if (strcmp(key, "port") == 0) {
             config->port = atoi(value);
         }
         else if (strcmp(key, "wallet_address") == 0) {
@@ -166,10 +207,15 @@ void parseConfigFile(MiningConfig* config) {
                 cleanup("ERROR cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
         }
-        else if (strcmp(key, "iot") == 0) { 
+        else if (strcmp(key, "iot") == 0) {
             if (strlen(value) < 1)
                 cleanup("ERROR iot not set");
             config->iot = (strcmp(value, "true") == 0) ? true : false;
+        }
+        else if (strcmp(key, "threads") == 0) {
+            config->threads = atoi(value);
+            if (config->threads < 1 || config->threads > 6)
+                cleanup("ERROR threads value out of range");
         }
     }
     fclose(f);
@@ -202,7 +248,6 @@ static size_t WriteMemoryCallback(void* contents, size_t size, size_t nmemb, voi
 }
 
 void getNode(char** ip, int* port) {
-
     printf(CONSOLE_ESC(2J));
     printf(CONSOLE_ESC(1;1H) "Finding a node from master server...");
     consoleUpdate(NULL);
@@ -224,8 +269,6 @@ void getNode(char** ip, int* port) {
 
     curl_easy_setopt(curl, CURLOPT_URL, GET_POOL);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libnx curl nxducominer");
-
-    // Set up write callback and data
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*)&chunk);
 
@@ -272,7 +315,7 @@ void getNode(char** ip, int* port) {
             }
         }
     }
-    //line 2 lb
+
     printf(CONSOLE_ESC(3;1H)"Using %s:%i...", mc.node, mc.port);
     consoleUpdate(NULL);
     sleep(2);
@@ -282,255 +325,318 @@ void getNode(char** ip, int* port) {
     free(json_copy);
 }
 
-int main() {
-    char timebuf[16];
+void* doMiningWork(void* arg) {
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
+    ThreadData* td = (ThreadData*)arg;
+    char recv_buf[BUFFER_SIZE];
+    td->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (td->socket_fd < 0) {
+        char buf[256];
+        snprintf(buf, sizeof(buf), "ERROR thread %d failed to create socket", td->thread_id);
+        cleanup(buf);
+
+        return NULL;
+    }
+
+    struct hostent* server = gethostbyname(mc.node);
+    if (!server) {
+        char buf[256];
+        snprintf(buf, sizeof(buf), "ERROR thread %d socket no such host", td->thread_id);
+        cleanup(buf);
+        return NULL;
+    }
+
+    struct sockaddr_in serv_addr;
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(mc.port);
+    memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+
+    if (connect(td->socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        char buf[256];
+        snprintf(buf, sizeof(buf), "ERROR thread %d failed to connect", td->thread_id);
+        cleanup(buf);
+        return NULL;
+    }
+    read(td->socket_fd, recv_buf, sizeof(4));
+
+    while (1) {
+        pthread_testcancel();
+
+        char iot[26];
+        snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skinTempMilliC / 1000.0f);
+
+        // request job
+        char job_request[128];
+        if (mc.iot && td->thread_id == 0) { //only send iot information on one thread
+            snprintf(job_request, sizeof(job_request),
+                "JOB,%s,%s,%s,%s",
+                mc.wallet_address, mc.difficulty, mc.miner_key, iot);
+        }
+        else {
+            snprintf(job_request, sizeof(job_request),
+                "JOB,%s,%s,%s",
+                mc.wallet_address, mc.difficulty, mc.miner_key);
+        }
+
+        write(td->socket_fd, job_request, strlen(job_request));
+
+        // receive job
+        memset(recv_buf, 0, BUFFER_SIZE);
+        int n = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+        if (n <= 0) break;
+
+        // split job parts
+        char* job_parts[3];
+        char* token = strtok(recv_buf, ",");
+        for (int i = 0; i < 3 && token; i++) {
+            job_parts[i] = token;
+            token = strtok(NULL, ",");
+        }
+
+        int difficulty = atoi(job_parts[2]);
+        char base_str[128];
+        char expected_hash[41];
+        strcpy(base_str, job_parts[0]);
+        strcpy(expected_hash, job_parts[1]);
+
+        // initialize sha1 context
+        Sha1Context base_ctx;
+        Sha1Context temp_ctx;
+        sha1ContextCreate(&base_ctx);
+        sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
+
+        time_t start_time = time(NULL);
+        char result_hash[41];
+        int nonce;
+
+        for (nonce = 0; nonce <= (100 * difficulty + 1); nonce++) {
+            pthread_testcancel();
+
+            unsigned char hash[20];
+            char result_str[16];
+
+            temp_ctx = base_ctx;  // copy base_ctx to temp_ctx
+            int len = sprintf(result_str, "%d", nonce);
+            sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
+            sha1ContextGetHash(&temp_ctx, hash);
+
+            // compare hash
+            for (int i = 0; i < 20; i++) {
+                snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
+            }
+
+            if (memcmp(result_hash, expected_hash, 20) == 0) {
+                double elapsed = difftime(time(NULL), start_time);
+                double hashrate = nonce / (elapsed > 0 ? elapsed : 1);
+
+                // send result
+                char submit_buf[128];
+                int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s,,%i",
+                    nonce, hashrate, SOFTWARE, mc.rig_id, res.single_miner_id);
+                write(td->socket_fd, submit_buf, len);
+
+                // read response
+                read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+
+                if (strncmp(recv_buf, "GOOD", 4) == 0) td->good_shares++;
+                else if (strncmp(recv_buf, "BLOCK", 5) == 0) td->blocks++;
+                else td->bad_shares++;
+
+                res.last_share = nonce;
+                td->difficulty = difficulty;
+                td->hashrate = hashrate / 1000.0f;
+                td->total_shares++;
+
+                break;
+            }
+        }
+    }
+    if (td->socket_fd >= 0) {
+        close(td->socket_fd);
+        td->socket_fd = -1;
+    }
+    return NULL;
+}
+int main() {
     consoleInit(NULL);
 
-    //set up joycons
+    // set up joycons
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
     PadState pad;
     padInitializeDefault(&pad);
 
-    //prevent sleeping in handheld/console mode
+    // prevent sleeping
     appletSetAutoSleepDisabled(true);
-    //prevent sleeping console in dock when tv power is off
     appletSetTvPowerStateMatchingMode(AppletTvPowerStateMatchingMode_Unknown1);
-   
+
     socketInitializeDefault();
-    
-    //redirect stdio to nxlink server if -s
     nxlinkStdio();
 
-    //parse config
+    // parse config
     parseConfigFile(&mc);
     consoleUpdate(NULL);
     sleep(1);
 
-    //find a node if node not set
+    // find a node if node not set
     if (mc.node == NULL || mc.port == 0) {
         getNode(&mc.node, &mc.port);
     }
 
-    //toggle cpu boost
+    // toggle CPU boost
     if (mc.cpu_boost) {
         appletSetCpuBoostMode(ApmCpuBoostMode_FastLoad);
     }
 
-    //init temperature
+    // init temperature
     Result tcrc = tcInitialize();
     if (R_FAILED(tcrc)) {
-        consoleUpdate(NULL);
-        sleep(5);
-        cleanup("ERROR: failed to initalize tc");
-    }
-    
-    //init battery management
-    Result psmrc = psmInitialize();
-    if (R_FAILED(psmrc)) {
-        consoleUpdate(NULL);
-        sleep(5);
-        cleanup("ERROR: failed to initalize psm");
+        cleanup("ERROR: failed to initialize tc");
     }
 
+    // init battery management
+    Result psmrc = psmInitialize();
+    if (R_FAILED(psmrc)) {
+        cleanup("ERROR: failed to initialize psm");
+    }
+
+    // allocate thread data
+    res.miningThreads = malloc(mc.threads * sizeof(pthread_t));
+    res.threadData = malloc(mc.threads * sizeof(ThreadData));
+    srand(time(NULL));
+    res.single_miner_id = rand() % 2812;
+
+    if (!res.miningThreads || !res.threadData) {
+        cleanup("ERROR: Memory allocation failed");
+    }
+
+    // create mining threads
+    for (int i = 0; i < mc.threads; i++) {
+        res.threadData[i].hashrate = 0.0f;
+        res.threadData[i].difficulty = 0;
+        res.threadData[i].bad_shares = 0;
+        res.threadData[i].good_shares = 0;
+        res.threadData[i].total_shares = 0;
+        res.threadData[i].blocks = 0;
+        res.threadData[i].thread_id = i;
+        res.threadData[i].socket_fd = -1; 
+        if (pthread_create(&res.miningThreads[i], NULL, doMiningWork, (void*)&res.threadData[i]) != 0) {
+            cleanup("ERROR: Failed to start mining thread");
+        }
+        sleep(1); // stagger thread creation
+    }
+
+    char timebuf[16];
+    time_t lastDraw = 0;
     while (appletMainLoop()) {
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
 
         if (kDown & HidNpadButton_Plus) {
             cleanup(NULL);
+            break;
         }
+        time_t currentTime;
+        time(&currentTime);
 
-        printf(CONSOLE_ESC(2J));
-        printf("Connecting to %s:%d\n", mc.node, mc.port);
-        consoleUpdate(NULL);
+        if (difftime(currentTime, lastDraw) >= 2) {
+            get_time_string(timebuf, sizeof(timebuf));
 
-        res.socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-        struct hostent* server = gethostbyname(mc.node);
+            pthread_mutex_lock(&res.lock);
+            psmrc = psmGetBatteryChargePercentage(&res.charge);
+            tcrc = tcGetSkinTemperatureMilliC(&res.skinTempMilliC);
 
-        if (!server) {
-            consoleUpdate(NULL);
-            sleep(5);
-            cleanup("ERROR: No such host");
-        }
+            float total_hashrate = 0.0f;
+            int total_difficulty = 0;
+            float avg_difficulty = 0.0f;
+            int total_shares = 0;
+            int good_shares = 0;
+            int bad_shares = 0;
+            int blocks = 0;
+            for (int i = 0; i < mc.threads; i++) {
+                total_hashrate += res.threadData[i].hashrate;
+                total_difficulty += res.threadData[i].difficulty;
+                total_shares += res.threadData[i].total_shares;
+                good_shares += res.threadData[i].good_shares;
+                bad_shares += res.threadData[i].bad_shares;
+                blocks += res.threadData[i].blocks;
+            }
+            avg_difficulty = (float)total_difficulty / mc.threads;
 
-        struct sockaddr_in serv_addr;
+            printf(CONSOLE_ESC(2J)); // clear screen
 
-        memset(&serv_addr, 0, sizeof(serv_addr));
-        serv_addr.sin_family = AF_INET;
-        serv_addr.sin_port = htons(mc.port);
-        memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+            printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
+            printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
+            printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
 
-        if (connect(res.socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-            consoleUpdate(NULL);
-            sleep(5);
-            cleanup("ERROR connecting");
-        }
-
-        char recv_buf[BUFFER_SIZE];
-        read(res.socket_fd, recv_buf, sizeof(4)); // server version, 4 bytes
-        get_time_string(timebuf, sizeof(timebuf));
-        consoleUpdate(NULL);
-
-        while (1) {
-
-            u32 charge = 0;
-            s32 skinTempMilliC = 0;
-            char iot[100];
-
-            psmrc = psmGetBatteryChargePercentage(&charge);
-            tcrc = tcGetSkinTemperatureMilliC(&skinTempMilliC);
-            snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", charge, skinTempMilliC/1000.0f);
-            //request job
-            char job_request[128];
-            if (mc.iot) {
-                snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key, iot);
+            if (res.charge > 25) {
+                printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", res.charge);
             }
             else {
-                snprintf(job_request, sizeof(job_request), "JOB,%s,%s,%s", mc.wallet_address, mc.difficulty, mc.miner_key);
+                printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery charge: %u%%" RESET, res.charge);
             }
 
-            write(res.socket_fd, job_request, strlen(job_request));
-
-            //recieve job
-            memset(recv_buf, 0, BUFFER_SIZE);
-            int n = read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
-            if (n <= 0) break; //connection to server lost, break loop and try to reconnect.
-
-            //split job parts
-            char* job_parts[3];
-            char* token = strtok(recv_buf, ",");
-            for (int i = 0; i < 3 && token; i++) {
-                job_parts[i] = token;
-                token = strtok(NULL, ",");
+            if (res.skinTempMilliC / 1000.0f > 55.0f) {
+                printf(CONSOLE_ESC(5;1H) ERROR_RED "Temperature: %.2f C" RESET, res.skinTempMilliC / 1000.0f);
             }
-            int difficulty = atoi(job_parts[2]);
-            char base_str[128];
-            char expected_hash[41];
-            strcpy(base_str, job_parts[0]);
-            strcpy(expected_hash, job_parts[1]);
+            else {
+                printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", res.skinTempMilliC / 1000.0f);
+            }
+            // row 6 lb
+            printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
+            printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", total_hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
+            printf(CONSOLE_ESC(10;1H) "Difficulty: %d", (int)avg_difficulty);
+            // row 11 lb
+            printf(CONSOLE_ESC(12;1H) "Shares");
+            printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
+            printf(CONSOLE_ESC(14;1H) "|_ Total: %i", total_shares);
+            printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", good_shares);
+            printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", bad_shares);
+            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", good_shares, bad_shares, (int)((double)good_shares / total_shares * 100));
+            printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", blocks);
 
-            //initialize the sha1 context
-            Sha1Context base_ctx;
-            Sha1Context temp_ctx;
+            pthread_mutex_unlock(&res.lock);
 
-            sha1ContextCreate(&base_ctx);
-            sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
-
-            time_t start_time = time(NULL);
-            char result_hash[41];
-            int nonce;
-
-            for (nonce = 0; nonce <= (100 * difficulty +1); nonce++) {
-                //listen for + to exit while computing
-                padUpdate(&pad);
-                u64 kDown = padGetButtonsDown(&pad);
-
-                if (kDown & HidNpadButton_Plus) {
-                    cleanup(NULL);
-                    break;
-                }
-
-                unsigned char hash[20];
-                char result_str[16];
-
-                temp_ctx = base_ctx;  // copy the initialized base context
-                int len = sprintf(result_str, "%d", nonce);
-                sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
-                sha1ContextGetHash(&temp_ctx, hash);
-
-                //compare hash
-                for (int i = 0; i < 20; i++) {
-                    snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
-                }
-
-                if (memcmp(result_hash, expected_hash, 20) == 0) {
-                    double elapsed = difftime(time(NULL), start_time);
-                    double hashrate = nonce / (elapsed > 0 ? elapsed : 1);
-
-                    //send result
-                    char submit_buf[128]; 
-                    int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s", nonce, hashrate, SOFTWARE, mc.rig_id);
-                    write(res.socket_fd, submit_buf, len);
-
-                    //read response
-                    read(res.socket_fd, recv_buf, BUFFER_SIZE - 1);
-                    get_time_string(timebuf, sizeof(timebuf));
-
-                    //snprintf(recv_buf, BUFFER_SIZE, "BAD"); // testing
-                    if (strncmp(recv_buf, "GOOD", 4) == 0) res.good_shares++;
-                    else if (strncmp(recv_buf, "BLOCK", 5) == 0) res.blocks++;
-                    else res.bad_shares++;
-
-                    
-
-                    res.last_share = nonce;
-                    res.difficulty = difficulty;
-                    res.hashrate = hashrate / 1000.0f;
-                    res.total_shares++;
-
-                    printf(CONSOLE_ESC(2J)); //clear screen
-
-                    printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
-                    printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
-                    printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
-                    
-                    if (charge > 25) {
-                        printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", charge);
-                    }
-                    else {
-                        printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery charge: %u%%" RESET, charge);
-                    }
-                    
-                    if (skinTempMilliC/1000.0f > 55.0f) {
-                        printf(CONSOLE_ESC(5;1H) ERROR_RED "Temperature: %.2f C" RESET, skinTempMilliC / 1000.0f);
-                    }
-                    else {
-                        printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", skinTempMilliC / 1000.0f);
-                    }
-                    
-                    // row 6 lb
-                    printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
-                    printf(CONSOLE_ESC(8;1H)  "Hashrate: %.2f kH/s %s", res.hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
-                    printf(CONSOLE_ESC(9;1H) "Difficulty: %i", res.difficulty);
-                    // row 10 lb
-                    printf(CONSOLE_ESC(11;1H) "Shares");
-                    printf(CONSOLE_ESC(12;1H) "|_ Last share: %i", res.last_share);
-                    printf(CONSOLE_ESC(13;1H) "|_ Total: %i", res.total_shares);
-                    printf(CONSOLE_ESC(14;1H) "|_ Accepted: %i", res.good_shares);
-                    printf(CONSOLE_ESC(15;1H) "|_ Rejected: %i", res.bad_shares);
-                    printf(CONSOLE_ESC(16;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", res.good_shares, res.bad_shares, (int)((double)res.good_shares / res.total_shares * 100));
-                    printf(CONSOLE_ESC(17;1H) "|_ Blocks Found: %i", res.blocks);
-
-                    //logo
-
-                    printf(DUCO_ORANGE);
-                    printf(CONSOLE_ESC(1;53H)  "         ########          ");
-                    printf(CONSOLE_ESC(2;53H)  "      ###############      ");
-                    printf(CONSOLE_ESC(3;53H)  "    ###################    ");
-                    printf(CONSOLE_ESC(4;53H)  "   #####         #######   ");
-                    printf(CONSOLE_ESC(5;53H)  "  #############    ######  ");
-                    printf(CONSOLE_ESC(6;53H)  " #######       ###   ##### ");
-                    printf(CONSOLE_ESC(7;53H)  " ############   ##   ##### ");
-                    printf(CONSOLE_ESC(8;53H)  " ############   ##   ##### ");
-                    printf(CONSOLE_ESC(9;53H)  " #######       ###   ##### ");
-                    printf(CONSOLE_ESC(10;53H) "  #############    ######  ");
-                    printf(CONSOLE_ESC(11;53H) "   #####         #######   ");
-                    printf(CONSOLE_ESC(12;53H) "    ###################    ");
-                    printf(CONSOLE_ESC(13;53H) "      ###############      ");
-                    printf(CONSOLE_ESC(14;53H) "          #######          ");
-                    printf(RESET);
-                    printf(CONSOLE_ESC(15;52H) "github.com/tbwcjw/nxducominer");
-
-                    //version string
-                    printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
-
-                    consoleUpdate(NULL);
-
-
-                    break;
+            //thread info
+            if (mc.threads > 1) {
+                printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
+                int startLine = 21;
+                for (int i = 0; i < mc.threads; i++) {
+                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ Hashrate: %.2f kH/s", startLine + (i * 4), i, res.threadData[i].hashrate);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.threadData[i].difficulty);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2, res.threadData[i].good_shares, res.threadData[i].bad_shares);
                 }
             }
+
+            //logo
+            printf(DUCO_ORANGE);
+            printf(CONSOLE_ESC(1;53H)  "         ########          ");
+            printf(CONSOLE_ESC(2;53H)  "      ###############      ");
+            printf(CONSOLE_ESC(3;53H)  "    ###################    ");
+            printf(CONSOLE_ESC(4;53H)  "   #####         #######   ");
+            printf(CONSOLE_ESC(5;53H)  "  #############    ######  ");
+            printf(CONSOLE_ESC(6;53H)  " #######       ###   ##### ");
+            printf(CONSOLE_ESC(7;53H)  " ############   ##   ##### ");
+            printf(CONSOLE_ESC(8;53H)  " ############   ##   ##### ");
+            printf(CONSOLE_ESC(9;53H)  " #######       ###   ##### ");
+            printf(CONSOLE_ESC(10;53H) "  #############    ######  ");
+            printf(CONSOLE_ESC(11;53H) "   #####         #######   ");
+            printf(CONSOLE_ESC(12;53H) "    ###################    ");
+            printf(CONSOLE_ESC(13;53H) "      ###############      ");
+            printf(CONSOLE_ESC(14;53H) "          #######          ");
+            printf(RESET);
+            printf(CONSOLE_ESC(15;52H) "github.com/tbwcjw/nxducominer");
+
+            //version string
+            printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
+
+            lastDraw = currentTime;
+            pthread_mutex_unlock(&res.lock);
+            consoleUpdate(NULL);
         }
+        svcSleepThread(1000000);
     }
 }
+

@@ -64,6 +64,11 @@
             <td><code>bool</code><br></td>
             <td>Either <code>true</code> or <code>false</code>. Upload IoT data to your wallet (Temperature, Battery charge).</td>
         </tr>
+        <tr>
+            <td><code>threads</code></td>
+            <td><code>int</code><br></td>
+            <td>Number of threads to mine on. Between 1 and 6.</td>
+        </tr>
     </tbody>
 </table>
 <hr>
@@ -104,7 +109,7 @@
             </td>
             <td>
                 <li>Web dashboard, like the ESP32 miner</li>
-                <li>Multithreading.</li>
+                <li><s>Multithreading.</s></li>
             </td>
             <td>
                 <li>Pretty GUI.</li>
@@ -140,7 +145,8 @@
 </table>
 <hr>
 <h4>Benchmarking</h4>
-Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dirty.py'>benchmark_dirty.py</a> for official benchmarking. Submit results by opening an issue. Benchmarks should at least be one hour long.
+The below is deprecated since multithreading was implemented.<br><br>
+<s>Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dirty.py'>benchmark_dirty.py</a> for official benchmarking. Submit results by opening an issue. Benchmarks should at least be one hour long.
 <table>
     <thead>
         <tr>
@@ -175,6 +181,7 @@ Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dir
         </tr>
     </tbody>
 </table>
+</s>
 <hr>
 <h4>Screenshots</h4>
 <p align="center">

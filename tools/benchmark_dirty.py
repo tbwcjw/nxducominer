@@ -1,6 +1,8 @@
 #github/tbwcjw
 #quick and dirty benchmark tool for nxducominer using the nxlink server
 
+#this is DEPRECATED and will be removed in the future
+
 #things this can't do:
 #tell your switch model/firmware version
 #tell you the cflags used in compilation
