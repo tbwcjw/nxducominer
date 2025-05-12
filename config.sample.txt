@@ -7,3 +7,4 @@ rig_id:Nintendo Switch Miner
 cpu_boost:
 iot:
 threads:
+web_dashboard:

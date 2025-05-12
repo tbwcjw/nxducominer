@@ -12,6 +12,8 @@
 #include "jsmn.h"
 #include <curl/curl.h>
 #include <pthread.h>
+#include "dashboard.h"
+#include <errno.h>
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
@@ -47,6 +49,26 @@ void get_time_string(char* buffer, int size) {
 }
 
 typedef struct {
+    float total_hashrate;
+    int total_difficulty;
+    float avg_difficulty;
+    int total_shares;
+    int good_shares;
+    int bad_shares;
+    int blocks;
+} MiningResults;
+
+MiningResults mr = {
+    .total_hashrate = 0.0f,
+    .total_difficulty = 0,
+    .avg_difficulty = 0.0f,
+    .total_shares = 0,
+    .good_shares = 0,
+    .bad_shares = 0,
+    .blocks = 0
+};
+
+typedef struct {
     int socket_fd;
     int thread_id;
     float hashrate;
@@ -58,6 +80,18 @@ typedef struct {
 } ThreadData;
 
 typedef struct {
+    int server_fd;
+    int client_fd;
+    pthread_t wdThread;
+} WebDashboard;
+
+WebDashboard web = {
+    .server_fd = -1,
+    .client_fd = -1,
+    .wdThread = NULL
+};
+
+typedef struct {
     int last_share;
     u32 charge;
     s32 skinTempMilliC;
@@ -65,6 +99,7 @@ typedef struct {
     pthread_t* miningThreads;
     ThreadData* threadData;
     int single_miner_id;
+    WebDashboard* webDashboard;
 } ResourceManager;
 
 ResourceManager res = {
@@ -74,7 +109,8 @@ ResourceManager res = {
    .lock = PTHREAD_MUTEX_INITIALIZER,
    .miningThreads = NULL,
    .threadData = NULL,
-   .single_miner_id = 0
+   .single_miner_id = 0,
+   .webDashboard = &web
 };
 
 typedef struct {
@@ -87,6 +123,7 @@ typedef struct {
     bool cpu_boost;
     bool iot;
     int threads;
+    bool web_dashboard;
 } MiningConfig;
 
 MiningConfig mc = {
@@ -98,7 +135,8 @@ MiningConfig mc = {
    .port = 0,
    .cpu_boost = false,
    .iot = false,
-   .threads = 1
+   .threads = 1,
+   .web_dashboard = false
 };
 
 
@@ -140,6 +178,14 @@ void cleanup(char* msg) {
                 pthread_join(res.miningThreads[i], NULL);
             }
         }
+    }
+
+    //cleanup web dashboard
+    if (mc.web_dashboard) {
+        close(res.webDashboard->client_fd);
+        close(res.webDashboard->server_fd);
+        pthread_cancel(res.webDashboard->wdThread);
+        pthread_join(res.webDashboard->wdThread, NULL);
     }
 
     // free resources
@@ -243,6 +289,11 @@ void parseConfigFile(MiningConfig* config) {
             config->threads = atoi(value);
             if (config->threads < 1 || config->threads > 6)
                 cleanup("ERROR threads value out of range");
+        }
+        else if (strcmp(key, "web_dashboard") == 0) {
+            if (strlen(value) < 1)
+                cleanup("ERROR web_dashboard not set");
+            config->web_dashboard = (strcmp(value, "true") == 0) ? true : false;
         }
     }
     fclose(f);
@@ -352,18 +403,12 @@ void getNode(char** ip, int* port) {
     free(json_copy);
 }
 
-void socket_cleanup(void* fd_ptr) {
-    int fd = *(int*)fd_ptr;
-    if (fd >= 0) close(fd);
-}
 
 void* doMiningWork(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
     ThreadData* td = (ThreadData*)arg;
-    pthread_cleanup_push(socket_cleanup, &td->socket_fd);
-
     char recv_buf[BUFFER_SIZE];
     td->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (td->socket_fd < 0) {
@@ -488,9 +533,114 @@ void* doMiningWork(void* arg) {
             }
         }
     }
-    pthread_cleanup_pop(1);
     return NULL;
 }
+void replace_placeholder(char** str, const char* placeholder, const char* value) {
+    char* current = *str;
+    size_t placeholder_len = strlen(placeholder);
+    size_t value_len = strlen(value);
+
+    size_t new_len = strlen(current) + 1; 
+    char* result = malloc(new_len);
+    strcpy(result, current);
+
+    char* pos;
+    while ((pos = strstr(result, placeholder)) != NULL) {
+        size_t prefix_len = pos - result;
+        size_t suffix_len = strlen(pos + placeholder_len);
+        new_len = prefix_len + value_len + suffix_len + 1;
+
+        char* new_result = realloc(result, new_len);
+        if (!new_result) {
+            free(result);
+            return;
+        }
+        result = new_result;
+        pos = result + prefix_len; 
+
+        memmove(pos + value_len, pos + placeholder_len, suffix_len + 1);
+        memcpy(pos, value, value_len);
+    }
+
+    free(*str);
+    *str = result;
+}
+
+
+void* webDashboard(void* arg) {
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+
+    struct sockaddr_in address = { 0 };
+    int addrlen = sizeof(address);
+
+    if ((res.webDashboard->server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) == 0) {
+        cleanup("ERROR web dashboard socket failed.");
+    }
+
+    int opt = 1;
+    setsockopt(res.webDashboard->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(8080);
+
+    if (bind(res.webDashboard->server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
+        cleanup("ERROR failed to bind");
+    }
+
+    if (listen(res.webDashboard->server_fd, 3) < 0) {
+        cleanup("ERROR web dashboard socket failed to listen");
+    }
+
+    while (1) {
+        pthread_testcancel();
+
+        res.webDashboard->client_fd = accept(res.webDashboard->server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+        if (res.webDashboard->client_fd < 0) {
+            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                svcSleepThread(1000000);
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+        size_t html_len = strlen(html);
+        char* template = malloc(html_len + 1);
+        strcpy(template, html);
+        
+        char threads_buf[12];
+        char hashrate_buf[64];
+        char diff_buf[64];
+        char shares_buf[64];
+        char sensors_buf[48];
+
+
+        snprintf(hashrate_buf, sizeof(hashrate_buf), "%.2f", mr.total_hashrate);
+        snprintf(diff_buf, sizeof(diff_buf), "%d", (int)mr.avg_difficulty);
+        snprintf(shares_buf, sizeof(shares_buf), "%d", mr.total_shares);
+        snprintf(sensors_buf, sizeof(sensors_buf), "Temperature: %.2f*C Battery charge: %d%%", res.skinTempMilliC / 1000.0f, res.charge);
+        snprintf(threads_buf, sizeof(threads_buf), "%i", mc.threads);
+
+        replace_placeholder(&template, "@@DEVICE@@", "Nintendo Switch");
+        replace_placeholder(&template, "@@HASHRATE@@", hashrate_buf);
+        replace_placeholder(&template, "@@DIFF@@", diff_buf);
+        replace_placeholder(&template, "@@SHARES@@", shares_buf);
+        replace_placeholder(&template, "@@NODE@@", mc.node);
+        replace_placeholder(&template, "@@ID@@", mc.rig_id);
+        replace_placeholder(&template, "@@VERSION@@", APP_VERSION);
+        replace_placeholder(&template, "@@SENSOR@@", sensors_buf);
+        replace_placeholder(&template, "@@THREADS@@", threads_buf);
+
+        send(res.webDashboard->client_fd, template, strlen(template), 0);
+        free(template);
+        close(res.webDashboard->client_fd);
+        svcSleepThread(1000000);
+    }
+    return NULL;
+}
+
 int main() {
     consoleInit(NULL);
 
@@ -543,6 +693,14 @@ int main() {
         cleanup("ERROR: Memory allocation failed");
     }
 
+    //create web dashboard
+    if (mc.web_dashboard) {
+        if (pthread_create(&res.webDashboard->wdThread, NULL, webDashboard, (void*)res.webDashboard) != 0) {
+            cleanup("ERROR: Failed to start web dashboard thread");
+        }
+    }
+    
+
     // create mining threads
     for (int i = 0; i < mc.threads; i++) {
         res.threadData[i].hashrate = 0.0f;
@@ -579,22 +737,21 @@ int main() {
             psmrc = psmGetBatteryChargePercentage(&res.charge);
             tcrc = tcGetSkinTemperatureMilliC(&res.skinTempMilliC);
 
-            float total_hashrate = 0.0f;
-            int total_difficulty = 0;
-            float avg_difficulty = 0.0f;
-            int total_shares = 0;
-            int good_shares = 0;
-            int bad_shares = 0;
-            int blocks = 0;
+            mr.total_shares = 0;
+            mr.total_hashrate = 0;
+            mr.total_difficulty = 0;
+            mr.good_shares = 0;
+            mr.bad_shares = 0;
+            mr.blocks = 0;
             for (int i = 0; i < mc.threads; i++) {
-                total_hashrate += res.threadData[i].hashrate;
-                total_difficulty += res.threadData[i].difficulty;
-                total_shares += res.threadData[i].total_shares;
-                good_shares += res.threadData[i].good_shares;
-                bad_shares += res.threadData[i].bad_shares;
-                blocks += res.threadData[i].blocks;
+                mr.total_hashrate += res.threadData[i].hashrate;
+                mr.total_difficulty += res.threadData[i].difficulty;
+                mr.total_shares += res.threadData[i].total_shares;
+                mr.good_shares += res.threadData[i].good_shares;
+                mr.bad_shares += res.threadData[i].bad_shares;
+                mr.blocks += res.threadData[i].blocks;
             }
-            avg_difficulty = (float)total_difficulty / mc.threads;
+            mr.avg_difficulty = (float)mr.total_difficulty / mc.threads;
 
             printf(CONSOLE_ESC(2J)); // clear screen
 
@@ -617,16 +774,16 @@ int main() {
             }
             // row 6 lb
             printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
-            printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", total_hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
-            printf(CONSOLE_ESC(10;1H) "Difficulty: %d", (int)avg_difficulty);
+            printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", mr.total_hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
+            printf(CONSOLE_ESC(10;1H) "Difficulty: %d", (int)mr.avg_difficulty);
             // row 11 lb
             printf(CONSOLE_ESC(12;1H) "Shares");
             printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
-            printf(CONSOLE_ESC(14;1H) "|_ Total: %i", total_shares);
-            printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", good_shares);
-            printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", bad_shares);
-            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", good_shares, bad_shares, (int)((double)good_shares / total_shares * 100));
-            printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", blocks);
+            printf(CONSOLE_ESC(14;1H) "|_ Total: %i", mr.total_shares);
+            printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", mr.good_shares);
+            printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", mr.bad_shares);
+            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
+            printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", mr.blocks);
 
             pthread_mutex_unlock(&res.lock);
 

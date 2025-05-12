@@ -69,6 +69,11 @@
             <td><code>int</code><br></td>
             <td>Number of threads to mine on. Between 1 and 6.</td>
         </tr>
+        <tr>
+            <td><code>web_dashboard</code></td>
+            <td><code>bool</code><br></td>
+            <td>Either <code>true</code> or <code>false</code>. The web dashboard will run on port 8080 of the switch's IP address.</td>
+        </tr>
     </tbody>
 </table>
 <hr>
@@ -196,6 +201,8 @@ Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dir
 <i>Single Threaded</i><br>
 <img src="assets/nxducominer_screenshot_multithreaded.png"><br>
 <i>Multithreaded</i>
+<img src="assets/nxducominer_screenshot_dashboard.png"><br>
+<i>Web dashboard</i>
 </p>
 <hr>
 <h4>Credits</h4>
