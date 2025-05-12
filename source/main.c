@@ -664,6 +664,7 @@ int main() {
             printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
 
             lastDraw = currentTime;
+
             pthread_mutex_unlock(&res.lock);
             consoleUpdate(NULL);
         }

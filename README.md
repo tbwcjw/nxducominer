@@ -147,8 +147,7 @@
 </table>
 <hr>
 <h4>Benchmarking</h4>
-The below is deprecated since multithreading was implemented.<br><br>
-<s>Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dirty.py'>benchmark_dirty.py</a> for official benchmarking. Submit results by opening an issue. Benchmarks should at least be one hour long.
+Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dirty.py'>benchmark_dirty.py</a> for official benchmarking. Submit results by opening an issue. Benchmarks should at least be one hour long.
 <table>
     <thead>
         <tr>
@@ -179,15 +178,24 @@ The below is deprecated since multithreading was implemented.<br><br>
             <td><code>-o</code><br><code>--output</code></td>
             <td>Path to benchmark results.
             <br>
-            <i>Default: <code>nxducominer_benchmark.txt</code></i></td>
+            <i>Default: <code>nxducominer_benchmark.txt</code></i></<td>
+        </tr>
+        <tr>
+            <td><code>-og</code><br><code>--output-graph</code></td>
+            <td>Path to benchmark result graph.
+            <br>
+            <i>Default: <code>nxducominer_benchmark_graph.png</code></i></td>
         </tr>
     </tbody>
 </table>
-</s>
+
 <hr>
 <h4>Screenshots</h4>
 <p align="center">
 <img src="assets/nxducominer_screenshot.png">
+<i>Single Threaded</i><br>
+<img src="assets/nxducominer_screenshot_multithreaded.png"><br>
+<i>Multithreaded</i>
 </p>
 <hr>
 <h4>Credits</h4>
