@@ -32,11 +32,13 @@
 #define SET_DYNAMIC_STRING(field) \
             do { \
                 free(config->field); \
-                config->field = strdup(value); \
+                config->field = safe_strdup(value); \
                 if (config->field == NULL) { \
                     cleanup("ERROR Memory allocation failed"); \
                 } \
             } while(0)
+
+
 
 void get_time_string(char* buffer, int size) {
     time_t rawtime = time(NULL);
@@ -156,6 +158,31 @@ void cleanup(char* msg) {
     exit(0);
 }
 
+void* safe_malloc(size_t size) {
+    void* ptr = malloc(size);
+    if (!ptr) {
+        cleanup("ERROR Memory allocation failed");
+    }
+    memset(ptr, 0, size);
+    return ptr;
+}
+
+char* safe_strdup(const char* src) {
+    if (!src) return NULL;
+    char* dst = safe_malloc(strlen(src) + 1);
+    strcpy(dst, src);
+    return dst;
+}
+ssize_t safe_write(int fd, const char* buf, size_t len) {
+    ssize_t total = 0;
+    while (total < len) {
+        ssize_t sent = write(fd, buf + total, len - total);
+        if (sent <= 0) return -1;  //error
+        total += sent;
+    }
+    return total;
+}
+
 void parseConfigFile(MiningConfig* config) {
     printf("Reading %s\n", CONFIG_FILE);
     FILE* f = fopen(CONFIG_FILE, "r");
@@ -257,7 +284,7 @@ void getNode(char** ip, int* port) {
     CURLcode res;
 
     struct MemoryStruct chunk;
-    chunk.memory = malloc(1);  // start with empty buffer
+    chunk.memory = safe_malloc(1);  // start with empty buffer
     chunk.size = 0;
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -279,7 +306,7 @@ void getNode(char** ip, int* port) {
     }
 
     curl_easy_cleanup(curl);
-    char* json_copy = strdup(chunk.memory);
+    char* json_copy = safe_strdup(chunk.memory);
 
     jsmn_parser parser;
     jsmntok_t tokens[13];
@@ -297,7 +324,7 @@ void getNode(char** ip, int* port) {
                     char ip_str[16];
                     int length = tokens[i + 1].end - tokens[i + 1].start;
                     strncpy(ip_str, json_copy + tokens[i + 1].start, length);
-                    *ip = malloc(length + 1);
+                    *ip = safe_malloc(length + 1);
                     strncpy(*ip, json_copy + tokens[i + 1].start, length);
                     (*ip)[length] = '\0';
                     i++;
@@ -325,11 +352,18 @@ void getNode(char** ip, int* port) {
     free(json_copy);
 }
 
+void socket_cleanup(void* fd_ptr) {
+    int fd = *(int*)fd_ptr;
+    if (fd >= 0) close(fd);
+}
+
 void* doMiningWork(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
     ThreadData* td = (ThreadData*)arg;
+    pthread_cleanup_push(socket_cleanup, &td->socket_fd);
+
     char recv_buf[BUFFER_SIZE];
     td->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (td->socket_fd < 0) {
@@ -381,7 +415,7 @@ void* doMiningWork(void* arg) {
                 mc.wallet_address, mc.difficulty, mc.miner_key);
         }
 
-        write(td->socket_fd, job_request, strlen(job_request));
+        safe_write(td->socket_fd, job_request, strlen(job_request));
 
         // receive job
         memset(recv_buf, 0, BUFFER_SIZE);
@@ -436,7 +470,7 @@ void* doMiningWork(void* arg) {
                 char submit_buf[128];
                 int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s,,%i",
                     nonce, hashrate, SOFTWARE, mc.rig_id, res.single_miner_id);
-                write(td->socket_fd, submit_buf, len);
+                safe_write(td->socket_fd, submit_buf, len);
 
                 // read response
                 read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
@@ -454,10 +488,7 @@ void* doMiningWork(void* arg) {
             }
         }
     }
-    if (td->socket_fd >= 0) {
-        close(td->socket_fd);
-        td->socket_fd = -1;
-    }
+    pthread_cleanup_pop(1);
     return NULL;
 }
 int main() {
@@ -503,8 +534,8 @@ int main() {
     }
 
     // allocate thread data
-    res.miningThreads = malloc(mc.threads * sizeof(pthread_t));
-    res.threadData = malloc(mc.threads * sizeof(ThreadData));
+    res.miningThreads = safe_malloc(mc.threads * sizeof(pthread_t));
+    res.threadData = safe_malloc(mc.threads * sizeof(ThreadData));
     srand(time(NULL));
     res.single_miner_id = rand() % 2812;
 

@@ -3,7 +3,7 @@
 </p>
     <h2 align="center">nxducominer</h2>
 <p align="center">
-    A <a href='https://duinocoin.com'>DUCO</a> Miner for the Nintendo Switch.
+    A multithreaded <a href='https://duinocoin.com'>DUCO</a> Miner for the Nintendo Switch.
 </p>
 <p align="center">
     <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
@@ -126,6 +126,7 @@
             <th>App version</th>
             <th>CFLAGS</th>
             <th>CPU Boost</th>
+            <th>Threads</th>
             <th>Node (address:port)</th>
             <th>Shares /1hr</th>
             <th>Avg. Hashrate (estimated)</th>
@@ -133,6 +134,7 @@
     </thead>
     <tbody>
         <tr>
+            <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
             <td>TODO</td>
