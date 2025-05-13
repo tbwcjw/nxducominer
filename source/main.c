@@ -189,13 +189,11 @@ void cleanup(char* msg) {
     }
 
     // free resources
-    free(res.miningThreads);
-    free(res.threadData);
-    free(mc.difficulty);
-    free(mc.miner_key);
-    free(mc.node);
-    free(mc.rig_id);
-    free(mc.wallet_address);
+    if (mc.difficulty) free(mc.difficulty);
+    if (mc.miner_key) free(mc.miner_key);
+    if (mc.node) free(mc.node);
+    if (mc.rig_id) free(mc.rig_id);
+    if (mc.wallet_address) free(mc.wallet_address);
     
     psmExit();
     tcExit();
@@ -220,6 +218,8 @@ char* safe_strdup(const char* src) {
     return dst;
 }
 ssize_t safe_write(int fd, const char* buf, size_t len) {
+    if (fd < 0) return -1;
+
     ssize_t total = 0;
     while (total < len) {
         ssize_t sent = write(fd, buf + total, len - total);
@@ -334,6 +334,7 @@ void getNode(char** ip, int* port) {
     CURL* curl;
     CURLcode res;
 
+    char* json_copy = NULL;
     struct MemoryStruct chunk;
     chunk.memory = safe_malloc(1);  // start with empty buffer
     chunk.size = 0;
@@ -357,7 +358,12 @@ void getNode(char** ip, int* port) {
     }
 
     curl_easy_cleanup(curl);
-    char* json_copy = safe_strdup(chunk.memory);
+    json_copy = safe_strdup(chunk.memory);
+    if (!json_copy) {
+        curl_easy_cleanup(curl);
+        free(chunk.memory);
+        cleanup("ERROR: curl stdrup failed");
+    }
 
     jsmn_parser parser;
     jsmntok_t tokens[13];
@@ -365,6 +371,9 @@ void getNode(char** ip, int* port) {
 
     int ret = jsmn_parse(&parser, json_copy, strlen(json_copy), tokens, 13);
     if (ret < 0) {
+        free(json_copy);
+        free(chunk.memory);
+        curl_easy_cleanup(curl);
         cleanup("ERROR: failed to parse JSON");
     }
 
@@ -398,9 +407,9 @@ void getNode(char** ip, int* port) {
     consoleUpdate(NULL);
     sleep(2);
 
-    curl_global_cleanup();
     free(chunk.memory);
     free(json_copy);
+    curl_easy_cleanup(curl);
 }
 
 
@@ -536,6 +545,8 @@ void* doMiningWork(void* arg) {
     return NULL;
 }
 void replace_placeholder(char** str, const char* placeholder, const char* value) {
+    if (!str || !*str || !placeholder || !value) return;
+
     char* current = *str;
     size_t placeholder_len = strlen(placeholder);
     size_t value_len = strlen(value);
@@ -606,9 +617,9 @@ void* webDashboard(void* arg) {
                 break;
             }
         }
-        size_t html_len = strlen(html);
-        char* template = malloc(html_len + 1);
-        strcpy(template, html);
+
+        char* template = safe_strdup(html);
+        if (!template) return NULL;
         
         char threads_buf[12];
         char hashrate_buf[64];
@@ -733,7 +744,6 @@ int main() {
         if (difftime(currentTime, lastDraw) >= 2) {
             get_time_string(timebuf, sizeof(timebuf));
 
-            pthread_mutex_lock(&res.lock);
             psmrc = psmGetBatteryChargePercentage(&res.charge);
             tcrc = tcGetSkinTemperatureMilliC(&res.skinTempMilliC);
 
@@ -785,8 +795,6 @@ int main() {
             printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
             printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", mr.blocks);
 
-            pthread_mutex_unlock(&res.lock);
-
             //thread info
             if (mc.threads > 1) {
                 printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
@@ -822,7 +830,6 @@ int main() {
 
             lastDraw = currentTime;
 
-            pthread_mutex_unlock(&res.lock);
             consoleUpdate(NULL);
         }
         svcSleepThread(1000000);
