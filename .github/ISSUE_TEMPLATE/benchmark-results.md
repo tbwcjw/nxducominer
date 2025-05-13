@@ -2,7 +2,7 @@
 name: Benchmark Results
 about: Submit your benchmarking results
 title: "[Benchmark]"
-labels: ''
+labels: benchmark
 assignees: tbwcjw
 
 ---
