@@ -113,7 +113,7 @@
                 <li><s>Prevent switch from auto-sleeping in app.</s></li>
             </td>
             <td>
-                <li>Web dashboard, like the ESP32 miner</li>
+                <li><s>Web dashboard, like the ESP32 miner</s></li>
                 <li><s>Multithreading.</s></li>
             </td>
             <td>
@@ -139,14 +139,14 @@
     </thead>
     <tbody>
         <tr>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
-            <td>TODO</td>
+            <td><code>HAC-001</code><code>18.0.1|AMS 1.8.0|E</code></td>
+            <td><code>25.05.13_00.27</code></td>
+            <td><code>N/A</code> (Release)</td>
+            <td><code>true</code></td>
+            <td>3</td>
+            <td>152.53.38.31:7070</td>
+            <td>1212</td>
+            <td>583.24 kH/s</td>
         </tr>
     </tbody>
 </table>
