@@ -19,6 +19,9 @@ _example: `-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE -g -Wall 
 **CPU Boost:**
 _example: true_
 
+**Threads:**
+_example: 2_
+
 **Node (address:port):**
 _example: 152.53.38.31:7070_
 
