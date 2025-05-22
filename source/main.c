@@ -30,24 +30,6 @@
 
 #define CONSOLE_ESC_NSTR(fmt) "\033[" fmt
 
-
-#define SET_DYNAMIC_STRING(field) \
-            do { \
-                free(config->field); \
-                config->field = safe_strdup(value); \
-                if (config->field == NULL) { \
-                    cleanup("ERROR Memory allocation failed"); \
-                } \
-            } while(0)
-
-
-
-void get_time_string(char* buffer, int size) {
-    time_t rawtime = time(NULL);
-    struct tm* timeinfo = localtime(&rawtime);
-    strftime(buffer, size, "%H:%M:%S", timeinfo);
-}
-
 typedef struct {
     float total_hashrate;
     int total_difficulty;
@@ -82,35 +64,35 @@ typedef struct {
 typedef struct {
     int server_fd;
     int client_fd;
-    pthread_t wdThread;
+    pthread_t wd_thread;
 } WebDashboard;
 
 WebDashboard web = {
     .server_fd = -1,
     .client_fd = -1,
-    .wdThread = NULL
+    .wd_thread = NULL
 };
 
 typedef struct {
     int last_share;
     u32 charge;
-    s32 skinTempMilliC;
+    s32 skin_temp_milli_c;
     pthread_mutex_t lock;
-    pthread_t* miningThreads;
-    ThreadData* threadData;
+    pthread_t* mining_threads;
+    ThreadData* thread_data;
     int single_miner_id;
-    WebDashboard* webDashboard;
+    WebDashboard* web_dashboard;
 } ResourceManager;
 
 ResourceManager res = {
    .last_share = 0,
    .charge = 0,
-   .skinTempMilliC = 0,
+   .skin_temp_milli_c = 0,
    .lock = PTHREAD_MUTEX_INITIALIZER,
-   .miningThreads = NULL,
-   .threadData = NULL,
+   .mining_threads = NULL,
+   .thread_data = NULL,
    .single_miner_id = 0,
-   .webDashboard = &web
+   .web_dashboard = &web
 };
 
 typedef struct {
@@ -139,6 +121,10 @@ MiningConfig mc = {
    .web_dashboard = false
 };
 
+struct MemoryStruct {
+    char* memory;
+    size_t size;
+};
 
 void cleanup(char* msg) {
     if (msg == NULL) {
@@ -159,33 +145,34 @@ void cleanup(char* msg) {
     sleep(3);
 
     //cleanup threads
-    if (res.miningThreads != NULL) {
-        if (res.threadData != NULL) {
+    if (res.mining_threads != NULL) {
+        if (res.thread_data != NULL) {
             for (int i = 0; i < mc.threads; i++) {          //close sockets
-                if (res.threadData[i].socket_fd >= 0) {
-                    close(res.threadData[i].socket_fd);
-                    res.threadData[i].socket_fd = -1;
+                if (res.thread_data[i].socket_fd >= 0) {
+                    close(res.thread_data[i].socket_fd);
+                    res.thread_data[i].socket_fd = -1;
                 }
             }
         }
         for (int i = 0; i < mc.threads; i++) {              //cancel threads
-            if (res.miningThreads[i]) {
-                pthread_cancel(res.miningThreads[i]);
+            if (res.mining_threads[i]) {
+                pthread_cancel(res.mining_threads[i]);
             }
         }
         for (int i = 0; i < mc.threads; i++) {              //join threads
-            if (res.miningThreads[i]) {
-                pthread_join(res.miningThreads[i], NULL);
+            if (res.mining_threads[i]) {
+                pthread_join(res.mining_threads[i], NULL);
             }
         }
     }
 
     //cleanup web dashboard
     if (mc.web_dashboard) {
-        close(res.webDashboard->client_fd);
-        close(res.webDashboard->server_fd);
-        pthread_cancel(res.webDashboard->wdThread);
-        pthread_join(res.webDashboard->wdThread, NULL);
+        close(res.web_dashboard->client_fd);
+        close(res.web_dashboard->server_fd);
+        pthread_cancel(res.web_dashboard->wd_thread);
+        pthread_join(res.web_dashboard->wd_thread, NULL);
+        free(res.web_dashboard);
     }
 
     // free resources
@@ -200,6 +187,12 @@ void cleanup(char* msg) {
     socketExit();
     consoleExit(NULL);
     exit(0);
+}
+
+void get_time_string(char* buffer, int size) {
+    time_t raw_time = time(NULL);
+    struct tm* time_info = localtime(&raw_time);
+    strftime(buffer, size, "%H:%M:%S", time_info);
 }
 
 void* safe_malloc(size_t size) {
@@ -217,6 +210,15 @@ char* safe_strdup(const char* src) {
     strcpy(dst, src);
     return dst;
 }
+
+void set_dynamic_string(char** field, const char* value) {
+    free(*field);
+    *field = safe_strdup(value);
+    if (*field == NULL) {
+        cleanup("ERROR Memory allocation failed");
+    }
+}
+
 ssize_t safe_write(int fd, const char* buf, size_t len) {
     if (fd < 0) return -1;
 
@@ -229,15 +231,15 @@ ssize_t safe_write(int fd, const char* buf, size_t len) {
     return total;
 }
 
-void parseConfigFile(MiningConfig* config) {
+void parse_config_file(MiningConfig* config) {
     printf("Reading %s\n", CONFIG_FILE);
-    FILE* f = fopen(CONFIG_FILE, "r");
-    if (f == NULL) {
+    FILE* file = fopen(CONFIG_FILE, "r");
+    if (file == NULL) {
         cleanup("Failed to open config file");
     }
 
     char line[100];
-    while (fgets(line, sizeof(line), f) != NULL) {
+    while (fgets(line, sizeof(line), file) != NULL) {
         line[strcspn(line, "\r\n")] = '\0';
         char* sep = strchr(line, ':');
         if (!sep) continue;
@@ -252,7 +254,7 @@ void parseConfigFile(MiningConfig* config) {
         consoleUpdate(NULL);
 
         if (strcmp(key, "node") == 0) {
-            SET_DYNAMIC_STRING(node);
+            set_dynamic_string(&config->node, value);
         }
         else if (strcmp(key, "port") == 0) {
             config->port = atoi(value);
@@ -260,20 +262,20 @@ void parseConfigFile(MiningConfig* config) {
         else if (strcmp(key, "wallet_address") == 0) {
             if (strlen(value) < 1)
                 cleanup("ERROR wallet_address not set");
-            SET_DYNAMIC_STRING(wallet_address);
+            set_dynamic_string(&config->wallet_address, value);
         }
         else if (strcmp(key, "miner_key") == 0) {
-            SET_DYNAMIC_STRING(miner_key);
+            set_dynamic_string(&config->miner_key, value);
         }
         else if (strcmp(key, "difficulty") == 0) {
             if (strlen(value) < 1)
                 cleanup("ERROR difficulty not set");
-            SET_DYNAMIC_STRING(difficulty);
+            set_dynamic_string(&config->difficulty, value);
         }
         else if (strcmp(key, "rig_id") == 0) {
             if (strlen(value) < 1)
                 cleanup("ERROR rig_id not set");
-            SET_DYNAMIC_STRING(rig_id);
+            set_dynamic_string(&config->rig_id, value);
         }
         else if (strcmp(key, "cpu_boost") == 0) {
             if (strlen(value) < 1)
@@ -296,16 +298,11 @@ void parseConfigFile(MiningConfig* config) {
             config->web_dashboard = (strcmp(value, "true") == 0) ? true : false;
         }
     }
-    fclose(f);
+    fclose(file);
     printf("File parsing completed");
 }
 
-struct MemoryStruct {
-    char* memory;
-    size_t size;
-};
-
-static size_t WriteMemoryCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+static size_t write_memory_callback(void* contents, size_t size, size_t nmemb, void* userp) {
     size_t realsize = size * nmemb;
     struct MemoryStruct* mem = (struct MemoryStruct*)userp;
 
@@ -325,7 +322,7 @@ static size_t WriteMemoryCallback(void* contents, size_t size, size_t nmemb, voi
     return realsize;
 }
 
-void getNode(char** ip, int* port) {
+void get_node(char** ip, int* port) {
     printf(CONSOLE_ESC(2J));
     printf(CONSOLE_ESC(1;1H) "Finding a node from master server...");
     consoleUpdate(NULL);
@@ -348,7 +345,7 @@ void getNode(char** ip, int* port) {
 
     curl_easy_setopt(curl, CURLOPT_URL, GET_POOL);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libnx curl nxducominer");
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_memory_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*)&chunk);
 
     res = curl_easy_perform(curl);
@@ -413,7 +410,7 @@ void getNode(char** ip, int* port) {
 }
 
 
-void* doMiningWork(void* arg) {
+void* do_mining_work(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
@@ -454,7 +451,7 @@ void* doMiningWork(void* arg) {
         pthread_testcancel();
 
         char iot[26];
-        snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skinTempMilliC / 1000.0f);
+        snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
 
         // request job
         char job_request[128];
@@ -473,8 +470,8 @@ void* doMiningWork(void* arg) {
 
         // receive job
         memset(recv_buf, 0, BUFFER_SIZE);
-        int n = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
-        if (n <= 0) break;
+        int read_job = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+        if (read_job <= 0) break;
 
         // split job parts
         char* job_parts[3];
@@ -578,37 +575,37 @@ void replace_placeholder(char** str, const char* placeholder, const char* value)
 }
 
 
-void* webDashboard(void* arg) {
+void* web_dashboard(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
     struct sockaddr_in address = { 0 };
     int addrlen = sizeof(address);
 
-    if ((res.webDashboard->server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) == 0) {
+    if ((res.web_dashboard->server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) == 0) {
         cleanup("ERROR web dashboard socket failed.");
     }
 
     int opt = 1;
-    setsockopt(res.webDashboard->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(res.web_dashboard->server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(8080);
 
-    if (bind(res.webDashboard->server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
+    if (bind(res.web_dashboard->server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
         cleanup("ERROR failed to bind");
     }
 
-    if (listen(res.webDashboard->server_fd, 3) < 0) {
+    if (listen(res.web_dashboard->server_fd, 3) < 0) {
         cleanup("ERROR web dashboard socket failed to listen");
     }
 
     while (1) {
         pthread_testcancel();
 
-        res.webDashboard->client_fd = accept(res.webDashboard->server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
-        if (res.webDashboard->client_fd < 0) {
+        res.web_dashboard->client_fd = accept(res.web_dashboard->server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+        if (res.web_dashboard->client_fd < 0) {
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
                 svcSleepThread(1000000);
                 continue;
@@ -631,7 +628,7 @@ void* webDashboard(void* arg) {
         snprintf(hashrate_buf, sizeof(hashrate_buf), "%.2f", mr.total_hashrate);
         snprintf(diff_buf, sizeof(diff_buf), "%d", (int)mr.avg_difficulty);
         snprintf(shares_buf, sizeof(shares_buf), "%d", mr.total_shares);
-        snprintf(sensors_buf, sizeof(sensors_buf), "Temperature: %.2f*C Battery charge: %d%%", res.skinTempMilliC / 1000.0f, res.charge);
+        snprintf(sensors_buf, sizeof(sensors_buf), "Temperature: %.2f*C Battery charge: %d%%", res.skin_temp_milli_c / 1000.0f, res.charge);
         snprintf(threads_buf, sizeof(threads_buf), "%i", mc.threads);
 
         replace_placeholder(&template, "@@DEVICE@@", "Nintendo Switch");
@@ -644,9 +641,9 @@ void* webDashboard(void* arg) {
         replace_placeholder(&template, "@@SENSOR@@", sensors_buf);
         replace_placeholder(&template, "@@THREADS@@", threads_buf);
 
-        send(res.webDashboard->client_fd, template, strlen(template), 0);
+        send(res.web_dashboard->client_fd, template, strlen(template), 0);
         free(template);
-        close(res.webDashboard->client_fd);
+        close(res.web_dashboard->client_fd);
         svcSleepThread(1000000);
     }
     return NULL;
@@ -668,13 +665,13 @@ int main() {
     nxlinkStdio();
 
     // parse config
-    parseConfigFile(&mc);
+    parse_config_file(&mc);
     consoleUpdate(NULL);
     sleep(1);
 
     // find a node if node not set
     if (mc.node == NULL || mc.port == 0) {
-        getNode(&mc.node, &mc.port);
+        get_node(&mc.node, &mc.port);
     }
 
     // toggle CPU boost
@@ -695,18 +692,19 @@ int main() {
     }
 
     // allocate thread data
-    res.miningThreads = safe_malloc(mc.threads * sizeof(pthread_t));
-    res.threadData = safe_malloc(mc.threads * sizeof(ThreadData));
+    res.mining_threads = safe_malloc(mc.threads * sizeof(pthread_t));
+    res.thread_data = safe_malloc(mc.threads * sizeof(ThreadData));
     srand(time(NULL));
     res.single_miner_id = rand() % 2812;
 
-    if (!res.miningThreads || !res.threadData) {
+    if (!res.mining_threads || !res.thread_data) {
         cleanup("ERROR: Memory allocation failed");
     }
 
     //create web dashboard
     if (mc.web_dashboard) {
-        if (pthread_create(&res.webDashboard->wdThread, NULL, webDashboard, (void*)res.webDashboard) != 0) {
+        res.web_dashboard = malloc(sizeof(WebDashboard));
+        if (pthread_create(&res.web_dashboard->wd_thread, NULL, web_dashboard, (void*)res.web_dashboard) != 0) {
             cleanup("ERROR: Failed to start web dashboard thread");
         }
     }
@@ -714,22 +712,22 @@ int main() {
 
     // create mining threads
     for (int i = 0; i < mc.threads; i++) {
-        res.threadData[i].hashrate = 0.0f;
-        res.threadData[i].difficulty = 0;
-        res.threadData[i].bad_shares = 0;
-        res.threadData[i].good_shares = 0;
-        res.threadData[i].total_shares = 0;
-        res.threadData[i].blocks = 0;
-        res.threadData[i].thread_id = i;
-        res.threadData[i].socket_fd = -1; 
-        if (pthread_create(&res.miningThreads[i], NULL, doMiningWork, (void*)&res.threadData[i]) != 0) {
+        res.thread_data[i].hashrate = 0.0f;
+        res.thread_data[i].difficulty = 0;
+        res.thread_data[i].bad_shares = 0;
+        res.thread_data[i].good_shares = 0;
+        res.thread_data[i].total_shares = 0;
+        res.thread_data[i].blocks = 0;
+        res.thread_data[i].thread_id = i;
+        res.thread_data[i].socket_fd = -1; 
+        if (pthread_create(&res.mining_threads[i], NULL, do_mining_work, (void*)&res.thread_data[i]) != 0) {
             cleanup("ERROR: Failed to start mining thread");
         }
         sleep(1); // stagger thread creation
     }
 
     char timebuf[16];
-    time_t lastDraw = 0;
+    time_t last_draw = 0;
     while (appletMainLoop()) {
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
@@ -738,14 +736,14 @@ int main() {
             cleanup(NULL);
             break;
         }
-        time_t currentTime;
-        time(&currentTime);
+        time_t current_time;
+        time(&current_time);
 
-        if (difftime(currentTime, lastDraw) >= 2) {
+        if (difftime(current_time, last_draw) >= 2) {
             get_time_string(timebuf, sizeof(timebuf));
 
             psmrc = psmGetBatteryChargePercentage(&res.charge);
-            tcrc = tcGetSkinTemperatureMilliC(&res.skinTempMilliC);
+            tcrc = tcGetSkinTemperatureMilliC(&res.skin_temp_milli_c);
 
             mr.total_shares = 0;
             mr.total_hashrate = 0;
@@ -754,12 +752,12 @@ int main() {
             mr.bad_shares = 0;
             mr.blocks = 0;
             for (int i = 0; i < mc.threads; i++) {
-                mr.total_hashrate += res.threadData[i].hashrate;
-                mr.total_difficulty += res.threadData[i].difficulty;
-                mr.total_shares += res.threadData[i].total_shares;
-                mr.good_shares += res.threadData[i].good_shares;
-                mr.bad_shares += res.threadData[i].bad_shares;
-                mr.blocks += res.threadData[i].blocks;
+                mr.total_hashrate += res.thread_data[i].hashrate;
+                mr.total_difficulty += res.thread_data[i].difficulty;
+                mr.total_shares += res.thread_data[i].total_shares;
+                mr.good_shares += res.thread_data[i].good_shares;
+                mr.bad_shares += res.thread_data[i].bad_shares;
+                mr.blocks += res.thread_data[i].blocks;
             }
             mr.avg_difficulty = (float)mr.total_difficulty / mc.threads;
 
@@ -776,11 +774,11 @@ int main() {
                 printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery charge: %u%%" RESET, res.charge);
             }
 
-            if (res.skinTempMilliC / 1000.0f > 55.0f) {
-                printf(CONSOLE_ESC(5;1H) ERROR_RED "Temperature: %.2f C" RESET, res.skinTempMilliC / 1000.0f);
+            if (res.skin_temp_milli_c / 1000.0f > 55.0f) {
+                printf(CONSOLE_ESC(5;1H) ERROR_RED "Temperature: %.2f C" RESET, res.skin_temp_milli_c / 1000.0f);
             }
             else {
-                printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", res.skinTempMilliC / 1000.0f);
+                printf(CONSOLE_ESC(5;1H) "Temperature: %.2f C", res.skin_temp_milli_c / 1000.0f);
             }
             // row 6 lb
             printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
@@ -792,7 +790,8 @@ int main() {
             printf(CONSOLE_ESC(14;1H) "|_ Total: %i", mr.total_shares);
             printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", mr.good_shares);
             printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", mr.bad_shares);
-            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
+            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", 
+                mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
             printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", mr.blocks);
 
             //thread info
@@ -800,9 +799,10 @@ int main() {
                 printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
                 int startLine = 21;
                 for (int i = 0; i < mc.threads; i++) {
-                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ Hashrate: %.2f kH/s", startLine + (i * 4), i, res.threadData[i].hashrate);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.threadData[i].difficulty);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2, res.threadData[i].good_shares, res.threadData[i].bad_shares);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ Hashrate: %.2f kH/s", startLine + (i * 4), i, res.thread_data[i].hashrate);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2,
+                        res.thread_data[i].good_shares, res.thread_data[i].bad_shares);
                 }
             }
 
@@ -828,7 +828,7 @@ int main() {
             //version string
             printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
 
-            lastDraw = currentTime;
+            last_draw = current_time;
 
             consoleUpdate(NULL);
         }
