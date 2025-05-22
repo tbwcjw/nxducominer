@@ -197,10 +197,8 @@ Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dir
 <hr>
 <h4>Screenshots</h4>
 <p align="center">
-<img src="assets/nxducominer_screenshot.png">
-<i>Single Threaded</i><br>
 <img src="assets/nxducominer_screenshot_multithreaded.png"><br>
-<i>Multithreaded</i>
+<i>Application</i>
 <img src="assets/nxducominer_screenshot_dashboard.png"><br>
 <i>Web dashboard</i>
 </p>

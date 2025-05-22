@@ -14,6 +14,7 @@
 #include <pthread.h>
 #include "dashboard.h"
 #include <errno.h>
+#include <stdatomic.h>
 
 #define CONFIG_FILE "config.txt"
 #define BUFFER_SIZE 1024
@@ -59,6 +60,9 @@ typedef struct {
     int good_shares;
     int bad_shares;
     int blocks;
+    char* error; 
+    sig_atomic_t stop_mining;
+
 } ThreadData;
 
 typedef struct {
@@ -126,14 +130,10 @@ struct MemoryStruct {
     size_t size;
 };
 
+
 void cleanup(char* msg) {
     if (msg == NULL) {
-        if (mc.threads > 1) {
-            printf(CONSOLE_ESC(80;1H) "Waiting for threads to exit...");
-        }
-        else {
-            printf(CONSOLE_ESC(80;1H) "Exiting...");
-        }
+        printf(CONSOLE_ESC(80;1H) "Exiting...");
         consoleUpdate(NULL);
     }
     else {
@@ -145,29 +145,28 @@ void cleanup(char* msg) {
     sleep(3);
 
     //cleanup threads
-    if (res.mining_threads != NULL) {
-        if (res.thread_data != NULL) {
-            for (int i = 0; i < mc.threads; i++) {          //close sockets
-                if (res.thread_data[i].socket_fd >= 0) {
-                    close(res.thread_data[i].socket_fd);
-                    res.thread_data[i].socket_fd = -1;
-                }
+    if (res.mining_threads && res.thread_data) {
+        for (int i = 0; i < mc.threads; i++) {
+            if (res.thread_data[i].socket_fd >= 0) {
+                close(res.thread_data[i].socket_fd);                //close sockets
+                res.thread_data[i].socket_fd = -1;
+            }
+            res.thread_data[i].stop_mining = 1;                     //set atomic signal
+
+            if (res.mining_threads[i]) {
+                pthread_cancel(res.mining_threads[i]);              //cancel threads
             }
         }
-        for (int i = 0; i < mc.threads; i++) {              //cancel threads
+
+        for (int i = 0; i < mc.threads; i++) {
             if (res.mining_threads[i]) {
-                pthread_cancel(res.mining_threads[i]);
-            }
-        }
-        for (int i = 0; i < mc.threads; i++) {              //join threads
-            if (res.mining_threads[i]) {
-                pthread_join(res.mining_threads[i], NULL);
+                pthread_join(res.mining_threads[i], NULL);          //join threads
             }
         }
     }
 
     //cleanup web dashboard
-    if (mc.web_dashboard) {
+    if (mc.web_dashboard && res.web_dashboard->wd_thread != NULL) {
         close(res.web_dashboard->client_fd);
         close(res.web_dashboard->server_fd);
         pthread_cancel(res.web_dashboard->wd_thread);
@@ -350,7 +349,6 @@ void get_node(char** ip, int* port) {
 
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        curl_easy_cleanup(curl);
         cleanup("ERROR: curl failed");
     }
 
@@ -368,8 +366,8 @@ void get_node(char** ip, int* port) {
 
     int ret = jsmn_parse(&parser, json_copy, strlen(json_copy), tokens, 13);
     if (ret < 0) {
-        free(json_copy);
-        free(chunk.memory);
+        if(json_copy) free(json_copy);
+        if(chunk.memory) free(chunk.memory);
         curl_easy_cleanup(curl);
         cleanup("ERROR: failed to parse JSON");
     }
@@ -404,11 +402,9 @@ void get_node(char** ip, int* port) {
     consoleUpdate(NULL);
     sleep(2);
 
-    free(chunk.memory);
-    free(json_copy);
-    curl_easy_cleanup(curl);
+    if(chunk.memory) free(chunk.memory);
+    if(json_copy) free(json_copy);
 }
-
 
 void* do_mining_work(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
@@ -416,128 +412,142 @@ void* do_mining_work(void* arg) {
 
     ThreadData* td = (ThreadData*)arg;
     char recv_buf[BUFFER_SIZE];
-    td->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (td->socket_fd < 0) {
-        char buf[256];
-        snprintf(buf, sizeof(buf), "ERROR thread %d failed to create socket", td->thread_id);
-        cleanup(buf);
 
-        return NULL;
-    }
-
-    struct hostent* server = gethostbyname(mc.node);
-    if (!server) {
-        char buf[256];
-        snprintf(buf, sizeof(buf), "ERROR thread %d socket no such host", td->thread_id);
-        cleanup(buf);
-        return NULL;
-    }
-
-    struct sockaddr_in serv_addr;
-    memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(mc.port);
-    memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
-
-    if (connect(td->socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-        char buf[256];
-        snprintf(buf, sizeof(buf), "ERROR thread %d failed to connect", td->thread_id);
-        cleanup(buf);
-        return NULL;
-    }
-    read(td->socket_fd, recv_buf, sizeof(4));
-
-    while (1) {
-        pthread_testcancel();
-
-        char iot[26];
-        snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
-
-        // request job
-        char job_request[128];
-        if (mc.iot && td->thread_id == 0) { //only send iot information on one thread
-            snprintf(job_request, sizeof(job_request),
-                "JOB,%s,%s,%s,%s",
-                mc.wallet_address, mc.difficulty, mc.miner_key, iot);
-        }
-        else {
-            snprintf(job_request, sizeof(job_request),
-                "JOB,%s,%s,%s",
-                mc.wallet_address, mc.difficulty, mc.miner_key);
-        }
-
-        safe_write(td->socket_fd, job_request, strlen(job_request));
-
-        // receive job
-        memset(recv_buf, 0, BUFFER_SIZE);
-        int read_job = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
-        if (read_job <= 0) break;
-
-        // split job parts
-        char* job_parts[3];
-        char* token = strtok(recv_buf, ",");
-        for (int i = 0; i < 3 && token; i++) {
-            job_parts[i] = token;
-            token = strtok(NULL, ",");
-        }
-
-        int difficulty = atoi(job_parts[2]);
-        char base_str[128];
-        char expected_hash[41];
-        strcpy(base_str, job_parts[0]);
-        strcpy(expected_hash, job_parts[1]);
-
-        // initialize sha1 context
-        Sha1Context base_ctx;
-        Sha1Context temp_ctx;
-        sha1ContextCreate(&base_ctx);
-        sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
-
-        time_t start_time = time(NULL);
-        char result_hash[41];
-        int nonce;
-
-        for (nonce = 0; nonce <= (100 * difficulty + 1); nonce++) {
+    while (!td->stop_mining) {
+        reconnect:
             pthread_testcancel();
-
-            unsigned char hash[20];
-            char result_str[16];
-
-            temp_ctx = base_ctx;  // copy base_ctx to temp_ctx
-            int len = sprintf(result_str, "%d", nonce);
-            sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
-            sha1ContextGetHash(&temp_ctx, hash);
-
-            // compare hash
-            for (int i = 0; i < 20; i++) {
-                snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
+            int s = socket(AF_INET, SOCK_STREAM, 0);
+            if (s < 0) {
+                char errbuf[256];
+                snprintf(errbuf, sizeof(errbuf), "Socket creation failed: %s", strerror(errno));
+                td->error = safe_strdup(errbuf);
+                td->socket_fd = -1;
+                sleep(1);
+                continue;
+            }
+            else {
+                td->socket_fd = s;
             }
 
-            if (memcmp(result_hash, expected_hash, 20) == 0) {
-                double elapsed = difftime(time(NULL), start_time);
-                double hashrate = nonce / (elapsed > 0 ? elapsed : 1);
-
-                // send result
-                char submit_buf[128];
-                int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s,,%i",
-                    nonce, hashrate, SOFTWARE, mc.rig_id, res.single_miner_id);
-                safe_write(td->socket_fd, submit_buf, len);
-
-                // read response
-                read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
-
-                if (strncmp(recv_buf, "GOOD", 4) == 0) td->good_shares++;
-                else if (strncmp(recv_buf, "BLOCK", 5) == 0) td->blocks++;
-                else td->bad_shares++;
-
-                res.last_share = nonce;
-                td->difficulty = difficulty;
-                td->hashrate = hashrate / 1000.0f;
-                td->total_shares++;
-
-                break;
+            struct hostent* server = gethostbyname(mc.node);
+            if (!server) {
+                td->error = safe_strdup("No such host");
+                close(td->socket_fd);
+                sleep(1);
+                continue;
             }
-        }
+
+            struct sockaddr_in serv_addr;
+            memset(&serv_addr, 0, sizeof(serv_addr));
+            serv_addr.sin_family = AF_INET;
+            serv_addr.sin_port = htons(mc.port);
+            memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+
+            if (connect(td->socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+                td->error = safe_strdup("Failed to connect to host");
+                close(td->socket_fd);
+                sleep(1);
+                continue;
+            }
+            read(td->socket_fd, recv_buf, sizeof(4));
+
+            td->error = NULL; //if we got to this point, errors from above are no longer applicable
+            while (!td->stop_mining) {
+                pthread_testcancel();
+
+                char iot[26];
+                snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
+
+                // request job
+                char job_request[128];
+                if (mc.iot && td->thread_id == 0) { //only send iot information on one thread
+                    snprintf(job_request, sizeof(job_request),
+                        "JOB,%s,%s,%s,%s",
+                        mc.wallet_address, mc.difficulty, mc.miner_key, iot);
+                }
+                else {
+                    snprintf(job_request, sizeof(job_request),
+                        "JOB,%s,%s,%s",
+                        mc.wallet_address, mc.difficulty, mc.miner_key);
+                }
+
+                int write_job = safe_write(td->socket_fd, job_request, strlen(job_request));
+                if (write_job <= 0) goto reconnect;
+
+                // receive job
+                memset(recv_buf, 0, BUFFER_SIZE);
+                int read_job = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+                if (read_job <= 0) goto reconnect;
+
+                // split job parts
+                char* job_parts[3];
+                char* token = strtok(recv_buf, ",");
+                for (int i = 0; i < 3 && token; i++) {
+                    job_parts[i] = token;
+                    token = strtok(NULL, ",");
+                }
+
+                int difficulty = atoi(job_parts[2]);
+                char base_str[128];
+                char expected_hash[41];
+                strcpy(base_str, job_parts[0]);
+                strcpy(expected_hash, job_parts[1]);
+
+                // initialize sha1 context
+                Sha1Context base_ctx;
+                Sha1Context temp_ctx;
+                sha1ContextCreate(&base_ctx);
+                sha1ContextUpdate(&base_ctx, (const unsigned char*)base_str, strlen(base_str));
+
+                time_t start_time = time(NULL);
+                char result_hash[41];
+                int nonce;
+
+                for (nonce = 0; nonce <= (100 * difficulty + 1); nonce++) {
+                    pthread_testcancel();
+
+                    unsigned char hash[20];
+                    char result_str[16];
+
+                    temp_ctx = base_ctx;  // copy base_ctx to temp_ctx
+                    int len = sprintf(result_str, "%d", nonce);
+                    sha1ContextUpdate(&temp_ctx, (const unsigned char*)result_str, len);
+                    sha1ContextGetHash(&temp_ctx, hash);
+
+                    // compare hash
+                    for (int i = 0; i < 20; i++) {
+                        snprintf(result_hash + (i * 2), 3, "%02x", hash[i]);
+                    }
+
+                    if (memcmp(result_hash, expected_hash, 20) == 0) {
+                        double elapsed = difftime(time(NULL), start_time);
+                        double hashrate = nonce / (elapsed > 0 ? elapsed : 1);
+
+                        // send result
+                        char submit_buf[128];
+                        int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s,,%i",
+                            nonce, hashrate, SOFTWARE, mc.rig_id, res.single_miner_id);
+                        int write_result = safe_write(td->socket_fd, submit_buf, len);
+                        if (write_result <= 0) goto reconnect;
+                        // read response
+                        int read_result = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+                        if(read_result <= 0) goto reconnect;
+
+                        if (strncmp(recv_buf, "GOOD", 4) == 0) td->good_shares++;
+                        else if (strncmp(recv_buf, "BLOCK", 5) == 0) td->blocks++;
+                        else td->bad_shares++;
+
+                        res.last_share = nonce;
+                        td->difficulty = difficulty;
+                        td->hashrate = hashrate / 1000.0f;
+                        td->total_shares++;
+
+                        break;
+                    }
+                    td->error = NULL;
+                }
+            }
+        return NULL;
     }
     return NULL;
 }
@@ -662,6 +672,8 @@ int main() {
     appletSetTvPowerStateMatchingMode(AppletTvPowerStateMatchingMode_Unknown1);
 
     socketInitializeDefault();
+
+    //for nxlink server
     nxlinkStdio();
 
     // parse config
@@ -695,7 +707,7 @@ int main() {
     res.mining_threads = safe_malloc(mc.threads * sizeof(pthread_t));
     res.thread_data = safe_malloc(mc.threads * sizeof(ThreadData));
     srand(time(NULL));
-    res.single_miner_id = rand() % 2812;
+    res.single_miner_id = rand() % 2812; ///< this is to combine multithreaded workloads to appear as one single device in the wallet.
 
     if (!res.mining_threads || !res.thread_data) {
         cleanup("ERROR: Memory allocation failed");
@@ -720,6 +732,8 @@ int main() {
         res.thread_data[i].blocks = 0;
         res.thread_data[i].thread_id = i;
         res.thread_data[i].socket_fd = -1; 
+        res.thread_data[i].error = NULL;
+        res.thread_data[i].stop_mining = 0;
         if (pthread_create(&res.mining_threads[i], NULL, do_mining_work, (void*)&res.thread_data[i]) != 0) {
             cleanup("ERROR: Failed to start mining thread");
         }
@@ -764,7 +778,7 @@ int main() {
             printf(CONSOLE_ESC(2J)); // clear screen
 
             printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
-            printf(CONSOLE_ESC(2;1H) "Connected to %s:%i", mc.node, mc.port);
+            printf(CONSOLE_ESC(2;1H) "Node: %s:%i", mc.node, mc.port);
             printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
 
             if (res.charge > 25) {
@@ -794,11 +808,19 @@ int main() {
                 mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
             printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", mr.blocks);
 
-            //thread info
-            if (mc.threads > 1) {
-                printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
-                int startLine = 21;
-                for (int i = 0; i < mc.threads; i++) {
+            //thread info - removed alternate formatting for singlethreaded.
+            printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
+            int startLine = 21;
+            for (int i = 0; i < mc.threads; i++) {
+                if (res.thread_data[i].error) {
+                    printf(ERROR_RED);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ ERROR: %s", startLine + (i * 4), i, res.thread_data[i].error);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2,
+                        res.thread_data[i].good_shares, res.thread_data[i].bad_shares);
+                    printf(RESET);
+                }
+                else {
                     printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ Hashrate: %.2f kH/s", startLine + (i * 4), i, res.thread_data[i].hashrate);
                     printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
                     printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2,
