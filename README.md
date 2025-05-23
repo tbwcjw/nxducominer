@@ -135,6 +135,7 @@
             <th>Node (address:port)</th>
             <th>Shares /1hr</th>
             <th>Avg. Hashrate (estimated)</th>
+            <th>Avg. Difficulty</th>
         </tr>
     </thead>
     <tbody>
@@ -147,6 +148,7 @@
             <td>152.53.38.31:7070</td>
             <td>1212</td>
             <td>583.24 kH/s</td>
+            <td>32000</td>
         </tr>
     </tbody>
 </table>
