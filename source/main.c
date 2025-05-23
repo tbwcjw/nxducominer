@@ -17,14 +17,12 @@
 #include <stdatomic.h>
 
 #define CONFIG_FILE "config.txt"
-#define BUFFER_SIZE 1024
 #define SOFTWARE "nxducominer"
 #define GET_POOL "https://server.duinocoin.com/getPool"
 
 //                              bg m red gre blu 
 #define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)
 #define ERROR_RED CONSOLE_ESC(31m)
-#define WARNING_ORANGE CONSOLE_ESC(38;2;255;165;0m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define DARK_GREY CONSOLE_ESC(38;2;90;90;90m)
 #define RESET CONSOLE_ESC(0m)
@@ -411,7 +409,7 @@ void* do_mining_work(void* arg) {
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
     ThreadData* td = (ThreadData*)arg;
-    char recv_buf[BUFFER_SIZE];
+    char recv_buf[1024];
 
     while (!td->stop_mining) {
         reconnect:
@@ -475,8 +473,8 @@ void* do_mining_work(void* arg) {
                 if (write_job <= 0) goto reconnect;
 
                 // receive job
-                memset(recv_buf, 0, BUFFER_SIZE);
-                int read_job = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+                memset(recv_buf, 0, 1024);
+                int read_job = read(td->socket_fd, recv_buf, 1024 - 1);
                 if (read_job <= 0) goto reconnect;
 
                 // split job parts
@@ -530,7 +528,7 @@ void* do_mining_work(void* arg) {
                         int write_result = safe_write(td->socket_fd, submit_buf, len);
                         if (write_result <= 0) goto reconnect;
                         // read response
-                        int read_result = read(td->socket_fd, recv_buf, BUFFER_SIZE - 1);
+                        int read_result = read(td->socket_fd, recv_buf, 1024 - 1);
                         if(read_result <= 0) goto reconnect;
 
                         if (strncmp(recv_buf, "GOOD", 4) == 0) td->good_shares++;
