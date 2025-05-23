@@ -25,6 +25,7 @@
 #define ERROR_RED CONSOLE_ESC(31m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define DARK_GREY CONSOLE_ESC(38;2;90;90;90m)
+#define LIGHT_GREY CONSOLE_ESC(38;2;135;135;135m)
 #define RESET CONSOLE_ESC(0m)
 
 #define CONSOLE_ESC_NSTR(fmt) "\033[" fmt
@@ -78,6 +79,7 @@ WebDashboard web = {
 typedef struct {
     int last_share;
     u32 charge;
+    char* chargeType;
     s32 skin_temp_milli_c;
     pthread_mutex_t lock;
     pthread_t* mining_threads;
@@ -89,6 +91,7 @@ typedef struct {
 ResourceManager res = {
    .last_share = 0,
    .charge = 0,
+   .chargeType = 0,
    .skin_temp_milli_c = 0,
    .lock = PTHREAD_MUTEX_INITIALIZER,
    .mining_threads = NULL,
@@ -128,15 +131,17 @@ struct MemoryStruct {
     size_t size;
 };
 
-
 void cleanup(char* msg) {
+    printf(CONSOLE_ESC(80;1H));     //move cursor
+    printf(CONSOLE_ESC(2K));        //clear line
+
     if (msg == NULL) {
         printf(CONSOLE_ESC(80;1H) "Exiting...");
         consoleUpdate(NULL);
     }
     else {
         printf(ERROR_RED);
-        printf(CONSOLE_ESC(80;1H) "%s. Exiting...", msg);
+        printf(CONSOLE_ESC(80;1H) "ERROR: %s. Exiting...", msg);
         printf(RESET);
         consoleUpdate(NULL);
     }
@@ -186,6 +191,16 @@ void cleanup(char* msg) {
     exit(0);
 }
 
+const char* get_psm_charger_type(PsmChargerType type) {
+    switch (type) {
+    case PsmChargerType_Unconnected:   return "discharging";
+    case PsmChargerType_EnoughPower:   return "charging";
+    case PsmChargerType_LowPower:      return "charging slowly";
+    case PsmChargerType_NotSupported:  return "plugged in, not charging";
+    default:                           return "unknown charger state";
+    }
+}
+
 void get_time_string(char* buffer, int size) {
     time_t raw_time = time(NULL);
     struct tm* time_info = localtime(&raw_time);
@@ -195,7 +210,7 @@ void get_time_string(char* buffer, int size) {
 void* safe_malloc(size_t size) {
     void* ptr = malloc(size);
     if (!ptr) {
-        cleanup("ERROR Memory allocation failed");
+        cleanup("memory allocation failed");
     }
     memset(ptr, 0, size);
     return ptr;
@@ -212,7 +227,7 @@ void set_dynamic_string(char** field, const char* value) {
     free(*field);
     *field = safe_strdup(value);
     if (*field == NULL) {
-        cleanup("ERROR Memory allocation failed");
+        cleanup("memory allocation failed");
     }
 }
 
@@ -258,7 +273,7 @@ void parse_config_file(MiningConfig* config) {
         }
         else if (strcmp(key, "wallet_address") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR wallet_address not set");
+                cleanup("wallet_address not set");
             set_dynamic_string(&config->wallet_address, value);
         }
         else if (strcmp(key, "miner_key") == 0) {
@@ -266,32 +281,32 @@ void parse_config_file(MiningConfig* config) {
         }
         else if (strcmp(key, "difficulty") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR difficulty not set");
+                cleanup("difficulty not set");
             set_dynamic_string(&config->difficulty, value);
         }
         else if (strcmp(key, "rig_id") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR rig_id not set");
+                cleanup("rig_id not set");
             set_dynamic_string(&config->rig_id, value);
         }
         else if (strcmp(key, "cpu_boost") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR cpu_boost not set");
+                cleanup("cpu_boost not set");
             config->cpu_boost = (strcmp(value, "true") == 0) ? true : false;
         }
         else if (strcmp(key, "iot") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR iot not set");
+                cleanup("iot not set");
             config->iot = (strcmp(value, "true") == 0) ? true : false;
         }
         else if (strcmp(key, "threads") == 0) {
             config->threads = atoi(value);
             if (config->threads < 1 || config->threads > 6)
-                cleanup("ERROR threads value out of range");
+                cleanup("threads value out of range");
         }
         else if (strcmp(key, "web_dashboard") == 0) {
             if (strlen(value) < 1)
-                cleanup("ERROR web_dashboard not set");
+                cleanup("web_dashboard not set");
             config->web_dashboard = (strcmp(value, "true") == 0) ? true : false;
         }
     }
@@ -337,7 +352,7 @@ void get_node(char** ip, int* port) {
     curl = curl_easy_init();
 
     if (!curl) {
-        cleanup("ERROR: curl init failed");
+        cleanup("curl init failed");
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, GET_POOL);
@@ -347,7 +362,7 @@ void get_node(char** ip, int* port) {
 
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        cleanup("ERROR: curl failed");
+        cleanup("curl failed");
     }
 
     curl_easy_cleanup(curl);
@@ -355,7 +370,7 @@ void get_node(char** ip, int* port) {
     if (!json_copy) {
         curl_easy_cleanup(curl);
         free(chunk.memory);
-        cleanup("ERROR: curl stdrup failed");
+        cleanup("curl stdrup failed");
     }
 
     jsmn_parser parser;
@@ -367,7 +382,7 @@ void get_node(char** ip, int* port) {
         if(json_copy) free(json_copy);
         if(chunk.memory) free(chunk.memory);
         curl_easy_cleanup(curl);
-        cleanup("ERROR: failed to parse JSON");
+        cleanup("failed to parse JSON");
     }
 
     for (int i = 1; i < ret; i++) {
@@ -531,9 +546,15 @@ void* do_mining_work(void* arg) {
                         int read_result = read(td->socket_fd, recv_buf, 1024 - 1);
                         if(read_result <= 0) goto reconnect;
 
-                        if (strncmp(recv_buf, "GOOD", 4) == 0) td->good_shares++;
-                        else if (strncmp(recv_buf, "BLOCK", 5) == 0) td->blocks++;
-                        else td->bad_shares++;
+                        if (strncmp(recv_buf, "GOOD", 4) == 0) {
+                            td->good_shares++;
+                        }
+                        else if (strncmp(recv_buf, "BLOCK", 5) == 0) {
+                            td->blocks++;
+                        }
+                        else {
+                            td->bad_shares++;
+                        }
 
                         res.last_share = nonce;
                         td->difficulty = difficulty;
@@ -591,7 +612,7 @@ void* web_dashboard(void* arg) {
     int addrlen = sizeof(address);
 
     if ((res.web_dashboard->server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) == 0) {
-        cleanup("ERROR web dashboard socket failed.");
+        cleanup("web dashboard socket failed.");
     }
 
     int opt = 1;
@@ -602,11 +623,11 @@ void* web_dashboard(void* arg) {
     address.sin_port = htons(8080);
 
     if (bind(res.web_dashboard->server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
-        cleanup("ERROR failed to bind");
+        cleanup("failed to bind");
     }
 
     if (listen(res.web_dashboard->server_fd, 3) < 0) {
-        cleanup("ERROR web dashboard socket failed to listen");
+        cleanup("web dashboard socket failed to listen");
     }
 
     while (1) {
@@ -692,13 +713,13 @@ int main() {
     // init temperature
     Result tcrc = tcInitialize();
     if (R_FAILED(tcrc)) {
-        cleanup("ERROR: failed to initialize tc");
+        cleanup("failed to initialize tc");
     }
 
     // init battery management
     Result psmrc = psmInitialize();
     if (R_FAILED(psmrc)) {
-        cleanup("ERROR: failed to initialize psm");
+        cleanup("failed to initialize psm");
     }
 
     // allocate thread data
@@ -708,14 +729,14 @@ int main() {
     res.single_miner_id = rand() % 2812; ///< this is to combine multithreaded workloads to appear as one single device in the wallet.
 
     if (!res.mining_threads || !res.thread_data) {
-        cleanup("ERROR: Memory allocation failed");
+        cleanup("memory allocation failed");
     }
 
     //create web dashboard
     if (mc.web_dashboard) {
         res.web_dashboard = malloc(sizeof(WebDashboard));
         if (pthread_create(&res.web_dashboard->wd_thread, NULL, web_dashboard, (void*)res.web_dashboard) != 0) {
-            cleanup("ERROR: Failed to start web dashboard thread");
+            cleanup("failed to start web dashboard thread");
         }
     }
     
@@ -733,7 +754,7 @@ int main() {
         res.thread_data[i].error = NULL;
         res.thread_data[i].stop_mining = 0;
         if (pthread_create(&res.mining_threads[i], NULL, do_mining_work, (void*)&res.thread_data[i]) != 0) {
-            cleanup("ERROR: Failed to start mining thread");
+            cleanup("failed to start mining thread");
         }
         sleep(1); // stagger thread creation
     }
@@ -754,7 +775,15 @@ int main() {
         if (difftime(current_time, last_draw) >= 2) {
             get_time_string(timebuf, sizeof(timebuf));
 
+            //charging behavior
+            PsmChargerType chargeType;
+            psmrc = psmGetChargerType(&chargeType);
+            res.chargeType = safe_strdup(get_psm_charger_type(chargeType));
+
+            //charge percentage
             psmrc = psmGetBatteryChargePercentage(&res.charge);
+            
+            //temp
             tcrc = tcGetSkinTemperatureMilliC(&res.skin_temp_milli_c);
 
             mr.total_shares = 0;
@@ -775,15 +804,16 @@ int main() {
 
             printf(CONSOLE_ESC(2J)); // clear screen
 
-            printf(CONSOLE_ESC(1;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
-            printf(CONSOLE_ESC(2;1H) "Node: %s:%i", mc.node, mc.port);
-            printf(CONSOLE_ESC(3;1H) "Current Time: %s", timebuf);
+            printf(CONSOLE_ESC(1;1H) "Node: %s:%i", mc.node, mc.port);
+            printf(CONSOLE_ESC(2;1H) "Current Time: %s", timebuf);
+
+            //row 3 lb
 
             if (res.charge > 25) {
-                printf(CONSOLE_ESC(4;1H) "Battery charge: %u%%", res.charge);
+                printf(CONSOLE_ESC(4;1H) "Battery Level: %u%% (%s)", res.charge, res.chargeType);
             }
             else {
-                printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery charge: %u%%" RESET, res.charge);
+                printf(CONSOLE_ESC(4;1H) ERROR_RED "Battery Level: %u%% " RESET " (%s)" , res.charge, res.chargeType);
             }
 
             if (res.skin_temp_milli_c / 1000.0f > 55.0f) {
@@ -794,34 +824,34 @@ int main() {
             }
             // row 6 lb
             printf(CONSOLE_ESC(7;1H)  "Rig ID: %s", mc.rig_id);
+            //row 8 lb
             printf(CONSOLE_ESC(9;1H)  "Hashrate: %.2f kH/s %s", mr.total_hashrate, mc.cpu_boost ? "(CPU Boosted)" : "");
             printf(CONSOLE_ESC(10;1H) "Difficulty: %d", (int)mr.avg_difficulty);
             // row 11 lb
             printf(CONSOLE_ESC(12;1H) "Shares");
-            printf(CONSOLE_ESC(13;1H) "|_ Last share: %i", res.last_share);
-            printf(CONSOLE_ESC(14;1H) "|_ Total: %i", mr.total_shares);
-            printf(CONSOLE_ESC(15;1H) "|_ Accepted: %i", mr.good_shares);
-            printf(CONSOLE_ESC(16;1H) "|_ Rejected: %i", mr.bad_shares);
-            printf(CONSOLE_ESC(17;1H) "|_ Accepted %i/%i Rejected (%d%% Accepted)", 
+            printf(CONSOLE_ESC(13;1H) LIGHT_GREY "|_ " RESET "Last share: %i", res.last_share);
+            printf(CONSOLE_ESC(14;1H) LIGHT_GREY "|_ " RESET "Total: %i", mr.total_shares);
+            printf(CONSOLE_ESC(15;1H) LIGHT_GREY "|_ " RESET "Accepted: %i", mr.good_shares);
+            printf(CONSOLE_ESC(16;1H) LIGHT_GREY "|_ " RESET "Rejected: %i", mr.bad_shares);
+            printf(CONSOLE_ESC(17;1H) LIGHT_GREY "|_ " RESET "Accepted %i/%i Rejected (%d%% Accepted)",
                 mr.good_shares, mr.bad_shares, (int)((double)mr.good_shares / mr.total_shares * 100));
-            printf(CONSOLE_ESC(18;1H) "|_ Blocks Found: %i", mr.blocks);
-
+            printf(CONSOLE_ESC(18;1H) LIGHT_GREY "|_ " RESET "Blocks Found: %i", mr.blocks);
+            //row 19 lb
             //thread info - removed alternate formatting for singlethreaded.
             printf(CONSOLE_ESC(20;1H) "Threads (%i)", mc.threads);
             int startLine = 21;
             for (int i = 0; i < mc.threads; i++) {
                 if (res.thread_data[i].error) {
-                    printf(ERROR_RED);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ ERROR: %s", startLine + (i * 4), i, res.thread_data[i].error);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2,
+                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i" LIGHT_GREY "|_ " ERROR_RED "ERROR: %s", startLine + (i * 4), i, res.thread_data[i].error);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") LIGHT_GREY " |_ " ERROR_RED "Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") LIGHT_GREY " |_ " ERROR_RED "Accepted %i/%i Rejected", startLine + (i * 4) + 2,
                         res.thread_data[i].good_shares, res.thread_data[i].bad_shares);
                     printf(RESET);
                 }
                 else {
-                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i|_ Hashrate: %.2f kH/s", startLine + (i * 4), i, res.thread_data[i].hashrate);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
-                    printf(CONSOLE_ESC_NSTR("%d;1H") " |_ Accepted %i/%i Rejected", startLine + (i * 4) + 2,
+                    printf(CONSOLE_ESC_NSTR("%d;1H") "%i" LIGHT_GREY "|_ " RESET "Hashrate: %.2f kH/s", startLine + (i * 4), i, res.thread_data[i].hashrate);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") LIGHT_GREY " |_ " RESET "Difficulty: %i", startLine + (i * 4) + 1, res.thread_data[i].difficulty);
+                    printf(CONSOLE_ESC_NSTR("%d;1H") LIGHT_GREY " |_ " RESET "Accepted %i/%i Rejected", startLine + (i * 4) + 2,
                         res.thread_data[i].good_shares, res.thread_data[i].bad_shares);
                 }
             }
@@ -847,6 +877,10 @@ int main() {
 
             //version string
             printf(CONSOLE_ESC(80;67H) DARK_GREY "%s" RESET, APP_VERSION);
+            
+            //exit helper
+            printf(CONSOLE_ESC(80;1H) NOTICE_BLUE "Press [+] to exit..." RESET);
+
 
             last_draw = current_time;
 
