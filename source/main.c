@@ -468,11 +468,11 @@ void* do_mining_work(void* arg) {
             while (!td->stop_mining) {
                 pthread_testcancel();
 
-                char iot[26];
+                char iot[64];
                 snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
 
                 // request job
-                char job_request[128];
+                char job_request[256];
                 if (mc.iot && td->thread_id == 0) { //only send iot information on one thread
                     snprintf(job_request, sizeof(job_request),
                         "JOB,%s,%s,%s,%s",
