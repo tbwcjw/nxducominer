@@ -7,7 +7,7 @@
 </p>
 <p align="center">
     <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
-    <img alt="HB App Store" src="https://tinyurl.com/yu25uyvs">
+    <img alt="HB App Store" src="https://tinyurl.com/2p9s5ama">
 
 </p>
 <hr>
