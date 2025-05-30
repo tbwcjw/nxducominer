@@ -7,8 +7,9 @@
 </p>
 <p align="center">
     <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
-    <img alt="HB App Store" src="https://tinyurl.com/2p9s5ama">
-
+    <a href='https://hb-app.store/switch/NXDucoMiner'>
+        <img alt="HB App Store" src="https://tinyurl.com/2p9s5ama">
+    </a>
 </p>
 <hr>
 <h4>Setup</h4>
