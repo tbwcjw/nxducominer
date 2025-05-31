@@ -6,10 +6,11 @@
     A multithreaded <a href='https://duinocoin.com'>DUCO</a> Miner for the Nintendo Switch.
 </p>
 <p align="center">
-    <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-orange?link=https%3A%2F%2Ftbwcjw.github.io%2Fnxducominer">
+    <img src="https://github.com/tbwcjw/nxducominer/actions/workflows/c.yml/badge.svg?event=push"> 
     <a href='https://hb-app.store/switch/NXDucoMiner'>
         <img alt="HB App Store" src="https://tinyurl.com/2p9s5ama">
-    </a>
+    </a> 
 </p>
 <hr>
 <h4>Setup</h4>
