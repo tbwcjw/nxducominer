@@ -1,2 +1,3140 @@
 AutoGen Definitions dummy;
-dummy_value = true;
+struct = {
+  cp-id     = 'structMemoryStruct';
+  cp-name   = 'MemoryStruct';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMemoryStruct_1a2bd6d68918bc5a61a6c59af45597b073';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'memory';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '153';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+ptr to allocated memory
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        sec-mem-ref-line = '466';
+        sec-mem-ref-name = 'get_node';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
+        sec-mem-ref-line = '323';
+        sec-mem-ref-name = 'write_memory_callback';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMemoryStruct_1a854352f53b148adc24983a58a1866d66';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+size_t
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'size';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '154';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+size of allocated memory
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        sec-mem-ref-line = '466';
+        sec-mem-ref-name = 'get_node';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
+        sec-mem-ref-line = '323';
+        sec-mem-ref-name = 'write_memory_callback';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '152';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+memory buffer for CURL operation
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+struct = {
+  cp-id     = 'structMiningConfig';
+  cp-name   = 'MiningConfig';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a8f7d7c16685b871807018607b8609df6';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'node';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '124';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        sec-mem-ref-line = '466';
+        sec-mem-ref-name = 'get_node';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a63c89c04d1feae07ca35558055155ffb';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'port';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '125';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        sec-mem-ref-line = '466';
+        sec-mem-ref-name = 'get_node';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a0953bb963182e341d847373e037ca6aa';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'wallet_address';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '126';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1ae121b13122af13bd206ff8a3647460f9';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'miner_key';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '127';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a5e1f4217a9effc8f1ffae394acc987d2';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'difficulty';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '128';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a206687312b9b5a03e6dc2502efbb4d8d';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'rig_id';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '129';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a99259000b03780b40789a18abe451a66';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+bool
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'cpu_boost';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '130';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a77e91bd15ae58f4e9edaf7fe7964d31a';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+bool
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'iot';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '131';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a4f987a98d3e1221916748962e45399fe';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'threads';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '132';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1ac3264a3e934cbc9f9d90334c4b830b89';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+bool
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'web_dashboard';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '133';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        sec-mem-ref-line = '388';
+        sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '123';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+mining configuration from config file
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+struct = {
+  cp-id     = 'structMiningResults';
+  cp-name   = 'MiningResults';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1a49f672d785c9fa3f3cbafcd70ee196d2';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+float
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'total_hashrate';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '42';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+combined hashrate (kH/s)
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1ac386a6f4eb87338fde75e99987ba2f36';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'total_difficulty';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '43';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+combined difficulty
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1ad7776c6a9684b19710849baf6e7a9c1c';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+float
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'avg_difficulty';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '44';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+average difficulty
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1af08d03939b77a42549a45785446b8c6e';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'total_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '45';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+shares submitted
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1a688c4716aeb795a0099110342323b2dd';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'good_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '46';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+shares accepted
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1ad3c4f11064c890e932b49137a4dbcd79';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'bad_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '47';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+shares rejected
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningResults_1ac5ebc9432ec58d54aff086e0b5137b2f';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'blocks';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '48';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+blocks found
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '41';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+aggregated mining results of all threads
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+struct = {
+  cp-id     = 'structResourceManager';
+  cp-name   = 'ResourceManager';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1a5b447ebad02a1f5cc7462e2dd5f0d842';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'last_share';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '97';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+last nonce value submitted
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1a609753dd1d11398cea7d9ab361022f4e';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+u32
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'charge';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '98';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+raw charge
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1abb97c0b0e41d36d46a77888148ad83c7';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'chargeType';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '99';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+charger type string
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1afd6fb8da251c0d2403a5fed796c6a750';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+s32
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'skin_temp_milli_c';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '100';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+temp in milliC
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1a0abaf4b5d42c4e5d19190035fade3599';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+pthread_mutex_t
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'lock';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '101';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+UNUSED.
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1a66b2bdd4b4b1b2d2870e07cc19cf970a';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+pthread_t *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'mining_threads';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '102';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+array of mining threads
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1af85a1051c69ba459c317ee69cb786e86';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+ThreadData *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'thread_data';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '103';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+array of thread-specific data
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1ae1df77b8cd4b60fb207008c7652c20a1';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'single_miner_id';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '104';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+single id for all threads, to display as a single device in wallet
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structResourceManager_1ad543f36723528d537ef1258ad2798293';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+WebDashboard *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'web_dashboard';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '105';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '96';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+resource manager for system-wide state
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+  cp-collaborationgraph = <<_EnD_oF_dEf_TeXt_
+      node = {
+        node-id    = 1;
+        node-label = 'ResourceManager';
+        node-link = {
+          node-link-id = 'structResourceManager';
+        };
+        node-child = {
+          child-id = '2';
+          relation = usage;
+          edgelabel = <<_EnD_oF_dEf_TeXt_
+thread_data
+_EnD_oF_dEf_TeXt_;
+        }; /* node-child */
+        node-child = {
+          child-id = '3';
+          relation = usage;
+          edgelabel = <<_EnD_oF_dEf_TeXt_
+web_dashboard
+_EnD_oF_dEf_TeXt_;
+        }; /* node-child */
+      }; /* node */
+      node = {
+        node-id    = 2;
+        node-label = 'ThreadData';
+        node-link = {
+          node-link-id = 'structThreadData';
+        };
+      }; /* node */
+      node = {
+        node-id    = 3;
+        node-label = 'WebDashboard';
+        node-link = {
+          node-link-id = 'structWebDashboard';
+        };
+      }; /* node */
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+struct = {
+  cp-id     = 'structThreadData';
+  cp-name   = 'ThreadData';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1ad02424c03e4b1b3ddbdb78d829489ac3';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'socket_fd';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '65';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1ab488bfc5d1f76143651f915915046354';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'thread_id';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '66';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1ac62b57a27d1d663f0fee645e5dbb833a';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+float
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'hashrate';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '67';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1a016a5d341f375d13639c75bf5987fb23';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'difficulty';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '68';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1af08d03939b77a42549a45785446b8c6e';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'total_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '69';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1a688c4716aeb795a0099110342323b2dd';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'good_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '70';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1ad3c4f11064c890e932b49137a4dbcd79';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'bad_shares';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '71';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1ac5ebc9432ec58d54aff086e0b5137b2f';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'blocks';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '72';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1a37a27b523e8aff433c8a4adda2295f0d';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'error';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '73';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structThreadData_1a9d54f1c50afeb7d34c15608375c5f369';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+sig_atomic_t
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'stop_mining';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '74';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        sec-mem-ref-line = '556';
+        sec-mem-ref-name = 'do_mining_work';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '64';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+thread-specific mining data and state
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+struct = {
+  cp-id     = 'structWebDashboard';
+  cp-name   = 'WebDashboard';
+  cp-section = {
+    sec-kind = 'public-attrib';
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structWebDashboard_1a6cf4711aa7ecd548b03b6e50d44b5aa6';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'server_fd';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '82';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structWebDashboard_1ae4f1c36e2c0e305e54a0de1d107bf9ef';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'client_fd';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '83';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        sec-mem-ref-line = '713';
+        sec-mem-ref-name = 'web_dashboard';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structWebDashboard_1ab5dea7762ed08c80191fa8ab2b1b85e3';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+pthread_t
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'wd_thread';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '84';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '163';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '792';
+        sec-mem-ref-name = 'main';
+    };
+    }; /* sec-member */
+  }; /* cp-section */
+  cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  cp-fileline  = '81';
+  cp-briefdesc = <<_EnD_oF_dEf_TeXt_
+web dashboard server information
+_EnD_oF_dEf_TeXt_;
+  cp-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* struct */
+file = {
+  file-id   = 'dashboard_8h';
+  file-name = 'dashboard.h';
+    var = {
+    var-member = {
+      var-mem-kind = 'variable';
+      var-mem-id   = 'dashboard_8h_1a65a2564825311dc0ee8187d3d93422fb';
+      var-mem-virt = normal;
+      var-mem-prot = public;
+      var-mem-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+      var-mem-name = 'html';
+      var-mem-initializer = <<_EnD_oF_dEf_TeXt_
+=
+"HTTP/1.1 200 OK\r\n"
+"Content-Type: text/html\r\n\r\n"
+"<!DOCTYPE html>"
+"<html>"
+"<!--"
+"    Duino-Coin self-hosted dashboard"
+"    MIT licensed"
+"    The Duino-Coin Team, 2019-present"
+"    https://github.com/revoxhere/duino-coin"
+"    https://duinocoin.com"
+"-->"
+"<head>"
+"    <meta charset='utf-8'>"
+"    <meta name='viewport' content='width=device-width, initial-scale=1'>"
+"    <title>Duino-Coin @@DEVICE@@ dashboard</title>"
+"    <link rel='stylesheet' href='https://server.duinocoin.com/assets/css/mystyles.css'>"
+"    <link rel='shortcut icon' href='https://github.com/revoxhere/duino-coin/blob/master/Resources/duco.png?raw=true'>"
+"    <link rel='icon' type='image/png' href='https://github.com/revoxhere/duino-coin/blob/master/Resources/duco.png?raw=true'>"
+"</head>"
+"<body>"
+"    <section class='section'>"
+"        <div class='container'>"
+"            <h1 class='title'>"
+"                <img class='icon' src='https://github.com/revoxhere/duino-coin/blob/master/Resources/duco.png?raw=true'>"
+"                @@DEVICE@@ <small>(@@ID@@)</small>"
+"            </h1>"
+"            <p class='subtitle'>"
+"                Self-hosted, lightweight dashboard for your <strong>Duino-Coin</strong> miner"
+"            </p>"
+"        </div>"
+"        <br>"
+"        <div class='container'>"
+"            <div class='columns'>"
+"                <div class='column'>"
+"                    <div class='box'>"
+"                        <p class='subtitle'>"
+"                            Mining statistics"
+"                        </p>"
+"                        <div class='columns is-multiline'>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    <span id='hashratex'>@@HASHRATE@@</span> kH/s"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Hashrate"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@DIFF@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Difficulty"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@SHARES@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Shares"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@THREADS@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Threads"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@NODE@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Node"
+"                                </div>"
+"                            </div>"
+"                        </div>"
+"                    </div>"
+"                </div>"
+"                <div class='column'>"
+"                    <div class='box'>"
+"                        <p class='subtitle'>"
+"                            Device information"
+"                        </p>"
+"                        <div class='columns is-multiline'>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@DEVICE@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Device type"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@ID@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Device ID"
+"                                </div>"
+"                            </div>"
+"                            <div class='column' style='min-width:15em'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@VERSION@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Miner version"
+"                                </div>"
+"                            </div>"
+"                        </div>"
+"                        <div class='columns'>"
+"                            <div class='column'>"
+"                                <div class='title is-size-5 mb-0'>"
+"                                    @@SENSOR@@"
+"                                </div>"
+"                                <div class='heading is-size-5'>"
+"                                    Sensor reading(s)"
+"                                </div>"
+"                            </div>"
+"                        </div>"
+"                    </div>"
+"                </div>"
+"            </div>"
+"            <br>"
+"            <div class='has-text-centered'>"
+"                <div class='title is-size-6 mb-0'>"
+"                    <a href='https://duinocoin.com'>"
+"                        duinocoin.com"
+"                    </a>"
+"                    &bull;"
+"                    <a href='https://github.com/revoxhere/duino-coin'>"
+"                        github.com/revoxhere/duino-coin"
+"                    </a>&bull; MIT License"
+"                    <br>"
+"                    <a href='https://github.com/tbwcjw/nxducominer/'>"
+"                        github.com/tbwcjw/nxducominer/"
+"                    </a>&bull; GPLv3 License"
+"                </div>"
+"            </div>"
+"        </div>"
+"    </section>"
+"</body>"
+"</html>"
+_EnD_oF_dEf_TeXt_;
+      var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/dashboard.h';
+      var-mem-desc-line = '4';
+      var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        var-mem-ref-line = '713';
+        var-mem-ref-name = 'web_dashboard';
+    };
+    }; /* var-member */
+    };
+  file-full-name  = '/home/runner/work/nxducominer/nxducominer/source/dashboard.h';
+  file-first-line = '1';
+  file-briefdesc  = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+  file-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* file */
+file = {
+  file-id   = 'main_8c';
+  file-name = 'main.c';
+    define = {
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a42bf63540ee0039a3a23db1b5ec3202b';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'CONFIG_FILE';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+"config.txt"
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '19';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+config file/path
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1ad19fce15d3295ab86d386a21e31cddd9';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'SOFTWARE';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+"nxducominer"
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '20';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+software identifier
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a02f8b76019d9757228d49665f3afb667';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'GET_POOL';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+"https://server.duinocoin.com/getPool"
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '21';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+pool server url
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a3cd0228904b247a4b0665e689147a903';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'DUCO_ORANGE';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(38;2;252;104;3m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '24';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+duinocoin branding https://github.com/revoxhere/duino-coin/tree/useful-tools#branding
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1ae0109f39fbbe4a4da9374d72d7031803';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'ERROR_RED';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(31m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '25';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a8ea7e55ff833604b0f7beacedb800291';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'NOTICE_BLUE';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(38;2;135;206;235m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '26';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a85998c833c5007dc61315ea69919582e';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'DARK_GREY';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(38;2;90;90;90m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '27';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1acafbbc051d018cffe2fcddcbf778c304';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'LIGHT_GREY';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(38;2;135;135;135m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '28';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1ab702106cf3b3e96750b6845ded4e0299';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'RESET';
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+CONSOLE_ESC(0m)
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '29';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    define-member = {
+      define-mem-kind = 'define';
+      define-mem-id   = 'main_8c_1a78cceb1838e486f2b62e13b40bf45f60';
+      define-mem-virt = normal;
+      define-mem-prot = public;
+      define-mem-name = 'CONSOLE_ESC_NSTR';
+      define-mem-param  = {
+        define-mem-def-name = 'fmt';
+      }; /*        define-mem-def--param */
+      define-mem-initializer = <<_EnD_oF_dEf_TeXt_
+"\033[" fmt
+_EnD_oF_dEf_TeXt_;
+      define-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      define-mem-desc-line = '31';
+      define-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+console escape helper, does not stringify.
+_EnD_oF_dEf_TeXt_;
+      define-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* define-member */
+    };
+    func = {
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'cleanup';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'msg';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '163';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+clean up resources and exit
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param msg optional error message to display before exiting
+@note This function terminates the program
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae4f1c36e2c0e305e54a0de1d107bf9ef';
+        func-mem-ref-line = '83';
+        func-mem-ref-name = 'WebDashboard::client_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
+        func-mem-ref-line = '128';
+        func-mem-ref-name = 'MiningConfig::difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae0109f39fbbe4a4da9374d72d7031803';
+        func-mem-ref-line = '25';
+        func-mem-ref-name = 'ERROR_RED';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+        func-mem-ref-line = '136';
+        func-mem-ref-name = 'mc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
+        func-mem-ref-line = '127';
+        func-mem-ref-name = 'MiningConfig::miner_key';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a66b2bdd4b4b1b2d2870e07cc19cf970a';
+        func-mem-ref-line = '102';
+        func-mem-ref-name = 'ResourceManager::mining_threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga8f27657c3f95ec846907704f3e2fb660';
+        func-mem-ref-line = '108';
+        func-mem-ref-name = 'res';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab702106cf3b3e96750b6845ded4e0299';
+        func-mem-ref-line = '29';
+        func-mem-ref-name = 'RESET';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
+        func-mem-ref-line = '129';
+        func-mem-ref-name = 'MiningConfig::rig_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a6cf4711aa7ecd548b03b6e50d44b5aa6';
+        func-mem-ref-line = '82';
+        func-mem-ref-name = 'WebDashboard::server_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad02424c03e4b1b3ddbdb78d829489ac3';
+        func-mem-ref-line = '65';
+        func-mem-ref-name = 'ThreadData::socket_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a9d54f1c50afeb7d34c15608375c5f369';
+        func-mem-ref-line = '74';
+        func-mem-ref-name = 'ThreadData::stop_mining';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af85a1051c69ba459c317ee69cb786e86';
+        func-mem-ref-line = '103';
+        func-mem-ref-name = 'ResourceManager::thread_data';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
+        func-mem-ref-line = '132';
+        func-mem-ref-name = 'MiningConfig::threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::wallet_address';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab5dea7762ed08c80191fa8ab2b1b85e3';
+        func-mem-ref-line = '84';
+        func-mem-ref-name = 'WebDashboard::wd_thread';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad543f36723528d537ef1258ad2798293';
+        func-mem-ref-line = '105';
+        func-mem-ref-name = 'ResourceManager::web_dashboard';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
+        func-mem-ref-line = '133';
+        func-mem-ref-name = 'MiningConfig::web_dashboard';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        func-mem-ref-line = '466';
+        func-mem-ref-name = 'get_node';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        func-mem-ref-line = '388';
+        func-mem-ref-name = 'parse_config_file';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
+        func-mem-ref-line = '260';
+        func-mem-ref-name = 'safe_malloc';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
+        func-mem-ref-line = '288';
+        func-mem-ref-name = 'set_dynamic_string';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        func-mem-ref-line = '713';
+        func-mem-ref-name = 'web_dashboard';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga13e3b743fa791496140871828353cffc';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'get_psm_charger_type';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+PsmChargerType
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'type';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '233';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+string representation of charger type
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param type charger type enum value
+@return human readable charger state string
+_EnD_oF_dEf_TeXt_;
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga329f36e4807307a18ae6f86d9ca4d7f2';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'get_time_string';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'buffer';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'size';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '248';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+get current time as formatted string
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param buffer output buffer for time string
+@param size size of output buffer
+_EnD_oF_dEf_TeXt_;
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga497911ca7f5ebdd86a896550198c5bff';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'safe_malloc';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+size_t
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'size';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '260';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+safe malloc with zero-initialization
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param size number of bytes to allocate
+@return ptr to allocated memory
+@note calls cleanup() on allocation failure
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        func-mem-ref-line = '466';
+        func-mem-ref-name = 'get_node';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga17748bd87efdbf064e4a0737d38be828';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'safe_strdup';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'src';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '275';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+safe strdup
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param src source string to duplicate
+@return new string copy
+@note calls cleanup() on allocation failure
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
+        func-mem-ref-line = '260';
+        func-mem-ref-name = 'safe_malloc';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        func-mem-ref-line = '556';
+        func-mem-ref-name = 'do_mining_work';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        func-mem-ref-line = '466';
+        func-mem-ref-name = 'get_node';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
+        func-mem-ref-line = '288';
+        func-mem-ref-name = 'set_dynamic_string';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        func-mem-ref-line = '713';
+        func-mem-ref-name = 'web_dashboard';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga3eb7ed329577b4cd8c11c4e10065dcab';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'set_dynamic_string';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char **
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'field';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'value';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '288';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+set dynamic string field with memory management
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param field pointer to string to update
+@param value new string value
+@note calls cleanup() on allocation failure
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        func-mem-ref-line = '388';
+        func-mem-ref-name = 'parse_config_file';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga56ae64e2554230d6af0c2d9ac329b276';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+ssize_t
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'safe_write';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'fd';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'buf';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+size_t
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'len';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '303';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+safe socket write with retry
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param fd fd to write to
+@param buf buffer to write
+@param len length of data to write
+@return total bytes written, or -1 on error
+_EnD_oF_dEf_TeXt_;
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        func-mem-ref-line = '556';
+        func-mem-ref-name = 'do_mining_work';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga4d7f67ad225ca3212923c19479803b98';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+static size_t
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'write_memory_callback';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'contents';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+size_t
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'size';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+size_t
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'nmemb';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'userp';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '323';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+CURL write callback for memory buffer.
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param contents received data
+@param size size of data
+@param nmemb number of elements
+@param userp ptr to MemoryStruct
+@return total size of processed data
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a2bd6d68918bc5a61a6c59af45597b073';
+        func-mem-ref-line = '153';
+        func-mem-ref-name = 'MemoryStruct::memory';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a854352f53b148adc24983a58a1866d66';
+        func-mem-ref-line = '154';
+        func-mem-ref-name = 'MemoryStruct::size';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        func-mem-ref-line = '466';
+        func-mem-ref-name = 'get_node';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'group__utils_1ga553e5948f772719fd4e9bcfce8e0e3f4';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'replace_placeholder';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char **
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'str';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'placeholder';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+const char *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'value';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '349';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+replace all occurrences of placeholder in string (html) with value
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param str ptr to the string pointer that contains placeholders to replace.
+@param placeholder the placeholder text to search for in the string (e.g., "@@HASHRATE@@").
+@param value the replacement text to substitute for the placeholder.
+_EnD_oF_dEf_TeXt_;
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        func-mem-ref-line = '713';
+        func-mem-ref-name = 'web_dashboard';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'parse_config_file';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+MiningConfig *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'config';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '388';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+parse configuration file
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param config populates MiningConfig
+@note calls cleanup() on error
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a42bf63540ee0039a3a23db1b5ec3202b';
+        func-mem-ref-line = '19';
+        func-mem-ref-name = 'CONFIG_FILE';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a99259000b03780b40789a18abe451a66';
+        func-mem-ref-line = '130';
+        func-mem-ref-name = 'MiningConfig::cpu_boost';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
+        func-mem-ref-line = '128';
+        func-mem-ref-name = 'MiningConfig::difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a77e91bd15ae58f4e9edaf7fe7964d31a';
+        func-mem-ref-line = '131';
+        func-mem-ref-name = 'MiningConfig::iot';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
+        func-mem-ref-line = '127';
+        func-mem-ref-name = 'MiningConfig::miner_key';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a63c89c04d1feae07ca35558055155ffb';
+        func-mem-ref-line = '125';
+        func-mem-ref-name = 'MiningConfig::port';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
+        func-mem-ref-line = '129';
+        func-mem-ref-name = 'MiningConfig::rig_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
+        func-mem-ref-line = '288';
+        func-mem-ref-name = 'set_dynamic_string';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
+        func-mem-ref-line = '132';
+        func-mem-ref-name = 'MiningConfig::threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::wallet_address';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
+        func-mem-ref-line = '133';
+        func-mem-ref-name = 'MiningConfig::web_dashboard';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'get_node';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char **
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'ip';
+      }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+int *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'port';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '466';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+get mining node from DuinoCoin server
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param ip output parameter for node IP
+@param port output parameter for node port
+@note calls cleanup() on error
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a02f8b76019d9757228d49665f3afb667';
+        func-mem-ref-line = '21';
+        func-mem-ref-name = 'GET_POOL';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+        func-mem-ref-line = '136';
+        func-mem-ref-name = 'mc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a2bd6d68918bc5a61a6c59af45597b073';
+        func-mem-ref-line = '153';
+        func-mem-ref-name = 'MemoryStruct::memory';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a63c89c04d1feae07ca35558055155ffb';
+        func-mem-ref-line = '125';
+        func-mem-ref-name = 'MiningConfig::port';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga8f27657c3f95ec846907704f3e2fb660';
+        func-mem-ref-line = '108';
+        func-mem-ref-name = 'res';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
+        func-mem-ref-line = '260';
+        func-mem-ref-name = 'safe_malloc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a854352f53b148adc24983a58a1866d66';
+        func-mem-ref-line = '154';
+        func-mem-ref-name = 'MemoryStruct::size';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
+        func-mem-ref-line = '323';
+        func-mem-ref-name = 'write_memory_callback';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'do_mining_work';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'arg';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '556';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+mining thread worker function
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param arg ThreadData structure for this thread
+@return NULL
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad3c4f11064c890e932b49137a4dbcd79';
+        func-mem-ref-line = '71';
+        func-mem-ref-name = 'ThreadData::bad_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac5ebc9432ec58d54aff086e0b5137b2f';
+        func-mem-ref-line = '72';
+        func-mem-ref-name = 'ThreadData::blocks';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a609753dd1d11398cea7d9ab361022f4e';
+        func-mem-ref-line = '98';
+        func-mem-ref-name = 'ResourceManager::charge';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a016a5d341f375d13639c75bf5987fb23';
+        func-mem-ref-line = '68';
+        func-mem-ref-name = 'ThreadData::difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
+        func-mem-ref-line = '128';
+        func-mem-ref-name = 'MiningConfig::difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a37a27b523e8aff433c8a4adda2295f0d';
+        func-mem-ref-line = '73';
+        func-mem-ref-name = 'ThreadData::error';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a688c4716aeb795a0099110342323b2dd';
+        func-mem-ref-line = '70';
+        func-mem-ref-name = 'ThreadData::good_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac62b57a27d1d663f0fee645e5dbb833a';
+        func-mem-ref-line = '67';
+        func-mem-ref-name = 'ThreadData::hashrate';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a77e91bd15ae58f4e9edaf7fe7964d31a';
+        func-mem-ref-line = '131';
+        func-mem-ref-name = 'MiningConfig::iot';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5b447ebad02a1f5cc7462e2dd5f0d842';
+        func-mem-ref-line = '97';
+        func-mem-ref-name = 'ResourceManager::last_share';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+        func-mem-ref-line = '136';
+        func-mem-ref-name = 'mc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
+        func-mem-ref-line = '127';
+        func-mem-ref-name = 'MiningConfig::miner_key';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a63c89c04d1feae07ca35558055155ffb';
+        func-mem-ref-line = '125';
+        func-mem-ref-name = 'MiningConfig::port';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga8f27657c3f95ec846907704f3e2fb660';
+        func-mem-ref-line = '108';
+        func-mem-ref-name = 'res';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
+        func-mem-ref-line = '129';
+        func-mem-ref-name = 'MiningConfig::rig_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga56ae64e2554230d6af0c2d9ac329b276';
+        func-mem-ref-line = '303';
+        func-mem-ref-name = 'safe_write';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae1df77b8cd4b60fb207008c7652c20a1';
+        func-mem-ref-line = '104';
+        func-mem-ref-name = 'ResourceManager::single_miner_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1afd6fb8da251c0d2403a5fed796c6a750';
+        func-mem-ref-line = '100';
+        func-mem-ref-name = 'ResourceManager::skin_temp_milli_c';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad02424c03e4b1b3ddbdb78d829489ac3';
+        func-mem-ref-line = '65';
+        func-mem-ref-name = 'ThreadData::socket_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad19fce15d3295ab86d386a21e31cddd9';
+        func-mem-ref-line = '20';
+        func-mem-ref-name = 'SOFTWARE';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a9d54f1c50afeb7d34c15608375c5f369';
+        func-mem-ref-line = '74';
+        func-mem-ref-name = 'ThreadData::stop_mining';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab488bfc5d1f76143651f915915046354';
+        func-mem-ref-line = '66';
+        func-mem-ref-name = 'ThreadData::thread_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af08d03939b77a42549a45785446b8c6e';
+        func-mem-ref-line = '69';
+        func-mem-ref-name = 'ThreadData::total_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::wallet_address';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'web_dashboard';
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+void *
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'arg';
+      }; /*        func-mem-param--param */
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '713';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+web dashboard server thread
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@param arg WebDashboard struct
+@return NULL
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad7776c6a9684b19710849baf6e7a9c1c';
+        func-mem-ref-line = '44';
+        func-mem-ref-name = 'MiningResults::avg_difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a609753dd1d11398cea7d9ab361022f4e';
+        func-mem-ref-line = '98';
+        func-mem-ref-name = 'ResourceManager::charge';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae4f1c36e2c0e305e54a0de1d107bf9ef';
+        func-mem-ref-line = '83';
+        func-mem-ref-name = 'WebDashboard::client_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'dashboard_8h_1a65a2564825311dc0ee8187d3d93422fb';
+        func-mem-ref-line = '4';
+        func-mem-ref-name = 'html';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+        func-mem-ref-line = '136';
+        func-mem-ref-name = 'mc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga863c289a36cb9d91b494db39e7e76c1b';
+        func-mem-ref-line = '51';
+        func-mem-ref-name = 'mr';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga553e5948f772719fd4e9bcfce8e0e3f4';
+        func-mem-ref-line = '349';
+        func-mem-ref-name = 'replace_placeholder';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga8f27657c3f95ec846907704f3e2fb660';
+        func-mem-ref-line = '108';
+        func-mem-ref-name = 'res';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
+        func-mem-ref-line = '129';
+        func-mem-ref-name = 'MiningConfig::rig_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a6cf4711aa7ecd548b03b6e50d44b5aa6';
+        func-mem-ref-line = '82';
+        func-mem-ref-name = 'WebDashboard::server_fd';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1afd6fb8da251c0d2403a5fed796c6a750';
+        func-mem-ref-line = '100';
+        func-mem-ref-name = 'ResourceManager::skin_temp_milli_c';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
+        func-mem-ref-line = '132';
+        func-mem-ref-name = 'MiningConfig::threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a49f672d785c9fa3f3cbafcd70ee196d2';
+        func-mem-ref-line = '42';
+        func-mem-ref-name = 'MiningResults::total_hashrate';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af08d03939b77a42549a45785446b8c6e';
+        func-mem-ref-line = '45';
+        func-mem-ref-name = 'MiningResults::total_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad543f36723528d537ef1258ad2798293';
+        func-mem-ref-line = '105';
+        func-mem-ref-name = 'ResourceManager::web_dashboard';
+    };
+      func-mem-referencedby = {
+        func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        func-mem-ref-line = '792';
+        func-mem-ref-name = 'main';
+    };
+    }; /* func-member */
+    func-member = {
+      func-mem-kind = 'function';
+      func-mem-id   = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+      func-mem-virt = normal;
+      func-mem-prot = public;
+      func-mem-type = <<_EnD_oF_dEf_TeXt_
+int
+_EnD_oF_dEf_TeXt_;
+      func-mem-name = 'main';
+      func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      func-mem-desc-line = '792';
+      func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+entry point
+_EnD_oF_dEf_TeXt_;
+      func-mem-documentation = <<_EnD_oF_dEf_TeXt_
+@return exit status
+@note initializes systems, starts threads, and manages main loop
+_EnD_oF_dEf_TeXt_;
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad7776c6a9684b19710849baf6e7a9c1c';
+        func-mem-ref-line = '44';
+        func-mem-ref-name = 'MiningResults::avg_difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad3c4f11064c890e932b49137a4dbcd79';
+        func-mem-ref-line = '47';
+        func-mem-ref-name = 'MiningResults::bad_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad3c4f11064c890e932b49137a4dbcd79';
+        func-mem-ref-line = '71';
+        func-mem-ref-name = 'ThreadData::bad_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac5ebc9432ec58d54aff086e0b5137b2f';
+        func-mem-ref-line = '48';
+        func-mem-ref-name = 'MiningResults::blocks';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac5ebc9432ec58d54aff086e0b5137b2f';
+        func-mem-ref-line = '72';
+        func-mem-ref-name = 'ThreadData::blocks';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a609753dd1d11398cea7d9ab361022f4e';
+        func-mem-ref-line = '98';
+        func-mem-ref-name = 'ResourceManager::charge';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1abb97c0b0e41d36d46a77888148ad83c7';
+        func-mem-ref-line = '99';
+        func-mem-ref-name = 'ResourceManager::chargeType';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        func-mem-ref-line = '163';
+        func-mem-ref-name = 'cleanup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a78cceb1838e486f2b62e13b40bf45f60';
+        func-mem-ref-line = '31';
+        func-mem-ref-name = 'CONSOLE_ESC_NSTR';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a99259000b03780b40789a18abe451a66';
+        func-mem-ref-line = '130';
+        func-mem-ref-name = 'MiningConfig::cpu_boost';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a85998c833c5007dc61315ea69919582e';
+        func-mem-ref-line = '27';
+        func-mem-ref-name = 'DARK_GREY';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a016a5d341f375d13639c75bf5987fb23';
+        func-mem-ref-line = '68';
+        func-mem-ref-name = 'ThreadData::difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        func-mem-ref-line = '556';
+        func-mem-ref-name = 'do_mining_work';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a3cd0228904b247a4b0665e689147a903';
+        func-mem-ref-line = '24';
+        func-mem-ref-name = 'DUCO_ORANGE';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a37a27b523e8aff433c8a4adda2295f0d';
+        func-mem-ref-line = '73';
+        func-mem-ref-name = 'ThreadData::error';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae0109f39fbbe4a4da9374d72d7031803';
+        func-mem-ref-line = '25';
+        func-mem-ref-name = 'ERROR_RED';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        func-mem-ref-line = '466';
+        func-mem-ref-name = 'get_node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga13e3b743fa791496140871828353cffc';
+        func-mem-ref-line = '233';
+        func-mem-ref-name = 'get_psm_charger_type';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga329f36e4807307a18ae6f86d9ca4d7f2';
+        func-mem-ref-line = '248';
+        func-mem-ref-name = 'get_time_string';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a688c4716aeb795a0099110342323b2dd';
+        func-mem-ref-line = '46';
+        func-mem-ref-name = 'MiningResults::good_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a688c4716aeb795a0099110342323b2dd';
+        func-mem-ref-line = '70';
+        func-mem-ref-name = 'ThreadData::good_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac62b57a27d1d663f0fee645e5dbb833a';
+        func-mem-ref-line = '67';
+        func-mem-ref-name = 'ThreadData::hashrate';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5b447ebad02a1f5cc7462e2dd5f0d842';
+        func-mem-ref-line = '97';
+        func-mem-ref-name = 'ResourceManager::last_share';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1acafbbc051d018cffe2fcddcbf778c304';
+        func-mem-ref-line = '28';
+        func-mem-ref-name = 'LIGHT_GREY';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+        func-mem-ref-line = '136';
+        func-mem-ref-name = 'mc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a66b2bdd4b4b1b2d2870e07cc19cf970a';
+        func-mem-ref-line = '102';
+        func-mem-ref-name = 'ResourceManager::mining_threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga863c289a36cb9d91b494db39e7e76c1b';
+        func-mem-ref-line = '51';
+        func-mem-ref-name = 'mr';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
+        func-mem-ref-line = '124';
+        func-mem-ref-name = 'MiningConfig::node';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8ea7e55ff833604b0f7beacedb800291';
+        func-mem-ref-line = '26';
+        func-mem-ref-name = 'NOTICE_BLUE';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
+        func-mem-ref-line = '388';
+        func-mem-ref-name = 'parse_config_file';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a63c89c04d1feae07ca35558055155ffb';
+        func-mem-ref-line = '125';
+        func-mem-ref-name = 'MiningConfig::port';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga8f27657c3f95ec846907704f3e2fb660';
+        func-mem-ref-line = '108';
+        func-mem-ref-name = 'res';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab702106cf3b3e96750b6845ded4e0299';
+        func-mem-ref-line = '29';
+        func-mem-ref-name = 'RESET';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
+        func-mem-ref-line = '129';
+        func-mem-ref-name = 'MiningConfig::rig_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
+        func-mem-ref-line = '260';
+        func-mem-ref-name = 'safe_malloc';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
+        func-mem-ref-line = '275';
+        func-mem-ref-name = 'safe_strdup';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ae1df77b8cd4b60fb207008c7652c20a1';
+        func-mem-ref-line = '104';
+        func-mem-ref-name = 'ResourceManager::single_miner_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1afd6fb8da251c0d2403a5fed796c6a750';
+        func-mem-ref-line = '100';
+        func-mem-ref-name = 'ResourceManager::skin_temp_milli_c';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af85a1051c69ba459c317ee69cb786e86';
+        func-mem-ref-line = '103';
+        func-mem-ref-name = 'ResourceManager::thread_data';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab488bfc5d1f76143651f915915046354';
+        func-mem-ref-line = '66';
+        func-mem-ref-name = 'ThreadData::thread_id';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
+        func-mem-ref-line = '132';
+        func-mem-ref-name = 'MiningConfig::threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac386a6f4eb87338fde75e99987ba2f36';
+        func-mem-ref-line = '43';
+        func-mem-ref-name = 'MiningResults::total_difficulty';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a49f672d785c9fa3f3cbafcd70ee196d2';
+        func-mem-ref-line = '42';
+        func-mem-ref-name = 'MiningResults::total_hashrate';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af08d03939b77a42549a45785446b8c6e';
+        func-mem-ref-line = '45';
+        func-mem-ref-name = 'MiningResults::total_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1af08d03939b77a42549a45785446b8c6e';
+        func-mem-ref-line = '69';
+        func-mem-ref-name = 'ThreadData::total_shares';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ab5dea7762ed08c80191fa8ab2b1b85e3';
+        func-mem-ref-line = '84';
+        func-mem-ref-name = 'WebDashboard::wd_thread';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ad543f36723528d537ef1258ad2798293';
+        func-mem-ref-line = '105';
+        func-mem-ref-name = 'ResourceManager::web_dashboard';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
+        func-mem-ref-line = '133';
+        func-mem-ref-name = 'MiningConfig::web_dashboard';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        func-mem-ref-line = '713';
+        func-mem-ref-name = 'web_dashboard';
+    };
+    }; /* func-member */
+    };
+    var = {
+    var-member = {
+      var-mem-kind = 'variable';
+      var-mem-id   = 'group__structures_1ga863c289a36cb9d91b494db39e7e76c1b';
+      var-mem-virt = normal;
+      var-mem-prot = public;
+      var-mem-type = <<_EnD_oF_dEf_TeXt_
+MiningResults
+_EnD_oF_dEf_TeXt_;
+      var-mem-name = 'mr';
+      var-mem-initializer = <<_EnD_oF_dEf_TeXt_
+= {
+    .total_hashrate = 0.0f,
+    .total_difficulty = 0,
+    .avg_difficulty = 0.0f,
+    .total_shares = 0,
+    .good_shares = 0,
+    .bad_shares = 0,
+    .blocks = 0
+}
+_EnD_oF_dEf_TeXt_;
+      var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      var-mem-desc-line = '51';
+      var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        var-mem-ref-line = '792';
+        var-mem-ref-name = 'main';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        var-mem-ref-line = '713';
+        var-mem-ref-name = 'web_dashboard';
+    };
+    }; /* var-member */
+    var-member = {
+      var-mem-kind = 'variable';
+      var-mem-id   = 'group__structures_1ga6b36ebd044b37bb9fcc13e94663ba3b2';
+      var-mem-virt = normal;
+      var-mem-prot = public;
+      var-mem-type = <<_EnD_oF_dEf_TeXt_
+WebDashboard
+_EnD_oF_dEf_TeXt_;
+      var-mem-name = 'web';
+      var-mem-initializer = <<_EnD_oF_dEf_TeXt_
+= {
+    .server_fd = -1,
+    .client_fd = -1,
+    .wd_thread = NULL
+}
+_EnD_oF_dEf_TeXt_;
+      var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      var-mem-desc-line = '87';
+      var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+    }; /* var-member */
+    var-member = {
+      var-mem-kind = 'variable';
+      var-mem-id   = 'group__structures_1ga8f27657c3f95ec846907704f3e2fb660';
+      var-mem-virt = normal;
+      var-mem-prot = public;
+      var-mem-type = <<_EnD_oF_dEf_TeXt_
+ResourceManager
+_EnD_oF_dEf_TeXt_;
+      var-mem-name = 'res';
+      var-mem-initializer = <<_EnD_oF_dEf_TeXt_
+= {
+   .last_share = 0,
+   .charge = 0,
+   .chargeType = 0,
+   .skin_temp_milli_c = 0,
+   .lock = PTHREAD_MUTEX_INITIALIZER,
+   .mining_threads = NULL,
+   .thread_data = NULL,
+   .single_miner_id = 0,
+   .web_dashboard = &web
+}
+_EnD_oF_dEf_TeXt_;
+      var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      var-mem-desc-line = '108';
+      var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        var-mem-ref-line = '163';
+        var-mem-ref-name = 'cleanup';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        var-mem-ref-line = '556';
+        var-mem-ref-name = 'do_mining_work';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        var-mem-ref-line = '466';
+        var-mem-ref-name = 'get_node';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        var-mem-ref-line = '792';
+        var-mem-ref-name = 'main';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        var-mem-ref-line = '713';
+        var-mem-ref-name = 'web_dashboard';
+    };
+    }; /* var-member */
+    var-member = {
+      var-mem-kind = 'variable';
+      var-mem-id   = 'group__structures_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
+      var-mem-virt = normal;
+      var-mem-prot = public;
+      var-mem-type = <<_EnD_oF_dEf_TeXt_
+MiningConfig
+_EnD_oF_dEf_TeXt_;
+      var-mem-name = 'mc';
+      var-mem-initializer = <<_EnD_oF_dEf_TeXt_
+= {
+   .node = NULL,
+   .wallet_address = NULL,
+   .miner_key = NULL,
+   .difficulty = NULL,
+   .rig_id = NULL,
+   .port = 0,
+   .cpu_boost = false,
+   .iot = false,
+   .threads = 1,
+   .web_dashboard = false
+}
+_EnD_oF_dEf_TeXt_;
+      var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      var-mem-desc-line = '136';
+      var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        var-mem-ref-line = '163';
+        var-mem-ref-name = 'cleanup';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
+        var-mem-ref-line = '556';
+        var-mem-ref-name = 'do_mining_work';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+        var-mem-ref-line = '466';
+        var-mem-ref-name = 'get_node';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        var-mem-ref-line = '792';
+        var-mem-ref-name = 'main';
+    };
+      var-mem-referencedby = {
+        var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
+        var-mem-ref-line = '713';
+        var-mem-ref-name = 'web_dashboard';
+    };
+    }; /* var-member */
+    };
+  file-full-name  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+  file-first-line = '1';
+  file-briefdesc  = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+  file-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+}; /* file */

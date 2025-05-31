@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['iot_0',['iot',['../struct_mining_config.html#a77e91bd15ae58f4e9edaf7fe7964d31a',1,'MiningConfig']]]
+  ['hashrate_0',['hashrate',['../structThreadData.html#ac62b57a27d1d663f0fee645e5dbb833a',1,'ThreadData']]],
+  ['html_1',['html',['../dashboard_8h.html#a65a2564825311dc0ee8187d3d93422fb',1,'dashboard.h']]]
 ];

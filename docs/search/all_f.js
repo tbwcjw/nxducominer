@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['wallet_5faddress_0',['wallet_address',['../struct_mining_config.html#a0953bb963182e341d847373e037ca6aa',1,'MiningConfig']]],
-  ['wd_5fthread_1',['wd_thread',['../struct_web_dashboard.html#ab5dea7762ed08c80191fa8ab2b1b85e3',1,'WebDashboard']]],
-  ['web_2',['web',['../main_8c.html#a6b36ebd044b37bb9fcc13e94663ba3b2',1,'main.c']]],
-  ['web_5fdashboard_3',['web_dashboard',['../struct_resource_manager.html#ad543f36723528d537ef1258ad2798293',1,'ResourceManager::web_dashboard'],['../struct_mining_config.html#ac3264a3e934cbc9f9d90334c4b830b89',1,'MiningConfig::web_dashboard'],['../main_8c.html#a8bf2736e7b808b4681860dd72862951a',1,'web_dashboard(void *arg):&#160;main.c']]],
-  ['webdashboard_4',['WebDashboard',['../struct_web_dashboard.html',1,'']]],
-  ['write_5fmemory_5fcallback_5',['write_memory_callback',['../main_8c.html#a4d7f67ad225ca3212923c19479803b98',1,'main.c']]]
+  ['thread_5fdata_0',['thread_data',['../structResourceManager.html#af85a1051c69ba459c317ee69cb786e86',1,'ResourceManager']]],
+  ['thread_5fid_1',['thread_id',['../structThreadData.html#ab488bfc5d1f76143651f915915046354',1,'ThreadData']]],
+  ['threaddata_2',['ThreadData',['../structThreadData.html',1,'']]],
+  ['threads_3',['threads',['../structMiningConfig.html#a4f987a98d3e1221916748962e45399fe',1,'MiningConfig']]],
+  ['total_5fdifficulty_4',['total_difficulty',['../structMiningResults.html#ac386a6f4eb87338fde75e99987ba2f36',1,'MiningResults']]],
+  ['total_5fhashrate_5',['total_hashrate',['../structMiningResults.html#a49f672d785c9fa3f3cbafcd70ee196d2',1,'MiningResults']]],
+  ['total_5fshares_6',['total_shares',['../structMiningResults.html#af08d03939b77a42549a45785446b8c6e',1,'MiningResults::total_shares'],['../structThreadData.html#af08d03939b77a42549a45785446b8c6e',1,'ThreadData::total_shares']]]
 ];

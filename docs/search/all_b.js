@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['parse_5fconfig_5ffile_0',['parse_config_file',['../main_8c.html#ad1f233793dcb0f85a34a63332adaf27d',1,'main.c']]],
-  ['port_1',['port',['../struct_mining_config.html#a63c89c04d1feae07ca35558055155ffb',1,'MiningConfig']]]
+  ['node_0',['node',['../structMiningConfig.html#a8f7d7c16685b871807018607b8609df6',1,'MiningConfig']]],
+  ['notice_5fblue_1',['NOTICE_BLUE',['../main_8c.html#a8ea7e55ff833604b0f7beacedb800291',1,'main.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['resourcemanager_0',['ResourceManager',['../struct_resource_manager.html',1,'']]]
+  ['resourcemanager_0',['ResourceManager',['../structResourceManager.html',1,'']]]
 ];

@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['hashrate_0',['hashrate',['../struct_thread_data.html#ac62b57a27d1d663f0fee645e5dbb833a',1,'ThreadData']]],
-  ['html_1',['html',['../dashboard_8h.html#a65a2564825311dc0ee8187d3d93422fb',1,'dashboard.h']]]
+  ['get_5fnode_0',['get_node',['../main_8c.html#aff6e9778c973acbd57e67502230d1c54',1,'main.c']]],
+  ['get_5fpool_1',['GET_POOL',['../main_8c.html#a02f8b76019d9757228d49665f3afb667',1,'main.c']]],
+  ['get_5fpsm_5fcharger_5ftype_2',['get_psm_charger_type',['../group__utils.html#ga13e3b743fa791496140871828353cffc',1,'main.c']]],
+  ['get_5ftime_5fstring_3',['get_time_string',['../group__utils.html#ga329f36e4807307a18ae6f86d9ca4d7f2',1,'main.c']]],
+  ['good_5fshares_4',['good_shares',['../structMiningResults.html#a688c4716aeb795a0099110342323b2dd',1,'MiningResults::good_shares'],['../structThreadData.html#a688c4716aeb795a0099110342323b2dd',1,'ThreadData::good_shares']]]
 ];
