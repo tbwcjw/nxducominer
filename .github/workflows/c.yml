@@ -34,6 +34,4 @@ jobs:
           echo "DEVKITA64=/opt/devkitpro/devkitA64" >> $GITHUB_ENV
 
       - name: Build with make
-        run: |
-          make build
-          make docs
+        run: make build

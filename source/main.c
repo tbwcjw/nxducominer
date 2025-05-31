@@ -16,28 +16,36 @@
 #include "switch/crypto/sha1.h"
 #include "jsmn.h"
 
-#define CONFIG_FILE "config.txt"
-#define SOFTWARE "nxducominer"
-#define GET_POOL "https://server.duinocoin.com/getPool"
+#define CONFIG_FILE "config.txt"                            ///< config file/path
+#define SOFTWARE "nxducominer"                              ///< software identifier
+#define GET_POOL "https://server.duinocoin.com/getPool"     ///< pool server url
 
-//                              bg m red gre blu 
-#define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)
+
+#define DUCO_ORANGE CONSOLE_ESC(38;2;252;104;3m)            ///< duinocoin branding https://github.com/revoxhere/duino-coin/tree/useful-tools#branding
 #define ERROR_RED CONSOLE_ESC(31m)
 #define NOTICE_BLUE CONSOLE_ESC(38;2;135;206;235m)
 #define DARK_GREY CONSOLE_ESC(38;2;90;90;90m)
 #define LIGHT_GREY CONSOLE_ESC(38;2;135;135;135m)
 #define RESET CONSOLE_ESC(0m)
 
-#define CONSOLE_ESC_NSTR(fmt) "\033[" fmt
+#define CONSOLE_ESC_NSTR(fmt) "\033[" fmt                   ///< console escape helper, does not stringify.
 
+/**
+ * @defgroup structures Data Structures
+ * @{
+*/
+
+/**
+ * @brief aggregated mining results of all threads
+*/
 typedef struct {
-    float total_hashrate;
-    int total_difficulty;
-    float avg_difficulty;
-    int total_shares;
-    int good_shares;
-    int bad_shares;
-    int blocks;
+    float total_hashrate;                                   ///< combined hashrate (kH/s)
+    int total_difficulty;                                   ///< combined difficulty
+    float avg_difficulty;                                   ///< average difficulty
+    int total_shares;                                       ///< shares submitted
+    int good_shares;                                        ///< shares accepted
+    int bad_shares;                                         ///< shares rejected
+    int blocks;                                             ///< blocks found
 } MiningResults;
 
 MiningResults mr = {
@@ -50,6 +58,9 @@ MiningResults mr = {
     .blocks = 0
 };
 
+/**
+ * @brief thread-specific mining data and state
+ */
 typedef struct {
     int socket_fd;
     int thread_id;
@@ -64,6 +75,9 @@ typedef struct {
 
 } ThreadData;
 
+/**
+ * @brief web dashboard server information
+ */
 typedef struct {
     int server_fd;
     int client_fd;
@@ -76,15 +90,18 @@ WebDashboard web = {
     .wd_thread = NULL
 };
 
+/**
+ * @brief resource manager for system-wide state
+ */
 typedef struct {
-    int last_share;
-    u32 charge;
-    char* chargeType;
-    s32 skin_temp_milli_c;
-    pthread_mutex_t lock;
-    pthread_t* mining_threads;
-    ThreadData* thread_data;
-    int single_miner_id;
+    int last_share;                                         ///< last nonce value submitted
+    u32 charge;                                             ///< raw charge
+    char* chargeType;                                       ///< charger type string
+    s32 skin_temp_milli_c;                                  ///< temp in milliC
+    pthread_mutex_t lock;                                   ///< UNUSED
+    pthread_t* mining_threads;                              ///< array of mining threads
+    ThreadData* thread_data;                                ///< array of thread-specific data
+    int single_miner_id;                                    ///< single id for all threads, to display as a single device in wallet
     WebDashboard* web_dashboard;
 } ResourceManager;
 
@@ -100,6 +117,9 @@ ResourceManager res = {
    .web_dashboard = &web
 };
 
+/**
+ * @brief mining configuration from config file
+ */
 typedef struct {
     char* node;
     int port;
@@ -126,11 +146,20 @@ MiningConfig mc = {
    .web_dashboard = false
 };
 
+/**
+ * @brief memory buffer for CURL operation
+ */
 struct MemoryStruct {
-    char* memory;
-    size_t size;
+    char* memory;                                           ///< ptr to allocated memory
+    size_t size;                                            ///< size of allocated memory
 };
+/** @} **/
 
+/**
+ * @brief clean up resources and exit
+ * @param msg optional error message to display before exiting
+ * @note This function terminates the program
+ */
 void cleanup(char* msg) {
     printf(CONSOLE_ESC(80;1H));     //move cursor
     printf(CONSOLE_ESC(2K));        //clear line
@@ -191,6 +220,16 @@ void cleanup(char* msg) {
     exit(0);
 }
 
+/**
+ * @defgroup utils Utility Functions
+ * @{
+ */
+
+ /**
+  * @brief string representation of charger type
+  * @param type charger type enum value
+  * @return human readable charger state string
+  */
 const char* get_psm_charger_type(PsmChargerType type) {
     switch (type) {
     case PsmChargerType_Unconnected:   return "discharging";
@@ -201,12 +240,23 @@ const char* get_psm_charger_type(PsmChargerType type) {
     }
 }
 
+/**
+ * @brief get current time as formatted string
+ * @param buffer output buffer for time string
+ * @param size size of output buffer
+ */
 void get_time_string(char* buffer, int size) {
     time_t raw_time = time(NULL);
     struct tm* time_info = localtime(&raw_time);
     strftime(buffer, size, "%H:%M:%S", time_info);
 }
 
+/**
+ * @brief safe malloc with zero-initialization
+ * @param size number of bytes to allocate
+ * @return ptr to allocated memory
+ * @note calls cleanup() on allocation failure
+ */
 void* safe_malloc(size_t size) {
     void* ptr = malloc(size);
     if (!ptr) {
@@ -216,6 +266,12 @@ void* safe_malloc(size_t size) {
     return ptr;
 }
 
+/**
+ * @brief safe strdup
+ * @param src source string to duplicate
+ * @return new string copy
+ * @note calls cleanup() on allocation failure
+ */
 char* safe_strdup(const char* src) {
     if (!src) return NULL;
     char* dst = safe_malloc(strlen(src) + 1);
@@ -223,6 +279,12 @@ char* safe_strdup(const char* src) {
     return dst;
 }
 
+/**
+ * @brief set dynamic string field with memory management
+ * @param field pointer to string to update
+ * @param value new string value
+ * @note calls cleanup() on allocation failure
+ */
 void set_dynamic_string(char** field, const char* value) {
     free(*field);
     *field = safe_strdup(value);
@@ -231,6 +293,13 @@ void set_dynamic_string(char** field, const char* value) {
     }
 }
 
+/**
+ * @brief safe socket write with retry
+ * @param fd fd to write to
+ * @param buf buffer to write
+ * @param len length of data to write
+ * @return total bytes written, or -1 on error
+ */
 ssize_t safe_write(int fd, const char* buf, size_t len) {
     if (fd < 0) return -1;
 
@@ -243,6 +312,79 @@ ssize_t safe_write(int fd, const char* buf, size_t len) {
     return total;
 }
 
+/**
+ * @brief CURL write callback for memory buffer
+ * @param contents received data
+ * @param size size of data
+ * @param nmemb number of elements
+ * @param userp ptr to MemoryStruct
+ * @return total size of processed data
+ */
+static size_t write_memory_callback(void* contents, size_t size, size_t nmemb, void* userp) {
+    size_t realsize = size * nmemb;
+    struct MemoryStruct* mem = (struct MemoryStruct*)userp;
+
+    char* ptr = realloc(mem->memory, mem->size + realsize + 1);
+    if (!ptr) {
+        free(mem->memory);
+        mem->memory = NULL;
+        mem->size = 0;
+        return 0;
+    }
+
+    mem->memory = ptr;
+    memcpy(&(mem->memory[mem->size]), contents, realsize);
+    mem->size += realsize;
+    mem->memory[mem->size] = 0;
+
+    return realsize;
+}
+
+/**
+ * @brief replace all occurrences of placeholder in string (html) with value
+ * @param str ptr to the string pointer that contains placeholders to replace.
+ * @param placeholder the placeholder text to search for in the string (e.g., "@@HASHRATE@@").
+ * @param value the replacement text to substitute for the placeholder.
+ */
+void replace_placeholder(char** str, const char* placeholder, const char* value) {
+    if (!str || !*str || !placeholder || !value) return;
+
+    char* current = *str;
+    size_t placeholder_len = strlen(placeholder);
+    size_t value_len = strlen(value);
+
+    size_t new_len = strlen(current) + 1;
+    char* result = malloc(new_len);
+    strcpy(result, current);
+
+    char* pos;
+    while ((pos = strstr(result, placeholder)) != NULL) {
+        size_t prefix_len = pos - result;
+        size_t suffix_len = strlen(pos + placeholder_len);
+        new_len = prefix_len + value_len + suffix_len + 1;
+
+        char* new_result = realloc(result, new_len);
+        if (!new_result) {
+            free(result);
+            return;
+        }
+        result = new_result;
+        pos = result + prefix_len;
+
+        memmove(pos + value_len, pos + placeholder_len, suffix_len + 1);
+        memcpy(pos, value, value_len);
+    }
+
+    free(*str);
+    *str = result;
+}
+/** @} **/
+
+/**
+ * @brief parse configuration file
+ * @param config populates MiningConfig
+ * @note calls cleanup() on error
+ */
 void parse_config_file(MiningConfig* config) {
     printf("Reading %s\n", CONFIG_FILE);
     FILE* file = fopen(CONFIG_FILE, "r");
@@ -314,26 +456,13 @@ void parse_config_file(MiningConfig* config) {
     printf("File parsing completed");
 }
 
-static size_t write_memory_callback(void* contents, size_t size, size_t nmemb, void* userp) {
-    size_t realsize = size * nmemb;
-    struct MemoryStruct* mem = (struct MemoryStruct*)userp;
 
-    char* ptr = realloc(mem->memory, mem->size + realsize + 1);
-    if (!ptr) {
-        free(mem->memory);
-        mem->memory = NULL;
-        mem->size = 0;
-        return 0;
-    }
-
-    mem->memory = ptr;
-    memcpy(&(mem->memory[mem->size]), contents, realsize);
-    mem->size += realsize;
-    mem->memory[mem->size] = 0;
-
-    return realsize;
-}
-
+/**
+ * @brief get mining node from DuinoCoin server
+ * @param ip output parameter for node IP
+ * @param port output parameter for node port
+ * @note calls cleanup() on error
+ */
 void get_node(char** ip, int* port) {
     printf(CONSOLE_ESC(2J));
     printf(CONSOLE_ESC(1;1H) "Finding a node from master server...");
@@ -419,6 +548,11 @@ void get_node(char** ip, int* port) {
     if(json_copy) free(json_copy);
 }
 
+/**
+ * @brief mining thread worker function
+ * @param arg ThreadData structure for this thread
+ * @return NULL
+ */
 void* do_mining_work(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
@@ -570,40 +704,12 @@ void* do_mining_work(void* arg) {
     }
     return NULL;
 }
-void replace_placeholder(char** str, const char* placeholder, const char* value) {
-    if (!str || !*str || !placeholder || !value) return;
 
-    char* current = *str;
-    size_t placeholder_len = strlen(placeholder);
-    size_t value_len = strlen(value);
-
-    size_t new_len = strlen(current) + 1; 
-    char* result = malloc(new_len);
-    strcpy(result, current);
-
-    char* pos;
-    while ((pos = strstr(result, placeholder)) != NULL) {
-        size_t prefix_len = pos - result;
-        size_t suffix_len = strlen(pos + placeholder_len);
-        new_len = prefix_len + value_len + suffix_len + 1;
-
-        char* new_result = realloc(result, new_len);
-        if (!new_result) {
-            free(result);
-            return;
-        }
-        result = new_result;
-        pos = result + prefix_len; 
-
-        memmove(pos + value_len, pos + placeholder_len, suffix_len + 1);
-        memcpy(pos, value, value_len);
-    }
-
-    free(*str);
-    *str = result;
-}
-
-
+/**
+ * @brief web dashboard server thread
+ * @param arg WebDashboard struct
+ * @return NULL
+ */
 void* web_dashboard(void* arg) {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
@@ -678,6 +784,11 @@ void* web_dashboard(void* arg) {
     return NULL;
 }
 
+/**
+ * @brief entry point
+ * @return exit status
+ * @note initializes systems, starts threads, and manages main loop
+ */
 int main() {
     consoleInit(NULL);
 

@@ -1,0 +1,45 @@
+name: Doxygen
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'config.sample.txt'
+      - 'assets/**'
+      - '.github/ISSUE_TEMPLATE/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'config.sample.txt'
+      - 'assets/**'
+      - '.github/ISSUE_TEMPLATE/**'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+
+      - name: Generate Documentation
+        run: doxygen Doxyfile
+
+      - name: Move docs to docs/ folder
+        run: |
+          rm -rf docs
+          mkdir -p docs
+          mv html/* docs/
+
+      - name: Commit and Push docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Update Doxygen docs [skip ci]" || echo "No changes to commit"
+          git push
