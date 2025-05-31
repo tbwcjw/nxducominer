@@ -5,5 +5,4 @@ application.*
 *.psd
 .vscode
 .vs
-docs/
-Doxyfile
+*_hbstore*

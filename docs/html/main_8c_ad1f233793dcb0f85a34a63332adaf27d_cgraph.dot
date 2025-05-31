@@ -1,0 +1,19 @@
+digraph "parse_config_file"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="parse_config_file",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="cleanup",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$main_8c.html#ad0c203a7871b92a0e2f96ea27bb44563",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="set_dynamic_string",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$main_8c.html#a3eb7ed329577b4cd8c11c4e10065dcab",tooltip=" "];
+  Node3 -> Node2 [id="edge3_Node000003_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node3 -> Node4 [id="edge4_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="safe_strdup",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$main_8c.html#a17748bd87efdbf064e4a0737d38be828",tooltip=" "];
+  Node4 -> Node5 [id="edge5_Node000004_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="safe_malloc",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$main_8c.html#a497911ca7f5ebdd86a896550198c5bff",tooltip=" "];
+  Node5 -> Node2 [id="edge6_Node000005_Node000002",color="steelblue1",style="solid",tooltip=" "];
+}

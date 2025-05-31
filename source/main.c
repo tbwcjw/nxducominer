@@ -8,13 +8,13 @@
 #include <netdb.h>
 #include <sys/socket.h>
 #include <switch.h>
-#include "switch/crypto/sha1.h"
-#include "jsmn.h"
 #include <curl/curl.h>
 #include <pthread.h>
-#include "dashboard.h"
 #include <errno.h>
 #include <stdatomic.h>
+#include "dashboard.h"
+#include "switch/crypto/sha1.h"
+#include "jsmn.h"
 
 #define CONFIG_FILE "config.txt"
 #define SOFTWARE "nxducominer"
@@ -468,12 +468,11 @@ void* do_mining_work(void* arg) {
             while (!td->stop_mining) {
                 pthread_testcancel();
 
-                char iot[64];
-                snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
-
                 // request job
                 char job_request[256];
                 if (mc.iot && td->thread_id == 0) { //only send iot information on one thread
+                    char iot[64];
+                    snprintf(iot, sizeof(iot), "Charge:%u%%@Temp:%.2f*C", res.charge, res.skin_temp_milli_c / 1000.0f);
                     snprintf(job_request, sizeof(job_request),
                         "JOB,%s,%s,%s,%s",
                         mc.wallet_address, mc.difficulty, mc.miner_key, iot);
@@ -485,19 +484,20 @@ void* do_mining_work(void* arg) {
                 }
 
                 int write_job = safe_write(td->socket_fd, job_request, strlen(job_request));
-                if (write_job <= 0) goto reconnect;
+                if (write_job <= 0) goto reconnect;     //failed to send job request
 
                 // receive job
                 memset(recv_buf, 0, 1024);
                 int read_job = read(td->socket_fd, recv_buf, 1024 - 1);
-                if (read_job <= 0) goto reconnect;
+                if (read_job <= 0) goto reconnect;      //failed to recieve job
 
                 // split job parts
                 char* job_parts[3];
-                char* token = strtok(recv_buf, ",");
+                char* saveptr;
+                char* token = strtok_r(recv_buf, ",", &saveptr);
                 for (int i = 0; i < 3 && token; i++) {
                     job_parts[i] = token;
-                    token = strtok(NULL, ",");
+                    token = strtok_r(NULL, ",", &saveptr);
                 }
 
                 int difficulty = atoi(job_parts[2]);
@@ -541,10 +541,10 @@ void* do_mining_work(void* arg) {
                         int len = snprintf(submit_buf, sizeof(submit_buf), "%d,%.2f,%s,%s,,%i",
                             nonce, hashrate, SOFTWARE, mc.rig_id, res.single_miner_id);
                         int write_result = safe_write(td->socket_fd, submit_buf, len);
-                        if (write_result <= 0) goto reconnect;
+                        if (write_result <= 0) goto reconnect;      //failed to send job result
                         // read response
                         int read_result = read(td->socket_fd, recv_buf, 1024 - 1);
-                        if(read_result <= 0) goto reconnect;
+                        if(read_result <= 0) goto reconnect;        //failed to recieve job result feedback
 
                         if (strncmp(recv_buf, "GOOD", 4) == 0) {
                             td->good_shares++;
@@ -743,16 +743,8 @@ int main() {
 
     // create mining threads
     for (int i = 0; i < mc.threads; i++) {
-        res.thread_data[i].hashrate = 0.0f;
-        res.thread_data[i].difficulty = 0;
-        res.thread_data[i].bad_shares = 0;
-        res.thread_data[i].good_shares = 0;
-        res.thread_data[i].total_shares = 0;
-        res.thread_data[i].blocks = 0;
         res.thread_data[i].thread_id = i;
-        res.thread_data[i].socket_fd = -1; 
-        res.thread_data[i].error = NULL;
-        res.thread_data[i].stop_mining = 0;
+
         if (pthread_create(&res.mining_threads[i], NULL, do_mining_work, (void*)&res.thread_data[i]) != 0) {
             cleanup("failed to start mining thread");
         }
@@ -762,6 +754,8 @@ int main() {
     char timebuf[16];
     time_t last_draw = 0;
     while (appletMainLoop()) {
+
+        //handle joycon input
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
 
@@ -769,9 +763,10 @@ int main() {
             cleanup(NULL);
             break;
         }
+
         time_t current_time;
         time(&current_time);
-
+        //draw display once every two seconds
         if (difftime(current_time, last_draw) >= 2) {
             get_time_string(timebuf, sizeof(timebuf));
 
