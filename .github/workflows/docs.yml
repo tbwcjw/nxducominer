@@ -30,12 +30,6 @@ jobs:
       - name: Generate Documentation
         run: doxygen Doxyfile
 
-      - name: Move docs to docs/ folder
-        run: |
-          rm -rf docs
-          mkdir -p docs
-          mv html/* docs/
-
       - name: Commit and Push docs
         run: |
           git config user.name "github-actions[bot]"
