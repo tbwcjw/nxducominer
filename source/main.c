@@ -123,6 +123,7 @@ ResourceManager res = {
 typedef struct {
     char* node;
     int port;
+    char* name;
     char* wallet_address;
     char* miner_key;
     char* difficulty;
@@ -135,6 +136,7 @@ typedef struct {
 
 MiningConfig mc = {
    .node = NULL,
+   .name = NULL,
    .wallet_address = NULL,
    .miner_key = NULL,
    .difficulty = NULL,
@@ -207,6 +209,7 @@ void cleanup(char* msg) {
     }
 
     // free resources
+    if (mc.name) free(mc.name);
     if (mc.difficulty) free(mc.difficulty);
     if (mc.miner_key) free(mc.miner_key);
     if (mc.node) free(mc.node);
@@ -463,7 +466,7 @@ void parse_config_file(MiningConfig* config) {
  * @param port output parameter for node port
  * @note calls cleanup() on error
  */
-void get_node(char** ip, int* port) {
+void get_node(char** ip, int* port, char** name) {
     printf(CONSOLE_ESC(2J));
     printf(CONSOLE_ESC(1;1H) "Finding a node from master server...");
     consoleUpdate(NULL);
@@ -537,10 +540,21 @@ void get_node(char** ip, int* port) {
                     i++;
                 }
             }
+            else if (strncmp(json_copy + tokens[i].start, "name", tokens[i].end - tokens[i].start) == 0) {
+                if (i + 1 < ret) {
+                    char name_str[32];
+                    int length = tokens[i + 1].end - tokens[i + 1].start;
+                    strncpy(name_str, json_copy + tokens[i + 1].start, length);
+                    *name = safe_malloc(length + 1);
+                    strncpy(*name, json_copy + tokens[i + 1].start, length);
+                    (*name)[length] = '\0';
+                    i++;
+                }
+            }
         }
     }
 
-    printf(CONSOLE_ESC(3;1H)"Using %s:%i...", mc.node, mc.port);
+    printf(CONSOLE_ESC(3;1H)"Using %s (%s:%i)...", mc.name, mc.node, mc.port);
     consoleUpdate(NULL);
     sleep(2);
 
@@ -813,7 +827,7 @@ int main() {
 
     // find a node if node not set
     if (mc.node == NULL || mc.port == 0) {
-        get_node(&mc.node, &mc.port);
+        get_node(&mc.node, &mc.port, &mc.name);
     }
 
     // toggle CPU boost
@@ -910,7 +924,14 @@ int main() {
 
             printf(CONSOLE_ESC(2J)); // clear screen
 
-            printf(CONSOLE_ESC(1;1H) "Node: %s:%i", mc.node, mc.port);
+            if (mc.name != NULL && strlen(mc.name) > 0) {
+                printf(CONSOLE_ESC(1;1H) "Node: %s", mc.name);
+            }
+            else {
+                printf(CONSOLE_ESC(1;1H) "Node: %s:%i", mc.node, mc.port);
+            }
+
+            
             printf(CONSOLE_ESC(2;1H) "Current Time: %s", timebuf);
 
             //row 3 lb
@@ -967,14 +988,14 @@ int main() {
             printf(CONSOLE_ESC(1;53H)  "         ########          ");
             printf(CONSOLE_ESC(2;53H)  "      ###############      ");
             printf(CONSOLE_ESC(3;53H)  "    ###################    ");
-            printf(CONSOLE_ESC(4;53H)  "   #####         #######   ");
-            printf(CONSOLE_ESC(5;53H)  "  #############    ######  ");
-            printf(CONSOLE_ESC(6;53H)  " #######       ###   ##### ");
-            printf(CONSOLE_ESC(7;53H)  " ############   ##   ##### ");
-            printf(CONSOLE_ESC(8;53H)  " ############   ##   ##### ");
-            printf(CONSOLE_ESC(9;53H)  " #######       ###   ##### ");
-            printf(CONSOLE_ESC(10;53H) "  #############    ######  ");
-            printf(CONSOLE_ESC(11;53H) "   #####         #######   ");
+            printf(CONSOLE_ESC(4;53H)  "   ####         ########   ");
+            printf(CONSOLE_ESC(5;53H)  "  ############    #######  ");
+            printf(CONSOLE_ESC(6;53H)  " ######       ###   ###### ");
+            printf(CONSOLE_ESC(7;53H)  " ###########   ##   ###### ");
+            printf(CONSOLE_ESC(8;53H)  " ###########   ##   ###### ");
+            printf(CONSOLE_ESC(9;53H)  " ######       ###   ###### ");
+            printf(CONSOLE_ESC(10;53H) "  ############    #######  ");
+            printf(CONSOLE_ESC(11;53H) "   ####         ########   ");
             printf(CONSOLE_ESC(12;53H) "    ###################    ");
             printf(CONSOLE_ESC(13;53H) "      ###############      ");
             printf(CONSOLE_ESC(14;53H) "          #######          ");
