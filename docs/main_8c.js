@@ -12,7 +12,7 @@ var main_8c =
     [ "SOFTWARE", "main_8c.html#ad19fce15d3295ab86d386a21e31cddd9", null ],
     [ "cleanup", "main_8c.html#ad0c203a7871b92a0e2f96ea27bb44563", null ],
     [ "do_mining_work", "main_8c.html#a9a168093db4d5cfcbad68a2cc4351de5", null ],
-    [ "get_node", "main_8c.html#aff6e9778c973acbd57e67502230d1c54", null ],
+    [ "get_node", "main_8c.html#ab0b1990f21ee601b366df57f8cdc0bf9", null ],
     [ "get_psm_charger_type", "group__utils.html#ga13e3b743fa791496140871828353cffc", null ],
     [ "get_time_string", "group__utils.html#ga329f36e4807307a18ae6f86d9ca4d7f2", null ],
     [ "main", "main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],

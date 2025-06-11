@@ -206,9 +206,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad1f233793dcb0f85a34a63332adaf27d" id="r_ad1f233793dcb0f85a34a63332adaf27d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#ad1f233793dcb0f85a34a63332adaf27d">parse_config_file</a> (<a class="el" href="structMiningConfig.html">MiningConfig</a> *config)</td></tr>
 <tr class="memdesc:ad1f233793dcb0f85a34a63332adaf27d"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse configuration file  <br /></td></tr>
 <tr class="separator:ad1f233793dcb0f85a34a63332adaf27d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff6e9778c973acbd57e67502230d1c54" id="r_aff6e9778c973acbd57e67502230d1c54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#aff6e9778c973acbd57e67502230d1c54">get_node</a> (char **ip, int *port)</td></tr>
-<tr class="memdesc:aff6e9778c973acbd57e67502230d1c54"><td class="mdescLeft">&#160;</td><td class="mdescRight">get mining node from DuinoCoin server  <br /></td></tr>
-<tr class="separator:aff6e9778c973acbd57e67502230d1c54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0b1990f21ee601b366df57f8cdc0bf9" id="r_ab0b1990f21ee601b366df57f8cdc0bf9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#ab0b1990f21ee601b366df57f8cdc0bf9">get_node</a> (char **ip, int *port, char **name)</td></tr>
+<tr class="memdesc:ab0b1990f21ee601b366df57f8cdc0bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">get mining node from DuinoCoin server  <br /></td></tr>
+<tr class="separator:ab0b1990f21ee601b366df57f8cdc0bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a168093db4d5cfcbad68a2cc4351de5" id="r_a9a168093db4d5cfcbad68a2cc4351de5"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a9a168093db4d5cfcbad68a2cc4351de5">do_mining_work</a> (void *arg)</td></tr>
 <tr class="memdesc:a9a168093db4d5cfcbad68a2cc4351de5"><td class="mdescLeft">&#160;</td><td class="mdescRight">mining thread worker function  <br /></td></tr>
 <tr class="separator:a9a168093db4d5cfcbad68a2cc4351de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -431,7 +431,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function terminates the program </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00163">163</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00165">165</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
@@ -460,12 +460,12 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00556">556</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00570">570</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
-<a id="aff6e9778c973acbd57e67502230d1c54" name="aff6e9778c973acbd57e67502230d1c54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff6e9778c973acbd57e67502230d1c54">&#9670;&#160;</a></span>get_node()</h2>
+<a id="ab0b1990f21ee601b366df57f8cdc0bf9" name="ab0b1990f21ee601b366df57f8cdc0bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0b1990f21ee601b366df57f8cdc0bf9">&#9670;&#160;</a></span>get_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -480,7 +480,13 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>port</em>&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -500,7 +506,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>calls <a class="el" href="main_8c.html#ad0c203a7871b92a0e2f96ea27bb44563" title="clean up resources and exit">cleanup()</a> on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00466">466</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00469">469</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
@@ -524,7 +530,7 @@ Variables</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>initializes systems, starts threads, and manages main loop </dd></dl>
 <p>&lt; this is to combine multithreaded workloads to appear as one single device in the wallet.</p>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00792">792</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00806">806</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
@@ -553,7 +559,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>calls <a class="el" href="main_8c.html#ad0c203a7871b92a0e2f96ea27bb44563" title="clean up resources and exit">cleanup()</a> on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00388">388</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00391">391</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
@@ -582,7 +588,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00713">713</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00727">727</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
 </div>
 </div>
