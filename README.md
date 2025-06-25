@@ -215,5 +215,4 @@ Use <a href='https://github.com/tbwcjw/nxducominer/blob/main/tools/benchmark_dir
 JSON Parser: <a href='https://github.com/zserge/jsmn'>zserge/jsmn</a>, MIT License.
 <hr>
 <h4>Licenses</h4>
-<a href='https://www.gnu.org/licenses/gpl-3.0.en.html'><img src='https://camo.githubusercontent.com/7710eaa5373ee99658cc5c6e389bb88119903cbf92422f24c1e92cd957793e8c/68747470733a2f2f7777772e676e752e6f72672f67726170686963732f67706c76332d3132377835312e706e67'></a><br>
-nxducominer is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This software is licensed under the MIT License. 

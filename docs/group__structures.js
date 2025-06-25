@@ -42,6 +42,7 @@ var group__structures =
       [ "difficulty", "structMiningConfig.html#a5e1f4217a9effc8f1ffae394acc987d2", null ],
       [ "iot", "structMiningConfig.html#a77e91bd15ae58f4e9edaf7fe7964d31a", null ],
       [ "miner_key", "structMiningConfig.html#ae121b13122af13bd206ff8a3647460f9", null ],
+      [ "name", "structMiningConfig.html#a5ac083a645d964373f022d03df4849c8", null ],
       [ "node", "structMiningConfig.html#a8f7d7c16685b871807018607b8609df6", null ],
       [ "port", "structMiningConfig.html#a63c89c04d1feae07ca35558055155ffb", null ],
       [ "rig_id", "structMiningConfig.html#a206687312b9b5a03e6dc2502efbb4d8d", null ],

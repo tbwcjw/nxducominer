@@ -14,7 +14,7 @@ char *
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'memory';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '153';
+      sec-mem-desc-line = '155';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 ptr to allocated memory
 _EnD_oF_dEf_TeXt_;
@@ -22,13 +22,13 @@ _EnD_oF_dEf_TeXt_;
 
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
-        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        sec-mem-ref-line = '466';
+        sec-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        sec-mem-ref-line = '469';
         sec-mem-ref-name = 'get_node';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
-        sec-mem-ref-line = '323';
+        sec-mem-ref-line = '326';
         sec-mem-ref-name = 'write_memory_callback';
     };
     }; /* sec-member */
@@ -42,7 +42,7 @@ size_t
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'size';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '154';
+      sec-mem-desc-line = '156';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 size of allocated memory
 _EnD_oF_dEf_TeXt_;
@@ -50,19 +50,19 @@ _EnD_oF_dEf_TeXt_;
 
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
-        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        sec-mem-ref-line = '466';
+        sec-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        sec-mem-ref-line = '469';
         sec-mem-ref-name = 'get_node';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
-        sec-mem-ref-line = '323';
+        sec-mem-ref-line = '326';
         sec-mem-ref-name = 'write_memory_callback';
     };
     }; /* sec-member */
   }; /* cp-section */
   cp-filename  = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-  cp-fileline  = '152';
+  cp-fileline  = '154';
   cp-briefdesc = <<_EnD_oF_dEf_TeXt_
 memory buffer for CURL operation
 _EnD_oF_dEf_TeXt_;
@@ -94,32 +94,32 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
-        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        sec-mem-ref-line = '466';
+        sec-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        sec-mem-ref-line = '469';
         sec-mem-ref-name = 'get_node';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -142,23 +142,56 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
-        sec-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        sec-mem-ref-line = '466';
+        sec-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        sec-mem-ref-line = '469';
         sec-mem-ref-name = 'get_node';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
+    };
+    }; /* sec-member */
+    sec-member = {
+      sec-mem-kind = 'variable';
+      sec-mem-id   = 'structMiningConfig_1a5ac083a645d964373f022d03df4849c8';
+      sec-mem-virt = normal;
+      sec-mem-prot = public;
+      sec-mem-type = <<_EnD_oF_dEf_TeXt_
+char *
+_EnD_oF_dEf_TeXt_;
+      sec-mem-name = 'name';
+      sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
+      sec-mem-desc-line = '126';
+      sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-documentation = <<_EnD_oF_dEf_TeXt_
+
+_EnD_oF_dEf_TeXt_;
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
+        sec-mem-ref-line = '165';
+        sec-mem-ref-name = 'cleanup';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        sec-mem-ref-line = '469';
+        sec-mem-ref-name = 'get_node';
+    };
+      sec-mem-referencedby = {
+        sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
+        sec-mem-ref-line = '806';
+        sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
     sec-member = {
@@ -171,7 +204,7 @@ char *
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'wallet_address';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '126';
+      sec-mem-desc-line = '127';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -180,17 +213,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -204,7 +237,7 @@ char *
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'miner_key';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '127';
+      sec-mem-desc-line = '128';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -213,17 +246,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -237,7 +270,7 @@ char *
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'difficulty';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '128';
+      sec-mem-desc-line = '129';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -246,17 +279,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -270,7 +303,7 @@ char *
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'rig_id';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '129';
+      sec-mem-desc-line = '130';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -279,27 +312,27 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -313,7 +346,7 @@ bool
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'cpu_boost';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '130';
+      sec-mem-desc-line = '131';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -322,12 +355,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -341,7 +374,7 @@ bool
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'iot';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '131';
+      sec-mem-desc-line = '132';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -350,12 +383,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -369,7 +402,7 @@ int
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'threads';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '132';
+      sec-mem-desc-line = '133';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -378,22 +411,22 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -407,7 +440,7 @@ bool
 _EnD_oF_dEf_TeXt_;
       sec-mem-name = 'web_dashboard';
       sec-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      sec-mem-desc-line = '133';
+      sec-mem-desc-line = '134';
       sec-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -416,17 +449,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        sec-mem-ref-line = '388';
+        sec-mem-ref-line = '391';
         sec-mem-ref-name = 'parse_config_file';
     };
     }; /* sec-member */
@@ -464,12 +497,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -492,7 +525,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -515,12 +548,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -543,12 +576,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -571,7 +604,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -594,7 +627,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -617,7 +650,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -655,12 +688,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -683,17 +716,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -716,7 +749,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -739,17 +772,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -790,12 +823,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -818,12 +851,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -846,12 +879,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -874,17 +907,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -960,12 +993,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
     }; /* sec-member */
@@ -988,12 +1021,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1016,12 +1049,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1044,12 +1077,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1072,12 +1105,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1100,12 +1133,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1128,12 +1161,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1156,12 +1189,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1184,12 +1217,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1212,12 +1245,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        sec-mem-ref-line = '556';
+        sec-mem-ref-line = '570';
         sec-mem-ref-name = 'do_mining_work';
     };
     }; /* sec-member */
@@ -1255,12 +1288,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -1283,12 +1316,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        sec-mem-ref-line = '713';
+        sec-mem-ref-line = '727';
         sec-mem-ref-name = 'web_dashboard';
     };
     }; /* sec-member */
@@ -1311,12 +1344,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        sec-mem-ref-line = '163';
+        sec-mem-ref-line = '165';
         sec-mem-ref-name = 'cleanup';
     };
       sec-mem-referencedby = {
         sec-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        sec-mem-ref-line = '792';
+        sec-mem-ref-line = '806';
         sec-mem-ref-name = 'main';
     };
     }; /* sec-member */
@@ -1502,7 +1535,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        var-mem-ref-line = '713';
+        var-mem-ref-line = '727';
         var-mem-ref-name = 'web_dashboard';
     };
     }; /* var-member */
@@ -1721,7 +1754,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'msg';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '163';
+      func-mem-desc-line = '165';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 clean up resources and exit
 _EnD_oF_dEf_TeXt_;
@@ -1736,7 +1769,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
-        func-mem-ref-line = '128';
+        func-mem-ref-line = '129';
         func-mem-ref-name = 'MiningConfig::difficulty';
     };
       func-mem-referenceto = {
@@ -1746,18 +1779,23 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
-        func-mem-ref-line = '136';
+        func-mem-ref-line = '137';
         func-mem-ref-name = 'mc';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
-        func-mem-ref-line = '127';
+        func-mem-ref-line = '128';
         func-mem-ref-name = 'MiningConfig::miner_key';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a66b2bdd4b4b1b2d2870e07cc19cf970a';
         func-mem-ref-line = '102';
         func-mem-ref-name = 'ResourceManager::mining_threads';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5ac083a645d964373f022d03df4849c8';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::name';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
@@ -1776,7 +1814,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
-        func-mem-ref-line = '129';
+        func-mem-ref-line = '130';
         func-mem-ref-name = 'MiningConfig::rig_id';
     };
       func-mem-referenceto = {
@@ -1801,12 +1839,12 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
-        func-mem-ref-line = '132';
+        func-mem-ref-line = '133';
         func-mem-ref-name = 'MiningConfig::threads';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
-        func-mem-ref-line = '126';
+        func-mem-ref-line = '127';
         func-mem-ref-name = 'MiningConfig::wallet_address';
     };
       func-mem-referenceto = {
@@ -1821,37 +1859,37 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
-        func-mem-ref-line = '133';
+        func-mem-ref-line = '134';
         func-mem-ref-name = 'MiningConfig::web_dashboard';
     };
       func-mem-referencedby = {
-        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        func-mem-ref-line = '466';
+        func-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        func-mem-ref-line = '469';
         func-mem-ref-name = 'get_node';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        func-mem-ref-line = '388';
+        func-mem-ref-line = '391';
         func-mem-ref-name = 'parse_config_file';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
-        func-mem-ref-line = '260';
+        func-mem-ref-line = '263';
         func-mem-ref-name = 'safe_malloc';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
-        func-mem-ref-line = '288';
+        func-mem-ref-line = '291';
         func-mem-ref-name = 'set_dynamic_string';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        func-mem-ref-line = '713';
+        func-mem-ref-line = '727';
         func-mem-ref-name = 'web_dashboard';
     };
     }; /* func-member */
@@ -1871,7 +1909,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'type';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '233';
+      func-mem-desc-line = '236';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 string representation of charger type
 _EnD_oF_dEf_TeXt_;
@@ -1881,7 +1919,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
@@ -1907,7 +1945,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'size';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '248';
+      func-mem-desc-line = '251';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 get current time as formatted string
 _EnD_oF_dEf_TeXt_;
@@ -1917,7 +1955,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
@@ -1937,7 +1975,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'size';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '260';
+      func-mem-desc-line = '263';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 safe malloc with zero-initialization
 _EnD_oF_dEf_TeXt_;
@@ -1948,22 +1986,22 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referencedby = {
-        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        func-mem-ref-line = '466';
+        func-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        func-mem-ref-line = '469';
         func-mem-ref-name = 'get_node';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
     }; /* func-member */
@@ -1983,7 +2021,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'src';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '275';
+      func-mem-desc-line = '278';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 safe strdup
 _EnD_oF_dEf_TeXt_;
@@ -1994,32 +2032,32 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
-        func-mem-ref-line = '260';
+        func-mem-ref-line = '263';
         func-mem-ref-name = 'safe_malloc';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        func-mem-ref-line = '556';
+        func-mem-ref-line = '570';
         func-mem-ref-name = 'do_mining_work';
     };
       func-mem-referencedby = {
-        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        func-mem-ref-line = '466';
+        func-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        func-mem-ref-line = '469';
         func-mem-ref-name = 'get_node';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
-        func-mem-ref-line = '288';
+        func-mem-ref-line = '291';
         func-mem-ref-name = 'set_dynamic_string';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        func-mem-ref-line = '713';
+        func-mem-ref-line = '727';
         func-mem-ref-name = 'web_dashboard';
     };
     }; /* func-member */
@@ -2045,7 +2083,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'value';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '288';
+      func-mem-desc-line = '291';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 set dynamic string field with memory management
 _EnD_oF_dEf_TeXt_;
@@ -2056,17 +2094,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        func-mem-ref-line = '388';
+        func-mem-ref-line = '391';
         func-mem-ref-name = 'parse_config_file';
     };
     }; /* func-member */
@@ -2098,7 +2136,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'len';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '303';
+      func-mem-desc-line = '306';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 safe socket write with retry
 _EnD_oF_dEf_TeXt_;
@@ -2110,7 +2148,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        func-mem-ref-line = '556';
+        func-mem-ref-line = '570';
         func-mem-ref-name = 'do_mining_work';
     };
     }; /* func-member */
@@ -2148,7 +2186,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'userp';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '323';
+      func-mem-desc-line = '326';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 CURL write callback for memory buffer.
 _EnD_oF_dEf_TeXt_;
@@ -2161,17 +2199,17 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a2bd6d68918bc5a61a6c59af45597b073';
-        func-mem-ref-line = '153';
+        func-mem-ref-line = '155';
         func-mem-ref-name = 'MemoryStruct::memory';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a854352f53b148adc24983a58a1866d66';
-        func-mem-ref-line = '154';
+        func-mem-ref-line = '156';
         func-mem-ref-name = 'MemoryStruct::size';
     };
       func-mem-referencedby = {
-        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        func-mem-ref-line = '466';
+        func-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        func-mem-ref-line = '469';
         func-mem-ref-name = 'get_node';
     };
     }; /* func-member */
@@ -2203,7 +2241,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'value';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '349';
+      func-mem-desc-line = '352';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 replace all occurrences of placeholder in string (html) with value
 _EnD_oF_dEf_TeXt_;
@@ -2214,7 +2252,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        func-mem-ref-line = '713';
+        func-mem-ref-line = '727';
         func-mem-ref-name = 'web_dashboard';
     };
     }; /* func-member */
@@ -2234,7 +2272,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'config';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '388';
+      func-mem-desc-line = '391';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 parse configuration file
 _EnD_oF_dEf_TeXt_;
@@ -2244,7 +2282,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referenceto = {
@@ -2254,22 +2292,22 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a99259000b03780b40789a18abe451a66';
-        func-mem-ref-line = '130';
+        func-mem-ref-line = '131';
         func-mem-ref-name = 'MiningConfig::cpu_boost';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
-        func-mem-ref-line = '128';
+        func-mem-ref-line = '129';
         func-mem-ref-name = 'MiningConfig::difficulty';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a77e91bd15ae58f4e9edaf7fe7964d31a';
-        func-mem-ref-line = '131';
+        func-mem-ref-line = '132';
         func-mem-ref-name = 'MiningConfig::iot';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
-        func-mem-ref-line = '127';
+        func-mem-ref-line = '128';
         func-mem-ref-name = 'MiningConfig::miner_key';
     };
       func-mem-referenceto = {
@@ -2284,38 +2322,38 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
-        func-mem-ref-line = '129';
+        func-mem-ref-line = '130';
         func-mem-ref-name = 'MiningConfig::rig_id';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga3eb7ed329577b4cd8c11c4e10065dcab';
-        func-mem-ref-line = '288';
+        func-mem-ref-line = '291';
         func-mem-ref-name = 'set_dynamic_string';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
-        func-mem-ref-line = '132';
+        func-mem-ref-line = '133';
         func-mem-ref-name = 'MiningConfig::threads';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
-        func-mem-ref-line = '126';
+        func-mem-ref-line = '127';
         func-mem-ref-name = 'MiningConfig::wallet_address';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
-        func-mem-ref-line = '133';
+        func-mem-ref-line = '134';
         func-mem-ref-name = 'MiningConfig::web_dashboard';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
     func-member = {
       func-mem-kind = 'function';
-      func-mem-id   = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
+      func-mem-id   = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
       func-mem-virt = normal;
       func-mem-prot = public;
       func-mem-type = <<_EnD_oF_dEf_TeXt_
@@ -2334,8 +2372,14 @@ int *
 _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'port';
       }; /*        func-mem-param--param */
+      func-mem-param = {
+        func-mem-param-type = <<_EnD_oF_dEf_TeXt_
+char **
+_EnD_oF_dEf_TeXt_;
+        func-mem-param-declname = 'name';
+      }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '466';
+      func-mem-desc-line = '469';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 get mining node from DuinoCoin server
 _EnD_oF_dEf_TeXt_;
@@ -2346,7 +2390,7 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referenceto = {
@@ -2356,13 +2400,18 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
-        func-mem-ref-line = '136';
+        func-mem-ref-line = '137';
         func-mem-ref-name = 'mc';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a2bd6d68918bc5a61a6c59af45597b073';
-        func-mem-ref-line = '153';
+        func-mem-ref-line = '155';
         func-mem-ref-name = 'MemoryStruct::memory';
+    };
+      func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5ac083a645d964373f022d03df4849c8';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::name';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
@@ -2381,27 +2430,27 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
-        func-mem-ref-line = '260';
+        func-mem-ref-line = '263';
         func-mem-ref-name = 'safe_malloc';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a854352f53b148adc24983a58a1866d66';
-        func-mem-ref-line = '154';
+        func-mem-ref-line = '156';
         func-mem-ref-name = 'MemoryStruct::size';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga4d7f67ad225ca3212923c19479803b98';
-        func-mem-ref-line = '323';
+        func-mem-ref-line = '326';
         func-mem-ref-name = 'write_memory_callback';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
@@ -2421,7 +2470,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'arg';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '556';
+      func-mem-desc-line = '570';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 mining thread worker function
 _EnD_oF_dEf_TeXt_;
@@ -2451,7 +2500,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a5e1f4217a9effc8f1ffae394acc987d2';
-        func-mem-ref-line = '128';
+        func-mem-ref-line = '129';
         func-mem-ref-name = 'MiningConfig::difficulty';
     };
       func-mem-referenceto = {
@@ -2471,7 +2520,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a77e91bd15ae58f4e9edaf7fe7964d31a';
-        func-mem-ref-line = '131';
+        func-mem-ref-line = '132';
         func-mem-ref-name = 'MiningConfig::iot';
     };
       func-mem-referenceto = {
@@ -2481,12 +2530,12 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
-        func-mem-ref-line = '136';
+        func-mem-ref-line = '137';
         func-mem-ref-name = 'mc';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ae121b13122af13bd206ff8a3647460f9';
-        func-mem-ref-line = '127';
+        func-mem-ref-line = '128';
         func-mem-ref-name = 'MiningConfig::miner_key';
     };
       func-mem-referenceto = {
@@ -2506,17 +2555,17 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
-        func-mem-ref-line = '129';
+        func-mem-ref-line = '130';
         func-mem-ref-name = 'MiningConfig::rig_id';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga56ae64e2554230d6af0c2d9ac329b276';
-        func-mem-ref-line = '303';
+        func-mem-ref-line = '306';
         func-mem-ref-name = 'safe_write';
     };
       func-mem-referenceto = {
@@ -2556,12 +2605,12 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a0953bb963182e341d847373e037ca6aa';
-        func-mem-ref-line = '126';
+        func-mem-ref-line = '127';
         func-mem-ref-name = 'MiningConfig::wallet_address';
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
@@ -2581,7 +2630,7 @@ _EnD_oF_dEf_TeXt_;
         func-mem-param-declname = 'arg';
       }; /*        func-mem-param--param */
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '713';
+      func-mem-desc-line = '727';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 web dashboard server thread
 _EnD_oF_dEf_TeXt_;
@@ -2601,7 +2650,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referenceto = {
@@ -2616,7 +2665,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
-        func-mem-ref-line = '136';
+        func-mem-ref-line = '137';
         func-mem-ref-name = 'mc';
     };
       func-mem-referenceto = {
@@ -2631,7 +2680,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga553e5948f772719fd4e9bcfce8e0e3f4';
-        func-mem-ref-line = '349';
+        func-mem-ref-line = '352';
         func-mem-ref-name = 'replace_placeholder';
     };
       func-mem-referenceto = {
@@ -2641,12 +2690,12 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
-        func-mem-ref-line = '129';
+        func-mem-ref-line = '130';
         func-mem-ref-name = 'MiningConfig::rig_id';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
       func-mem-referenceto = {
@@ -2661,7 +2710,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
-        func-mem-ref-line = '132';
+        func-mem-ref-line = '133';
         func-mem-ref-name = 'MiningConfig::threads';
     };
       func-mem-referenceto = {
@@ -2681,7 +2730,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referencedby = {
         func-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        func-mem-ref-line = '792';
+        func-mem-ref-line = '806';
         func-mem-ref-name = 'main';
     };
     }; /* func-member */
@@ -2695,7 +2744,7 @@ int
 _EnD_oF_dEf_TeXt_;
       func-mem-name = 'main';
       func-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      func-mem-desc-line = '792';
+      func-mem-desc-line = '806';
       func-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 entry point
 _EnD_oF_dEf_TeXt_;
@@ -2740,7 +2789,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        func-mem-ref-line = '163';
+        func-mem-ref-line = '165';
         func-mem-ref-name = 'cleanup';
     };
       func-mem-referenceto = {
@@ -2750,7 +2799,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a99259000b03780b40789a18abe451a66';
-        func-mem-ref-line = '130';
+        func-mem-ref-line = '131';
         func-mem-ref-name = 'MiningConfig::cpu_boost';
     };
       func-mem-referenceto = {
@@ -2765,7 +2814,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        func-mem-ref-line = '556';
+        func-mem-ref-line = '570';
         func-mem-ref-name = 'do_mining_work';
     };
       func-mem-referenceto = {
@@ -2784,18 +2833,18 @@ _EnD_oF_dEf_TeXt_;
         func-mem-ref-name = 'ERROR_RED';
     };
       func-mem-referenceto = {
-        func-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        func-mem-ref-line = '466';
+        func-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        func-mem-ref-line = '469';
         func-mem-ref-name = 'get_node';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga13e3b743fa791496140871828353cffc';
-        func-mem-ref-line = '233';
+        func-mem-ref-line = '236';
         func-mem-ref-name = 'get_psm_charger_type';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga329f36e4807307a18ae6f86d9ca4d7f2';
-        func-mem-ref-line = '248';
+        func-mem-ref-line = '251';
         func-mem-ref-name = 'get_time_string';
     };
       func-mem-referenceto = {
@@ -2825,7 +2874,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga247e2ec7fdfc9e34ef2b6c55ba93ee0d';
-        func-mem-ref-line = '136';
+        func-mem-ref-line = '137';
         func-mem-ref-name = 'mc';
     };
       func-mem-referenceto = {
@@ -2839,6 +2888,11 @@ _EnD_oF_dEf_TeXt_;
         func-mem-ref-name = 'mr';
     };
       func-mem-referenceto = {
+        func-mem-ref-id = 'main_8c_1a5ac083a645d964373f022d03df4849c8';
+        func-mem-ref-line = '126';
+        func-mem-ref-name = 'MiningConfig::name';
+    };
+      func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a8f7d7c16685b871807018607b8609df6';
         func-mem-ref-line = '124';
         func-mem-ref-name = 'MiningConfig::node';
@@ -2850,7 +2904,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ad1f233793dcb0f85a34a63332adaf27d';
-        func-mem-ref-line = '388';
+        func-mem-ref-line = '391';
         func-mem-ref-name = 'parse_config_file';
     };
       func-mem-referenceto = {
@@ -2870,17 +2924,17 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a206687312b9b5a03e6dc2502efbb4d8d';
-        func-mem-ref-line = '129';
+        func-mem-ref-line = '130';
         func-mem-ref-name = 'MiningConfig::rig_id';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga497911ca7f5ebdd86a896550198c5bff';
-        func-mem-ref-line = '260';
+        func-mem-ref-line = '263';
         func-mem-ref-name = 'safe_malloc';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ga17748bd87efdbf064e4a0737d38be828';
-        func-mem-ref-line = '275';
+        func-mem-ref-line = '278';
         func-mem-ref-name = 'safe_strdup';
     };
       func-mem-referenceto = {
@@ -2905,7 +2959,7 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a4f987a98d3e1221916748962e45399fe';
-        func-mem-ref-line = '132';
+        func-mem-ref-line = '133';
         func-mem-ref-name = 'MiningConfig::threads';
     };
       func-mem-referenceto = {
@@ -2940,12 +2994,12 @@ _EnD_oF_dEf_TeXt_;
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1ac3264a3e934cbc9f9d90334c4b830b89';
-        func-mem-ref-line = '133';
+        func-mem-ref-line = '134';
         func-mem-ref-name = 'MiningConfig::web_dashboard';
     };
       func-mem-referenceto = {
         func-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        func-mem-ref-line = '713';
+        func-mem-ref-line = '727';
         func-mem-ref-name = 'web_dashboard';
     };
     }; /* func-member */
@@ -2981,12 +3035,12 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        var-mem-ref-line = '792';
+        var-mem-ref-line = '806';
         var-mem-ref-name = 'main';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        var-mem-ref-line = '713';
+        var-mem-ref-line = '727';
         var-mem-ref-name = 'web_dashboard';
     };
     }; /* var-member */
@@ -3047,27 +3101,27 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        var-mem-ref-line = '163';
+        var-mem-ref-line = '165';
         var-mem-ref-name = 'cleanup';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        var-mem-ref-line = '556';
+        var-mem-ref-line = '570';
         var-mem-ref-name = 'do_mining_work';
     };
       var-mem-referencedby = {
-        var-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        var-mem-ref-line = '466';
+        var-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        var-mem-ref-line = '469';
         var-mem-ref-name = 'get_node';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        var-mem-ref-line = '792';
+        var-mem-ref-line = '806';
         var-mem-ref-name = 'main';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        var-mem-ref-line = '713';
+        var-mem-ref-line = '727';
         var-mem-ref-name = 'web_dashboard';
     };
     }; /* var-member */
@@ -3083,6 +3137,7 @@ _EnD_oF_dEf_TeXt_;
       var-mem-initializer = <<_EnD_oF_dEf_TeXt_
 = {
    .node = NULL,
+   .name = NULL,
    .wallet_address = NULL,
    .miner_key = NULL,
    .difficulty = NULL,
@@ -3095,7 +3150,7 @@ _EnD_oF_dEf_TeXt_;
 }
 _EnD_oF_dEf_TeXt_;
       var-mem-desc-file = '/home/runner/work/nxducominer/nxducominer/source/main.c';
-      var-mem-desc-line = '136';
+      var-mem-desc-line = '137';
       var-mem-briefdesc =    <<_EnD_oF_dEf_TeXt_
 
 _EnD_oF_dEf_TeXt_;
@@ -3104,27 +3159,27 @@ _EnD_oF_dEf_TeXt_;
 _EnD_oF_dEf_TeXt_;
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1ad0c203a7871b92a0e2f96ea27bb44563';
-        var-mem-ref-line = '163';
+        var-mem-ref-line = '165';
         var-mem-ref-name = 'cleanup';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a9a168093db4d5cfcbad68a2cc4351de5';
-        var-mem-ref-line = '556';
+        var-mem-ref-line = '570';
         var-mem-ref-name = 'do_mining_work';
     };
       var-mem-referencedby = {
-        var-mem-ref-id = 'main_8c_1aff6e9778c973acbd57e67502230d1c54';
-        var-mem-ref-line = '466';
+        var-mem-ref-id = 'main_8c_1ab0b1990f21ee601b366df57f8cdc0bf9';
+        var-mem-ref-line = '469';
         var-mem-ref-name = 'get_node';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4';
-        var-mem-ref-line = '792';
+        var-mem-ref-line = '806';
         var-mem-ref-name = 'main';
     };
       var-mem-referencedby = {
         var-mem-ref-id = 'main_8c_1a8bf2736e7b808b4681860dd72862951a';
-        var-mem-ref-line = '713';
+        var-mem-ref-line = '727';
         var-mem-ref-name = 'web_dashboard';
     };
     }; /* var-member */
