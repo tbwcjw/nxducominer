@@ -141,7 +141,7 @@ const char* html =
 "                    <br>"
 "                    <a href='https://github.com/tbwcjw/nxducominer/'>"
 "                        github.com/tbwcjw/nxducominer/"
-"                    </a>&bull; GPLv3 License"
+"                    </a>&bull; MIT License"
 "                </div>"
 "            </div>"
 "        </div>"

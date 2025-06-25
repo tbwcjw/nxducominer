@@ -456,7 +456,7 @@ void parse_config_file(MiningConfig* config) {
         }
     }
     fclose(file);
-    printf("File parsing completed");
+    printf(CONSOLE_ESC(80;1H)"File parsing completed");
 }
 
 
